@@ -1,4 +1,6 @@
 <?php
+namespace Classes;
+
 class Autoloader{
     static function register(){
         spl_autoload_register(array(__CLASS__, 'autoload'));
@@ -6,7 +8,7 @@ class Autoloader{
 
     static function autoload($fqcn) {
         $path = str_replace('\\', '/', $fqcn);
-        require 'Classes/Form' . $path . '.php';
+        require 'Classes/' . $path . '.php';
     }
 }
 ?>
