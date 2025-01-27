@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Liste Restaurant</title>
+    <title>RestoAdvisor - Acceuil</title>
     <link rel="stylesheet" href="Css/index.css">
 </head>
 <body>
     <header>
-        <h1>Bienvenue sur notre plateforme de comparateur de Restaurant en ligne</h1>
+        <h1>RestoAdvisor</h1>
         <nav>
             <a href="index.php">Accueil</a>
+            <a href="Action/resto.php">Les Restos</a>
         </nav>
     </header>
     <div class="content">
         <h2>Bienvenue sur la page d'accueil</h2>
-        <p>Vous pouvez regardez les restaurants de la région Orléanaises.</p>
+        <p>Bienvenue sur notre plateforme de comparateur de Restaurant en ligne vous pouvez comparer les restaurant de la région Orléanaises</p>
     </div>
     <?php 
     session_start();
