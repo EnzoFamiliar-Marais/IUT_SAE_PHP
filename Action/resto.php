@@ -14,7 +14,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>RestoAdvisor - Liste Restaurant</title>
+    <title>IUTables’O  - Liste Restaurant</title>
     <link rel="stylesheet" href="Css/resto.css">
 </head>
 <body>
