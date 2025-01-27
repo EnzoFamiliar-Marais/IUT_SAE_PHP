@@ -1,5 +1,5 @@
 <?php
-namespace Classes\Form;
+namespace Classes\Resto;
 
 use Classes\Form\Type\Question;
 require_once __DIR__ . '/Type/Question.php';

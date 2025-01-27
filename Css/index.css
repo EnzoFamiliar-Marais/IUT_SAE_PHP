@@ -1,0 +1,166 @@
+/* style.css */
+
+/* Style général */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fd; /* Bleu pastel clair */
+    color: #2e2e2e;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header */
+header {
+    background-color: #6C63FF; /* Violet intense */
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8em;
+    font-weight: bold;
+}
+
+nav {
+    margin-top: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 8px 15px;
+    background-color: #524bd1;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #FFD166; /* Jaune orangé */
+    color: #2e2e2e;
+}
+
+/* Contenu principal */
+.content {
+    background-color: white;
+    padding: 50px;
+    margin: 40px auto;
+    max-width: 900px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 1s ease-out;
+}
+
+.content h2 {
+    font-size: 2.2em;
+    color: #6C63FF;
+    margin-bottom: 20px;
+}
+
+.content p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* Formulaire */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+form label {
+    font-size: 1.2em;
+    color: #6C63FF;
+    font-weight: bold;
+}
+
+form input {
+    padding: 15px;
+    width: 300px;
+    border: 2px solid #D8D6FF; /* Bordure violette douce */
+    border-radius: 12px;
+    font-size: 1em;
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #6C63FF;
+    box-shadow: 0 0 12px rgba(108, 99, 255, 0.3);
+    outline: none;
+}
+
+form button {
+    background-color: #FFD166; /* Jaune orangé */
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(255, 209, 102, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+form button:hover {
+    background-color: #FF9E00; /* Orange intense */
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(255, 158, 0, 0.4);
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    background-color: #524bd1; /* Violet foncé */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+    color: #FFD166; /* Jaune orangé */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: rgba(255, 209, 102, 0.1);
+    transition: all 0.3s ease;
+}
+
+.no-signin {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    background-color: rgba(255, 209, 102, 0.3);
+    color: #FF9E00;
+}
+
+/* Animation pour le contenu */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
