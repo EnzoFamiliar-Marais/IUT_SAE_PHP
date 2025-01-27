@@ -44,12 +44,11 @@ class Database {
     }
 
 
-    public function prepare(string $query, array $params){
+    public function prepare(string $query, array $params) {
         $requete = $this->getPDO()->prepare($query);
         $requete->execute($params);
-        
         return $requete;
-    } 
+    }
 
     public function execute(string $query){
         try {

@@ -43,7 +43,7 @@ class DBAuth
     return false;
 }
 
-public function addUser($username, $password, $email, $nom, $prenom, $dateCreation)
+public function addUser($username, $password, $email, $nom, $prenom, $dateCreation, $idRole)
 {
     $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE email = ?", [$email]);
     $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
@@ -53,7 +53,7 @@ public function addUser($username, $password, $email, $nom, $prenom, $dateCreati
         return false; 
     }
     
-    $stmt = $this->db->prepare("INSERT INTO UTILISATEUR (id, nom, prenom, email, mdp, date_creation, id_role) VALUES (?, ?, ?, ?, ?,?, ?)", [$username, $nom, $prenom, $email, $password, $dateCreation ,2]);
+    $stmt = $this->db->prepare('INSERT INTO "UTILISATEUR" (id, nom, prenom, email, mdp, date_creation, "idRole") VALUES (?, ?, ?, ?, ?,?, ?, ?)', [$username, $nom, $prenom, $email, $password, $dateCreation , $idRole]);
 
     return $stmt !== false;
 }
