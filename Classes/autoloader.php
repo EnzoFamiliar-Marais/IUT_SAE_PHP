@@ -1,12 +1,12 @@
 <?php
-class Autoloader{
-    static function register(){
-        spl_autoload_register(array(__CLASS__, 'autoload'));
-    }
 
-    static function autoload($fqcn) {
-        $path = str_replace('\\', '/', $fqcn);
-        require 'Classes/Form' . $path . '.php';
+class Autoloader {
+    public static function register() {
+        spl_autoload_register(function ($class) {
+            $path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+            if (file_exists($path)) {
+                require_once $path;
+            }
+        });
     }
 }
-?>
