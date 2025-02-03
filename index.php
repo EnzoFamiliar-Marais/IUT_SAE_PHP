@@ -10,7 +10,6 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once 'vendor/autoload.php';
 require 'Classes/autoloader.php';
 require './DATA/convert_data.php';
 
