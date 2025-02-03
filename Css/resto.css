@@ -17,7 +17,8 @@ thead {
     color: white;
     font-size: 1.2em;
     text-align: left;
-}²
+}
+
 
 thead th {
     padding: 15px 20px;
@@ -75,4 +76,3 @@ tbody td:nth-child(2) {
 table {
     animation: fadeIn 1s ease-out;
 }
-

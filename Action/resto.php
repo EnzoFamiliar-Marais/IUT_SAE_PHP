@@ -51,6 +51,7 @@ if (!(isset($_SESSION['name']))){
                             <td>" . htmlspecialchars($row['date']) . "</td>
                           </tr>";
                 }
+
                 ?>
             </tbody>
         </table>

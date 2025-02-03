@@ -38,3 +38,4 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
     $controller = new ControlleurHome();
     $controller->view();
 }
+
