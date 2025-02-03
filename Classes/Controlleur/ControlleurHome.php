@@ -15,7 +15,7 @@ class ControlleurHome extends Controlleur
     public function view()
     {
         
-            $restaurants = DBRestaurant::getAllRestaurant();
+            $bestrestaurants = null;
 
           
                 $this->render("home.php", [
@@ -26,7 +26,7 @@ class ControlleurHome extends Controlleur
                     "nom" => $_SESSION['nom'],
                     "prenom" => $_SESSION['prenom'],
                     "mdp" => $_SESSION['mdp'],
-                    "restaurants" => $restaurants,
+                    "bestrestaurants" => $bestrestaurants,
                    
             ]);
         }
