@@ -15,26 +15,52 @@ class DBRestaurant
         $this->db = Database::getInstance();
     }
 
-    public function fetchRestaurant()
+    public static function fetchRestaurant()
     {
-        $stmt = $this->db->query('SELECT * FROM "Restaurant"');
+        $db = new DBRestaurant();
+        $stmt = $db->db->query('SELECT * FROM "Restaurants"');
         return $stmt;
     }
 
-    public function getAllRestaurant()
+    public static function getAllRestaurant()
     {
         $restaurants = array();
-        foreach ($this->fetchRestaurant() as $restaurant) {
+        foreach (DBRestaurant::fetchRestaurant() as $restaurant) {
             $restaurants[] = array(
                 'id' => $restaurant['id'],
-                'nom' => $restaurant['nom_Resto'],
-                // Ajoutez d'autres colonnes si nécessaire
+                'nom' => $restaurant['nom'],
+                'adresse' => $restaurant['adresse'],
+                'telephone' => $restaurant['phone'],
+                'photos' => $restaurant['photo'],
+                'siret' => $restaurant['siret'],
+                'opening_hours' => $restaurant['opening_hours'],
+                'internet_access' => $restaurant['internet_access'],
+                'wheelchair' => $restaurant['wheelchair'],
+                'type' => $restaurant['typeR'],
+                'longitude' => $restaurant['longitude'],
+                'latitude' => $restaurant['latitude'],
+                'brand' => $restaurant['brand'],
+                'capacity' => $restaurant['capacity'],
+                'stars' => $restaurant['stars'],
+                'website' => $restaurant['website'],
+                'map' => $restaurant['map'],
+                'operator' => $restaurant['operator'],
+                'vegetarian' => $restaurant['vegetarian'],
+                'vegan' => $restaurant['vegan'],
+                'delivery' => $restaurant['delivery'],
+                'takeaway' => $restaurant['takeaway'],
+                'drive_through' => $restaurant['drive_through'],
+                'wikidata' => $restaurant['wikidata'],
+                'brand_wikidata' => $restaurant['brand_wikidata'],
+                'facebook' => $restaurant['facebook'],
+                'smoking' => $restaurant['smoking'],
+                'idCommune' => $restaurant['idC']
+
             );
         }
         return $restaurants;
     }
 
-                                                                                                                                                                                                                   
     public function addRestaurant($nom_Resto, $adresse, $telephone, $photos, $siret, $opening_hours, $internet_access, $wheelchair, $type, $longitude, $latitude, $brand, $capacity, $stars, $website, $map, $operator, $vegetarian, $vegan, $delivery, $takeaway, $drive_through, $wikidata, $brand_wikidata, $facebook, $smoking, $idCommune) 
     {
         $selectStmt = $this->db->prepare('SELECT * FROM "Restaurant" WHERE nom = ?', [$nom_Resto]);

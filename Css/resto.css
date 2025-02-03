@@ -1,0 +1,78 @@
+
+/* Tableau */
+table {
+    width: 98%;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+thead {
+    background-color: #6C63FF; /* Violet intense */
+    color: white;
+    font-size: 1.2em;
+    text-align: left;
+}²
+
+thead th {
+    padding: 15px 20px;
+    text-transform: uppercase;
+}
+
+tbody {
+    font-size: 1em;
+    color: #333;
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f1f1ff; /* Violet clair */
+}
+
+tbody td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Améliorations du tableau */
+table th:first-child,
+table td:first-child {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+table th:last-child,
+table td:last-child {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Texte aligné */
+th,
+td {
+    text-align: center;
+}
+
+/* Couleurs des avis */
+tbody td:nth-child(2) {
+    font-weight: bold;
+    color: #6C63FF;
+}
+
+
+table {
+    animation: fadeIn 1s ease-out;
+}
+

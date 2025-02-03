@@ -15,16 +15,17 @@ class DBRegion
         $this->db = Database::getInstance();
     }
 
-    public function fetchRegion()
+    public static function fetchRegion()
     {
-        $stmt = $this->db->query('SELECT * FROM "Region"');
+        $db = new DBRegion();
+        $stmt = $db->db->query('SELECT * FROM "Region"');
         return $stmt;
     }
 
-    public function getAllRegions()
+    public static function getAllRegions()
     {
         $regions = array();
-        foreach ($this->fetchRegion() as $region) {
+        foreach (DBRegion::fetchRegion() as $region) {
             $regions[] = array(
                 'idR' => $region['idR'],
                 'nom' => $region['nom'],
