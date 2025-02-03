@@ -7,12 +7,9 @@ use Auth\DBCommune;
 use Auth\DBDepartement;
 use Auth\DBRegion;
 
-require_once 'vendor/autoload.php';
-require './Classes/autoloader.php';
 require_once './Classes/data/db.php';
 
 
-Autoloader::register();
 
 try {
 

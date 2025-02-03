@@ -1,57 +1,41 @@
-<?php
-session_start(); // Placer en tout début du fichier, avant toute sortie HTML
+<?php 
 
-if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-    session_unset();
-    session_destroy();
-    header('Location: index.php');
-    exit();
+use Classes\Autoloader;
+use Controlleur\ControlleurHome;
+use Controlleur\ControlleurResto;
+
+
+
+if (!isset($_SESSION)) {
+    session_start();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'])) {
-    $_SESSION['name'] = htmlspecialchars($_POST['name']);
-    header('Location: index.php');
-    exit();
-}
-?>
+require 'Classes/autoloader.php';
+require './DATA/convert_data.php';
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IUTables’O - Accueil</title>
-    <link rel="stylesheet" href="Css/index.css">
-</head>
-<body>
-    <header>
-        <h1>IUTables’O</h1>
-        <nav>
-            <a href="index.php">Accueil</a>
-            <a href="Action/resto.php">Les Restos</a>
-        </nav>
-    </header>
-    <div class="content">
-        <h2>Bienvenue sur la page d'accueil</h2>
-        <p>Bienvenue sur notre plateforme de comparateur de restaurants en ligne. Vous pouvez comparer les restaurants de la région orléanaise.</p>
-    </div>
+Autoloader::register();
 
-    <?php 
-    if (isset($_SESSION['name'])) {
-        echo '<p>Vous êtes déjà inscrit !</p>';
-        echo '<p>Vous pouvez soit aller voir vos avis ou regarder les différents restaurants.</p>';
-    } else {
-        echo '<p class="no-signin">Vous n\'êtes pas inscrit</p>';
-        echo '<form action="" method="post">';
-        echo '<label for="name">Entrez votre nom :</label>';
-        echo '<input type="text" id="name" name="name" required>';
-        echo '<button type="submit">Soumettre</button>';
-        echo '</form>';
+
+if(isset($_GET['controller']) && isset($_GET['action'])){
+    $controllerName = $_GET["controller"];
+
+    switch($controllerName){
+        case "ControlleurHome":
+            $controller = new ControlleurHome($_REQUEST);
+            break;
+        case "ControlleurResto":
+            $controller = new ControlleurResto($_REQUEST);
+            break;
+        default:
+            $controller = null;
     }
-    ?>
+    if(!is_null($controller)){
+        $actionName = $_GET["action"];
+            echo $controller->$actionName();
+    }
+}else{
+    $controllerName = 'ControlleurHome';
+    $controller = new ControlleurHome();
+    $controller->view();
+}
 
-    <footer>
-        Vous pouvez vous désinscrire juste ici <a href="./index.php?action=logout">cliquez ici</a>
-    </footer>
-</body>
-</html>

@@ -38,11 +38,20 @@ if (!(isset($_SESSION['name']))){
         </tr>
     </tbody>
     <tbody>
-                <?php 
-                require '../DATA/database.php';
-                echo "ca marche bien";
+                <?php
                 
-               
+                
+                $db = new \Classes\Form\Database('../Data/database.sqlite');
+                $scores = $db->getScores();
+                
+                foreach ($scores as $row) {
+                    echo "<tr>
+                            <td>" . htmlspecialchars($row['name']) . "</td>
+                            <td>" . htmlspecialchars($row['score']) . "</td>
+                            <td>" . htmlspecialchars($row['date']) . "</td>
+                          </tr>";
+                }
+
                 ?>
             </tbody>
         </table>

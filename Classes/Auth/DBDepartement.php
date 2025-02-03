@@ -15,16 +15,17 @@ class DBDepartement
         $this->db = Database::getInstance();
     }
 
-    public function fetchDepartement()
-    {
-        $stmt = $this->db->query('SELECT * FROM "Departement"');
+    public static function fetchDepartement()
+    {   
+        $db = new DBDepartement();
+        $stmt = $db->db->query('SELECT * FROM "Departement"');
         return $stmt;
     }
 
-    public function getAllDepartements()
+    public static function getAllDepartements()
     {
         $Departements = array();
-        foreach ($this->fetchDepartement() as $Departement) {
+        foreach (DBDepartement::fetchDepartement() as $Departement) {
             $Departements[] = array(
                 'idR' => $Departement['idR'],
                 'nom' => $Departement['nom'],

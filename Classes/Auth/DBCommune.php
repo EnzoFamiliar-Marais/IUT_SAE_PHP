@@ -16,16 +16,17 @@ class DBCommune
     }
 
     
-    public function fetchCommune()
+    public static function fetchCommune()
     {
-        $stmt = $this->db->query('SELECT * FROM "Commune"');
+        $db = new DBCommune();
+        $stmt = $db->db->query('SELECT * FROM "Commune"');
         return $stmt;
     }
 
-    public function getAllCommunes()
+    public static function getAllCommunes()
     {
         $communes = array();
-        foreach ($this->fetchCommune() as $commune) {
+        foreach (DBCommune::fetchCommune() as $commune) {
             $communes[] = array(
                 'idR' => $commune['idR'],
                 'nom' => $commune['nom'],
