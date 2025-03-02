@@ -46,35 +46,40 @@
         </div>
             
         <div class="restaurant-description">
-           
-        <div class="restaurant-image">
-            <img src="../static/img/restobase.jpeg" alt="photo" id="imageResto" />
-            
-        </div>
-        <div class="opening-hours">
-                        <h2>Horaires</h2>
-                        <?php
-                        $days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-                        ?>
-                        <?php if (isset($restaurant["opening_hours_processed"])): ?>
-                            <ul>
-                                <?php foreach ($days as $day): ?>
-                                    <li>
-                                        <span class="day"><?php echo $day; ?></span>
-                                        <span class="time">
-                                            <?php echo isset($restaurant["opening_hours_processed"][$day]) ? implode('<br>', array_map('trim', $restaurant["opening_hours_processed"][$day])) : 'Fermé'; ?>
-                                        </span>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else: ?>
-                            <p>Non renseigné</p>
-                        <?php endif; ?>
-                    </div>
+                <div class="restaurant-image">
+                    <img src="../static/img/restobase.jpeg" alt="photo" id="imageResto" />
+                </div>
+                <div class="opening-hours">
+                    <h2>Horaires</h2>
+                    <p style="color: <?php echo $restaurant["is_open_now"] ? 'green' : 'red'; ?>;">
+                        <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
+                    </p>
+                    <?php if (isset($restaurant["opening_hours_processed"])): ?>
+                        <ul>
+                            <?php 
+                            $daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+                            foreach ($daysOfWeek as $day): ?>
+                                <li>
+                                    <span class="day"><?php echo $day; ?></span>
+                                    <span class="time">
+                                        <?php 
+                                        if (isset($restaurant["opening_hours_processed"][$day])) {
+                                            echo implode('<br>', array_map('trim', $restaurant["opening_hours_processed"][$day]));
+                                        } else {
+                                            echo 'Fermé';
+                                        }
+                                        ?>
+                                    </span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>Non renseigné</p>
+                    <?php endif; ?>
+                </div>
         </div>
         <h3>Caractéristiques :</h3>
         <div class="restaurant-details">
-
             <div class="restaurant-info">
                 <div id="detailsGauche">
                     <p class="label">Type de restaurant : <span class="value"><?php echo $restaurant["type"];  ?></span></p>

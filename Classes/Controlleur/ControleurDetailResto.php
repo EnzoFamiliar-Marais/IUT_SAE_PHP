@@ -70,7 +70,7 @@ class ControleurDetailResto extends Controlleur
                     "region" => $region,
                     "departement" => $departement,
                     "formDeconnexion" => $this->getFormDeconnexion(),
-                    //"formResto" => $this->getFormResto(),
+                    
             ]);
         }
         
@@ -100,7 +100,6 @@ class ControleurDetailResto extends Controlleur
         }
     
 
-    
         public function viewDetails($restaurant) {
             if ($restaurant["opening_hours"] != null) {
                 $days = ["Mo" => "Lundi", "Tu" => "Mardi", "We" => "Mercredi", "Th" => "Jeudi", "Fr" => "Vendredi", "Sa" => "Samedi", "Su" => "Dimanche"];
@@ -135,11 +134,25 @@ class ControleurDetailResto extends Controlleur
                 }
         
                 $restaurant["opening_hours_processed"] = $opening_hours;
+        
+                $today = $days[date('N') - 1]; 
+                $currentTime = date('H:i');
+                $isOpenNow = false;
+        
+                if (isset($restaurant["opening_hours_processed"][$today])) {
+                    foreach ($restaurant["opening_hours_processed"][$today] as $timeRange) {
+                        list($startTime, $endTime) = explode('-', $timeRange);
+                        if ($currentTime >= $startTime && $currentTime <= $endTime) {
+                            $isOpenNow = true;
+                            break;
+                        }
+                    }
+                }
+        
+                $restaurant["is_open_now"] = $isOpenNow;
             }
         
             return $restaurant;
         }
-    
-    
 
 }
