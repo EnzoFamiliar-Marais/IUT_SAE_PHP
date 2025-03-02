@@ -51,10 +51,10 @@
                 </div>
                 <div class="opening-hours">
                     <h2>Horaires</h2>
-                    <p style="color: <?php echo $restaurant["is_open_now"] ? 'green' : 'red'; ?>;">
-                        <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
-                    </p>
                     <?php if (isset($restaurant["opening_hours_processed"])): ?>
+                        <p style="color: <?php echo $restaurant["is_open_now"] ? 'green' : 'red'; ?>;">
+                            <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
+                        </p>
                         <ul>
                             <?php 
                             $daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
