@@ -14,8 +14,8 @@ if (!(isset($_SESSION['name']))){
 <head>
     <meta charset="UTF-8">
     <title>IUTables’O  - Liste Restaurant</title>
-    <link rel="stylesheet" href="../Css/index.css">
-    <link rel="stylesheet" href="../Css/resto.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/resto.css">
 
 </head>
 <body>

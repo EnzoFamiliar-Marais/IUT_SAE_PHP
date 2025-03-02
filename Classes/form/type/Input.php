@@ -16,6 +16,7 @@ abstract class Input implements InputRender{
     protected string $inputValue = "";
     protected ?string $event = null;
     protected bool $checked = false;
+    protected string $placeholder;
 
     public function __construct(
         string $value,
@@ -25,7 +26,8 @@ abstract class Input implements InputRender{
         string $function =null,
         string $inputValue = "",
         string $event = null,
-        bool $checked = false
+        bool $checked = false,
+        string $placeholder = ""
     ){
         // peut poser problème si on a un espace
         
@@ -36,6 +38,7 @@ abstract class Input implements InputRender{
         $this->inputValue = $inputValue;
         $this->event = $event;
         $this->checked = $checked;
+        $this->placeholder = $placeholder;
     }
 
     public function __toString() {
@@ -58,8 +61,9 @@ abstract class Input implements InputRender{
         $checked = $this->checked ? 'checked' : '';
     
         $label = $this->label !== "" ? $this->label : '';
+        $placeholder = $this->placeholder !== "" ? 'placeholder="'.$this->placeholder.'"' : '';
         
-        $input = '<input type="'.$this->type.'" '.$required.' '.$value.' id="'.$this->id.'" name="'.$this->name.'" '.$function.' '.$checked.'>';
+        $input = '<input type="'.$this->type.'" '.$required.' '.$value.' id="'.$this->id.'" name="'.$this->name.'" '.$function.' '.$checked. ''.$placeholder.'>';
     
         if($this->type === "radio" || $this->type === "checkbox"){
             return $label . $input . $this->inputValue;

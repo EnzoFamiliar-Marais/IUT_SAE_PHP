@@ -24,28 +24,30 @@ class DBAuth
 
     public function login($email, $password)
 {
-    $stmt = $this->db->prepare('SELECT * FROM UTILISATEUR WHERE email = ?', [$email]);
+    $stmt = $this->db->prepare('SELECT * FROM "UTILISATEURS" WHERE email = ?', [$email]);
     $user = $stmt->fetch(PDO::FETCH_OBJ);
     
     if($user){
+        echo $user->mdp;
+        echo $password;
         if($user->mdp === $password){
-            $_SESSION['auth'] = $user->idutilisateur;
+            $_SESSION['auth'] = $user->id;
             $_SESSION['nom'] = $user->nom;
             $_SESSION['email'] = $user->email;
             $_SESSION['prenom'] = $user->prenom;
             $_SESSION['mdp'] = $user->mdp;
-            $_SESSION['id_role'] = $user->id_role;
-            $_SESSION['date_creation'] = $user->date_create;
+            $_SESSION['id_role'] = $user->idRole;
+            $_SESSION['date_creation'] = $user->date_creation;
             return $user;
         }
     }
-    
+    $_SESSION['errorLogin'] = "Email ou mot de passe incorrect";
     return false;
 }
 
-public function addUser($username, $password, $email, $nom, $prenom, $dateCreation, $idRole)
+public function addUser($password, $email, $nom, $prenom, $dateCreation, $idRole)
 {
-    $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE email = ?", [$email]);
+    $stmt = $this->db->prepare('SELECT * FROM "UTILISATEURS" WHERE email = ?', [$email]);
     $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
     
     if ($existingUser) {
@@ -53,7 +55,7 @@ public function addUser($username, $password, $email, $nom, $prenom, $dateCreati
         return false; 
     }
     
-    $stmt = $this->db->prepare('INSERT INTO "UTILISATEUR" (id, nom, prenom, email, mdp, date_creation, "idRole") VALUES (?, ?, ?, ?, ?,?, ?, ?)', [$username, $nom, $prenom, $email, $password, $dateCreation , $idRole]);
+    $stmt = $this->db->prepare('INSERT INTO "UTILISATEURS" (nom, prenom, email, mdp, date_creation, "idRole") VALUES (?, ?, ?, ?, ?, ?)', [$nom, $prenom, $email, $password, $dateCreation, $idRole]);
 
     return $stmt !== false;
 }

@@ -106,5 +106,51 @@ class DBRestaurant
     
         return $stmt !== false;
     }   
+
+    public function getLastInsertId() {
+        return $this->db->lastInsertId();
+    }
+
+    public function fetchRestaurantById($id)
+    { 
+        $stmt = $this->db->prepare('SELECT * FROM "Restaurants" WHERE id = ?', [$id]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getRestaurantById($id){
+        $restaurant = $this->fetchRestaurantById($id);
+        return array(
+            'id' => $restaurant->id,
+            'nom' => $restaurant->nom,
+            'adresse' => $restaurant->adresse,
+            'telephone' => $restaurant->phone,
+            'photos' => $restaurant->photo,
+            'siret' => $restaurant->siret,
+            'opening_hours' => $restaurant->opening_hours,
+            'internet_access' => $restaurant->internet_access,
+            'wheelchair' => $restaurant->wheelchair,
+            'type' => $restaurant->typeR,
+            'longitude' => $restaurant->longitude,
+            'latitude' => $restaurant->latitude,
+            'brand' => $restaurant->brand,
+            'capacity' => $restaurant->capacity,
+            'stars' => $restaurant->stars,
+            'website' => $restaurant->website,
+            'map' => $restaurant->map,
+            'operator' => $restaurant->operator,
+            'vegetarian' => $restaurant->vegetarian,
+            'vegan' => $restaurant->vegan,
+            'delivery' => $restaurant->delivery,
+            'takeaway' => $restaurant->takeaway,
+            'drive_through' => $restaurant->drive_through,
+            'wikidata' => $restaurant->wikidata,
+            'brand_wikidata' => $restaurant->brand_wikidata,
+            'facebook' => $restaurant->facebook,
+            'smoking' => $restaurant->smoking,
+            'idCommune' => $restaurant->idC
+        );
+        
+    }
+
 }
 ?>

@@ -1,8 +1,13 @@
 <?php 
 
 use Classes\Autoloader;
+use Controlleur\ControleurDetailResto;
 use Controlleur\ControlleurHome;
 use Controlleur\ControlleurResto;
+use Controlleur\ControlleurLogin;
+use Controlleur\ControlleurRegister;
+use Controlleur\ControlleurAdmin;
+use Controlleur\ControlleurCritique;
 
 
 
@@ -26,6 +31,23 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
         case "ControlleurResto":
             $controller = new ControlleurResto($_REQUEST);
             break;
+        case "ControlleurLogin":
+            $controller = new ControlleurLogin($_REQUEST);
+            break;
+
+        case "ControlleurRegister":
+            $controller = new ControlleurRegister($_REQUEST);
+            break;
+        case "ControlleurAdmin":
+            $controller = new ControlleurAdmin($_REQUEST);
+            break;
+        case "ControlleurCritique":
+            $controller = new ControlleurCritique($_REQUEST);
+            break;
+        case "ControlleurDetailResto":
+            $controller = new ControleurDetailResto($_REQUEST);
+            break;
+
         default:
             $controller = null;
     }

@@ -11,7 +11,7 @@ class Database {
     private $db_name = 'postgres';
     private $username = 'postgres.ibepjgntihedhmtwslxg';
     private $password = 'ENZOAMINEROMAINJEAN-MARC'; 
-    private PDO $db;
+    private ?PDO $db = null;
     private static $instance = null;
 
 
@@ -22,7 +22,6 @@ class Database {
             $this->db = new PDO($dsn, $this->username, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            echo "Connexion réussie au pool de sessions ! \n"; 
             return $this->db;
         } catch (PDOException $e) {
             die("Erreur de connexion : " . $e->getMessage());
@@ -31,6 +30,10 @@ class Database {
 
     public function getPDO() : PDO {
         return $this->db;
+    }
+
+    public function lastInsertId() {
+        return $this->db->lastInsertId();
     }
 
     /**
@@ -72,12 +75,9 @@ class Database {
      * @return Database
      */
     public static function getInstance(): self {
-        echo "Connexion en cours... \n";
         if (self::$instance === null) {
             self::$instance = new Database();
         }
-        echo "Deja connecter ! \n";
-
         return self::$instance;
     }
 }
