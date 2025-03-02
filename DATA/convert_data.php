@@ -6,21 +6,23 @@ use Auth\DBRestaurant;
 use Auth\DBCommune;
 use Auth\DBDepartement;
 use Auth\DBRegion;
+use Auth\DBTypeCuisine;
+use Auth\DBPropose;
 
 require_once './Classes/data/db.php';
 
-
-
 try {
 
+    
     $fichier = "Data/restaurants_orleans.json";
     $contenu = file_get_contents($fichier);
     $json = json_decode($contenu, true);
-    echo "Fichier converti en tableau ! .\n";
     $departement = new DBDepartement();
     $commune = new DBCommune();
     $region = new DBRegion();
     $restaurant = new DBRestaurant();
+    $TypeCuisine = new DBTypeCuisine();
+    $propose = new DBPropose();
 
     foreach ($json as $key => $value) {
         $name = $value['name'] ?? "";
@@ -58,6 +60,8 @@ try {
         $code_region = isset($value['code_region']) ? $value['code_region'] : "";
         $region_name = isset($value['region']) ? $value['region'] : "";
 
+        $typecuisine = isset($value['cuisine']) ? $value['cuisine'] : [];
+
         $internet_accessStr = $internet_access ? 'true' : 'false';
         $wheelchairStr = $wheelchair ? 'true' : 'false';
         $vegetarianStr = $vegetarian ? 'true' : 'false';
@@ -69,22 +73,27 @@ try {
 
         if (!$region->exists($code_region)) {
             $region->addRegion($code_region, $region_name);
-            echo "Région ajoutée avec succès !\n";
         }
 
         if (!$departement->exists($code_departement)) {
             $departement->addDepartement($code_departement, $departement_name, $code_region);
-            echo "Département ajouté avec succès !\n";
         }
 
         if (!$commune->exists($code_commune)) {
             $commune->addCommune($code_commune, $commune_name, $code_departement);
-            echo "Commune ajoutée avec succès !\n";
         }
 
+        // Ajouter le restaurant et obtenir son ID
+        $restaurantId = $restaurant->addRestaurant($name, "", $phone, "", $siret, $opening_hours, $internet_accessStr, $wheelchairStr, $type, $longitude, $latitude, $brand, $capacity, $stars, $website, $osm_edit, $operator, $vegetarianStr, $veganStr, $deliveryStr, $takeawayStr, $drive_throughStr, $wikidata, $brand_wikidata, $facebook, $smokingStr, $code_commune);
+        $restaurantId = $restaurant->getLastInsertId();
 
-        $restaurant->addRestaurant($name, "", $phone, "", $siret, $opening_hours, $internet_accessStr, $wheelchairStr, $type, $longitude, $latitude, $brand, $capacity, $stars, $website, $osm_edit, $operator, $vegetarianStr, $veganStr, $deliveryStr, $takeawayStr, $drive_throughStr, $wikidata, $brand_wikidata, $facebook, $smokingStr, $code_commune);
-        echo "Restaurant ajouté avec succès !\n";
+        foreach ($typecuisine as $cuisine) {
+            $typeCuisineId = $TypeCuisine->addTypeCuisine($cuisine);
+            $typeCuisineInfo = $TypeCuisine->getTypeCuisineById($typeCuisineId);
+            echo "Restaurant ID : " . $restaurantId . " Type Cuisine ID : " . $typeCuisineId . "\n";
+            echo "Type Cuisine Info : " . json_encode($typeCuisineInfo) . "\n";
+            $propose->addPropose($typeCuisineId, $restaurantId);
+        }
     }
 } catch (\Throwable $th) {
     echo "Erreur : " . $th->getMessage();

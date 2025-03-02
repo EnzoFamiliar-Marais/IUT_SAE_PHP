@@ -1,0 +1,48 @@
+/* style.css */
+
+/* Style général */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fd; /* Bleu pastel clair */
+    color: #2e2e2e;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header */
+header {
+    background-color: #6C63FF; /* Violet intense */
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8em;
+    font-weight: bold;
+}
+
+nav {
+    margin-top: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 8px 15px;
+    background-color: #524bd1;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #FFD166; /* Jaune orangé */
+    color: #2e2e2e;
+}

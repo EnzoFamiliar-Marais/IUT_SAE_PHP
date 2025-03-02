@@ -47,6 +47,23 @@ nav a:hover {
     color: #2e2e2e;
 }
 
+nav .form-input input[type="submit"] {
+    text-decoration: none;
+    color: white;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 8px 15px;
+    background-color: #524bd1;
+    border-radius: 12px;
+    transition: all 0.3sease;
+}
+
+nav .form-input input[type="submit"]:hover {
+    background-color: #FFD166; /* Jaune orangé */
+    color: #2e2e2e;
+}
+
 /* Contenu principal */
 .content {
     background-color: white;

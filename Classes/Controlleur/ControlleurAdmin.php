@@ -11,7 +11,7 @@ use form\type\Submit;
 use form\type\Hidden;
 use form\type\Text;
 
-class ControlleurCritique extends Controlleur
+class ControlleurAdmin extends Controlleur
 {
    
     public function view()
@@ -22,7 +22,7 @@ class ControlleurCritique extends Controlleur
                 
 
           
-                $this->render("critique.php", [
+                $this->render("admin.php", [
                     //"restaurants" => $restaurants,
                     //"critiques" => $critiques,
                     "formDeconnexion" => $this->getFormDeconnexion(),
@@ -47,14 +47,19 @@ class ControlleurCritique extends Controlleur
     }
 
     public function getFormDeleteAdmin($id){ 
-        $forms = new Form("/?controller=ControlleurCritique&action=submitDelete", Form::POST, "admin_form");
-        $forms->setController("ControlleurCritique", "submitDelete");
-        $forms->addInput(new Hidden($id,true, "critique_id", "critique_id")); 
+        $forms = new Form("/?controller=ControlleurAdmin&action=submitDelete", Form::POST, "admin_form");
+        $forms->setController("ControlleurAdmin", "submitDelete");
+        $forms->addInput(new Hidden($id,true, "user_id", "user_id")); 
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
         
         return $forms;
         }
     
+        public function getFormLink($idUser){
+            $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
+            $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
+            return $form;
+        }
   
 
 }

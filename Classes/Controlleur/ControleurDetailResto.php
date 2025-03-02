@@ -11,19 +11,21 @@ use form\type\Submit;
 use form\type\Hidden;
 use form\type\Text;
 
-class ControlleurCritique extends Controlleur
+class ControleurDetailResto extends Controlleur
 {
    
     public function view()
     {
-        
-            //$restaurants = DBRestaurant::getAllRestaurant();
-            //$critiques = DBCritique::getAllCritiques();
+            
                 
 
-          
-                $this->render("critique.php", [
-                    //"restaurants" => $restaurants,
+                error_log(print_r($_GET, true));
+                error_log("id_resto : ".$_GET["id"]);
+                $dbRestaurant = new DBRestaurant();
+                $restaurant =  $dbRestaurant->getRestaurantById($_GET["id"]);
+                error_log(print_r($restaurant, true));
+                $this->render("details_resto.php", [
+                    "restaurant" => $restaurant,
                     //"critiques" => $critiques,
                     "formDeconnexion" => $this->getFormDeconnexion(),
                     //"formResto" => $this->getFormResto(),
@@ -55,6 +57,7 @@ class ControlleurCritique extends Controlleur
         return $forms;
         }
     
-  
+    
+    
 
 }

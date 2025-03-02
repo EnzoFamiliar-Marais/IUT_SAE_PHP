@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IUTables’O - Acceuil</title>
-    <link rel="stylesheet" href="Css/index.css">
-    <script src="js/openStreetMap.js" defer></script>
+    <link rel="stylesheet" href="../static/css/index.css">
 </head>
 <body>
     <header>
@@ -13,7 +12,14 @@
         <nav>
             <a href="/?controller=ControlleurHome&action=view">Accueil</a>
             <a href="/?controller=ControlleurResto&action=view">Les Restos</a>
-
+            <?php 
+            if(isset($_SESSION['email'])){
+                echo $formRetour;                
+            }
+            else{
+                echo '<a href="/?controller=ControlleurLogin&action=view">Connexion</a>';
+            }
+            ?>
         </nav>
     </header>
     <div class="content">
@@ -35,7 +41,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     header('Location: index.php');
     exit();
 }
-
 
 
 

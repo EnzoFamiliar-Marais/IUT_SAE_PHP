@@ -52,4 +52,6 @@ class DBCritique
 
         return $stmt !== false;
     }
+
+    
 }

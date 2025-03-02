@@ -11,8 +11,8 @@ if ((isset($_SESSION['name']))){
 <head>
     <meta charset="UTF-8">
     <title>IUTables’O - Inscription</title>
-    <link rel="stylesheet" href="../Css/index.css">
-    <link rel="stylesheet" href="../Css/inscription.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/inscription.css">
 </head>
 <body>
 <?php include '../Templates/header.php'; ?>

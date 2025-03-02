@@ -1,0 +1,35 @@
+.restaurant-details {
+    display: flex;
+    gap: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+}
+
+.restaurant-image {
+    flex: 1;
+}
+
+.restaurant-info {
+    flex: 2;
+}
+
+.restaurant-info p {
+    margin: 10px 0;
+}
+
+.restaurant-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.restaurant-info a:hover {
+    text-decoration: underline;
+}
+
+#imageResto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

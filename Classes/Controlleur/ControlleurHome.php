@@ -3,6 +3,7 @@ namespace Controlleur;
 
 use Auth\DBRestaurant;
 use Auth\DBAuth;
+use Auth\DBCritique;
 use form\Form;
 use form\type\Link;
 use form\type\Select;
@@ -16,8 +17,11 @@ class ControlleurHome extends Controlleur
     {
         
             $bestrestaurants = null;
+            
+            if($_SESSION['id_role'] == 1){
+                $this->redirect("ControlleurAdmin", "view");
 
-          
+            }else{
                 $this->render("home.php", [
                     "formRetour" => $this->getFormDeconnexion(),
                     "formResto" => $this->getFormResto(),
@@ -27,16 +31,18 @@ class ControlleurHome extends Controlleur
                     "prenom" => $_SESSION['prenom'],
                     "mdp" => $_SESSION['mdp'],
                     "bestrestaurants" => $bestrestaurants,
+                    
                    
             ]);
         }
+    }
         
 
     public function submit()
     {
         $auth = new DBAuth();
         $auth->logout();
-        $this->redirect("ControlleurLogin", "view");
+        $this->redirect("ControlleurHome", "view");
     }
 
     public function getFormDeconnexion()
@@ -48,6 +54,8 @@ class ControlleurHome extends Controlleur
         $form->addInput(new Submit("Deconnexion", true, "", ""));
         return $form;
     }
+
+   
 
     public function getFormRegister()
     {   
