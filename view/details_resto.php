@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../static/css/resto.css">
     <link rel="stylesheet" href="../static/css/detail_resto.css">
     <link rel="stylesheet" href="../static/css/modals.css">
+    <link rel="stylesheet" href="../static/css/avis.css">
+
+
     <script src="../static/js/modals.js" defer></script>
 </head>
 

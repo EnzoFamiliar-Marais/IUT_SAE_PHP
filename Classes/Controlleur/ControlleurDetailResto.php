@@ -14,7 +14,7 @@ use form\type\Submit;
 use form\type\Hidden;
 use form\type\Text;
 
-class ControleurDetailResto extends Controlleur
+class ControlleurDetailResto extends Controlleur
 {
    
     public function view()
@@ -80,7 +80,7 @@ class ControleurDetailResto extends Controlleur
     {
         $auth = new DBAuth();
         $auth->logout();
-        $this->redirect("ControlleurHome", "view");
+        $this->redirect("ControlleurDetailResto", "view");
     }
 
     public function submitAvis(){
@@ -92,8 +92,8 @@ class ControleurDetailResto extends Controlleur
 
     public function getFormDeconnexion()
     {
-        $form = new Form("/?controller=ControlleurHome&action=submit", Form::GET, "home_form");
-        $form->setController("ControlleurHome", "submit");
+        $form = new Form("/?controller=ControlleurDetailResto&action=submit", Form::GET, "home_form");
+        $form->setController("ControlleurDetailResto", "submit");
         $form->addInput(new Submit("Deconnexion", true, "", ""));
         return $form;
     }
