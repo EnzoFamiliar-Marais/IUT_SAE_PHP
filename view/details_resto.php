@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/css/resto.css">
     <link rel="stylesheet" href="../static/css/detail_resto.css">
+    <link rel="stylesheet" href="../static/css/modals.css">
+    <script src="../static/js/modals.js" defer></script>
 </head>
 
 <body>
@@ -19,7 +21,7 @@
 
             <?php
             if (isset($_SESSION['email'])) {
-                echo $formRetour;
+                echo $formDeconnexion;
             } else {
                 echo '<a href="/?controller=ControlleurLogin&action=view">Connexion</a>';
             }
@@ -78,6 +80,7 @@
                     <?php endif; ?>
                 </div>
         </div>
+        <div class="restaurant-caractéristique">
         <h3>Caractéristiques :</h3>
         <div class="restaurant-details">
             <div class="restaurant-info">
@@ -199,7 +202,33 @@
                 </div>
             </div>
         </div>
+        </div>
     </main>
+    <?php if (isset($_SESSION['email'])): ?>
+        <div class="avisContainer">
+            <button type="button" id="openAvisModal">Donner votre Avis</button>
+            <h2>Avis</h2>
+            <ul class="avis">
+                <li class="avis-item">
+                    <p class="avis-author">Pseudo: clapclap17</p>
+                    <p class="avis-note"><span style="color: green;">●●●●●</span></p>
+                    <p class="avis-content">Très bon restaurant, service impeccable et plats délicieux.</p>
+                    <p class="avis-date">Rédigé le 01/03/2025</p>
+                </li>
+                <li class="avis-item">
+                    <p class="avis-author">Pseudo: Cécile L</p>
+                    <p class="avis-note"><span style="color: green;">●●●●○</span></p>
+                    <p class="avis-content">Ambiance agréable, mais les plats étaient un peu trop salés à mon goût.</p>
+                    <p class="avis-date">Rédigé le 28/02/2025</p>
+                </li>
+            </ul>
+        </div>
+    <?php else: ?>
+        <p>Vous devez être connecté pour laisser un avis.</p>
+    <?php endif; ?>
+    
+    <?php require_once 'modals.php'; ?>
+   
 </body>
 
 </html>

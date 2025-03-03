@@ -59,7 +59,7 @@ class ControleurDetailResto extends Controlleur
                             break;
                         }
                     }
-                    $restaurant = $this->viewDetails($restaurant);
+                    $restaurant = $this->renderHoraire($restaurant);
                 }
 
                 
@@ -70,6 +70,7 @@ class ControleurDetailResto extends Controlleur
                     "region" => $region,
                     "departement" => $departement,
                     "formDeconnexion" => $this->getFormDeconnexion(),
+
                     
             ]);
         }
@@ -80,6 +81,13 @@ class ControleurDetailResto extends Controlleur
         $auth = new DBAuth();
         $auth->logout();
         $this->redirect("ControlleurHome", "view");
+    }
+
+    public function submitAvis(){
+        $dbCritique = new DBCritique();
+        $dbRestaurant = new DBRestaurant();
+        //$dbCritique->addCritique($_POST["note"], $_POST["commentaire"], $user["idU"], $_GET["id"]);
+        $this->redirect("ControlleurDetailResto", "view", $_GET["id"]);
     }
 
     public function getFormDeconnexion()
@@ -100,7 +108,7 @@ class ControleurDetailResto extends Controlleur
         }
     
 
-        public function viewDetails($restaurant) {
+        public function renderHoraire($restaurant) {
             if ($restaurant["opening_hours"] != null) {
                 $days = ["Mo" => "Lundi", "Tu" => "Mardi", "We" => "Mercredi", "Th" => "Jeudi", "Fr" => "Vendredi", "Sa" => "Samedi", "Su" => "Dimanche"];
                 $hours = explode(';', $restaurant["opening_hours"]);
