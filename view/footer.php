@@ -1,0 +1,1 @@
+<footer>IUT d'Orléans -  Jorite Jean-Marc</footer>

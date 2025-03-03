@@ -1,0 +1,73 @@
+
+
+.avisContainer {
+    margin: 20px 20px 0px;
+    padding-top: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.avisContainer h2 {
+    font-size: 1.5em;
+    margin: 20px 0px 50px 0px;
+}
+
+.avisContainer button{
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 8px 15px;
+  background-color: #524bd1;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+
+.avisContainer button:hover {
+    background-color: #FFD166;
+    color: #2e2e2e;
+  }
+
+.avis {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.avis-item {
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    
+}
+
+.avis-item p {
+    text-align: start;
+}
+
+
+
+.avis-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.avis-note {
+    font-size: 1.2em;
+    color: green;
+    margin-bottom: 5px;
+}
+
+.avis-date {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.avis-content {
+    font-size: 1em;
+    color: #333;
+    font-weight: normal;
+}

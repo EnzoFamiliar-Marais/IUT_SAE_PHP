@@ -1,22 +1,53 @@
+.restaurant-caractéristique{
+    margin: 20px 20px 0px;
+}
+
 .restaurant-details {
     display: flex;
     gap: 20px;
     border: 1px solid #ccc;
     padding: 20px;
-    margin: 20px 0;
     background-color: #f9f9f9;
 }
 
 .restaurant-image {
-    flex: 1;
+    margin-left: 12vw;
 }
 
 .restaurant-info {
     flex: 2;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+}
+
+#detailsGauche, #detailsDroite {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    font-weight: normal;
 }
 
 .restaurant-info p {
-    margin: 10px 0;
+    margin: 10px 0; 
+}
+
+.restaurant-info ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.restaurant-info li {
+    margin: 5px 0;
 }
 
 .restaurant-info a {
@@ -28,8 +59,105 @@
     text-decoration: underline;
 }
 
+.facebook-logo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle; 
+    margin-right: 5px;
+}
+
 #imageResto {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 70%;
     object-fit: cover;
+}
+
+#website {
+    width: 100%;
+}
+
+#titleResto {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.stars {
+    margin-left: 10px; 
+}
+
+.capacity {
+    color: red;
+}
+
+.title{
+    margin-left: 13vw;
+}
+
+.opening-hours {
+    margin: 20px 0;
+}
+.restaurant-description {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    margin:20px 8vw 0px 0px;
+    }
+
+.restaurant-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.restaurant-image img {
+    max-width: 100%;
+    height: auto;
+    
+    border-radius: 8px;
+}
+
+.opening-hours {
+    flex: 1;
+    margin-top: 20px;
+}
+
+.opening-hours h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.opening-hours p {
+    font-size: 1em;
+    color: #007bff;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.opening-hours ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.opening-hours li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.opening-hours .day {
+    font-weight: bold;
+}
+
+.opening-hours .time {
+    font-weight: normal;
+    color: #555;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    
 }

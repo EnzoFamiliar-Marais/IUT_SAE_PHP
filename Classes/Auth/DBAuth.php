@@ -32,6 +32,7 @@ class DBAuth
         echo $password;
         if($user->mdp === $password){
             $_SESSION['auth'] = $user->id;
+            $_SESSION['pseudo'] = $user->pseudo;
             $_SESSION['nom'] = $user->nom;
             $_SESSION['email'] = $user->email;
             $_SESSION['prenom'] = $user->prenom;
@@ -45,7 +46,7 @@ class DBAuth
     return false;
 }
 
-public function addUser($password, $email, $nom, $prenom, $dateCreation, $idRole)
+public function addUser($password, $email, $nom, $prenom, $dateCreation, $idRole, $pseudo)
 {
     $stmt = $this->db->prepare('SELECT * FROM "UTILISATEURS" WHERE email = ?', [$email]);
     $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
@@ -55,7 +56,7 @@ public function addUser($password, $email, $nom, $prenom, $dateCreation, $idRole
         return false; 
     }
     
-    $stmt = $this->db->prepare('INSERT INTO "UTILISATEURS" (nom, prenom, email, mdp, date_creation, "idRole") VALUES (?, ?, ?, ?, ?, ?)', [$nom, $prenom, $email, $password, $dateCreation, $idRole]);
+    $stmt = $this->db->prepare('INSERT INTO "UTILISATEURS" (nom, prenom, email, mdp, date_creation, "idRole", pseudo) VALUES (?, ?, ?, ?, ?, ?, ?)', [$nom, $prenom, $email, $password, $dateCreation, $idRole, $pseudo]);
 
     return $stmt !== false;
 }

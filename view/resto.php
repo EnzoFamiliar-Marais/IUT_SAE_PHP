@@ -6,7 +6,7 @@
     <title>IUTables’O - Resto</title>
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/css/resto.css">
-    <script src="js/filtres.js" defer></script>
+    <script src="../static/js/filtres.js" defer></script>
 </head>
 <body>
     <header>
@@ -72,4 +72,9 @@ foreach ($restaurants as $restaurant) {
 
 }
 echo '</div>';
+
+require "footer.php";
+?>
+</body>
+</html>
 

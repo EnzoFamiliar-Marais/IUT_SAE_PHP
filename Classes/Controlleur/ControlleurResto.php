@@ -43,7 +43,7 @@ class ControlleurResto extends Controlleur
     {
         $auth = new DBAuth();
         $auth->logout();
-        $this->redirect("ControlleurHome", "view");
+        $this->redirect("ControlleurResto", "view");
     }
 
     public function getFormRegister()
@@ -101,8 +101,8 @@ class ControlleurResto extends Controlleur
 
     public function getFormDeconnexion()
     {
-        $form = new Form("/?controller=ControlleurHome&action=submit", Form::GET, "home_form");
-        $form->setController("ControlleurHome", "submit");
+        $form = new Form("/?controller=ControlleurResto&action=submit", Form::GET, "home_form");
+        $form->setController("ControlleurResto", "submit");
 
 
         $form->addInput(new Submit("Deconnexion", true, "", ""));

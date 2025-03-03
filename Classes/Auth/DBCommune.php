@@ -28,7 +28,7 @@ class DBCommune
         $communes = array();
         foreach (DBCommune::fetchCommune() as $commune) {
             $communes[] = array(
-                'idR' => $commune['idR'],
+                'idC' => $commune['idC'],
                 'nom' => $commune['nom'],
                 "idD" => $commune['idD']
             );

@@ -24,8 +24,12 @@ class ControlleurRegister extends Controlleur{
         $email = $_POST['email'];
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
+        $pseudo = $_POST['pseudo'];
+        if(empty(trim($pseudo))){
+            $pseudo = "Utilisateur";
+        }
         $auth = new DBAuth;
-        $user = $auth->addUser($password, $email, $nom, $prenom, date("Y-m-d"), 2); // 2 = id_role utilisateur
+        $user = $auth->addUser($password, $email, $nom, $prenom, date("Y-m-d"), 2, $pseudo); // 2 = id_role utilisateur
         $_SESSION["userRegister"] = $user;
         if($user){
             $auth->login($email, $password);
@@ -38,6 +42,7 @@ class ControlleurRegister extends Controlleur{
     private function getForm()
     {
         $form = new Form("/?controller=ControlleurRegister&action=submit", Form::POST, "register_form");
+        $form->addInput((new Text("", true,"pseudo", "pseudo"))->setLabel("Nom d'utilisateur"));
         $form->addInput((new Text("", true,"prenom", "prenom"))->setLabel("Prenom"));
         $form->addInput((new Text("", true,"nom", "nom"))->setLabel("Nom"));
         $form->addInput((new MailField("", true,"email", "email"))->setLabel("Email"));

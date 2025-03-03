@@ -45,7 +45,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
 
 
-echo '<h2>Les Meilleurs restaurants</h2>';
+echo '<h2 id="bestrestaurants">Les Meilleurs restaurants</h2>';
 echo '<div class="bestrestaurants">';
 foreach ($bestrestaurants as $bestrestaurant) {
     echo '<section class="bestrestaurant">';
@@ -56,25 +56,10 @@ foreach ($bestrestaurants as $bestrestaurant) {
 
 echo '</div>';
 
-if (isset($_SESSION['name'])) {
-    echo '<p>Vous êtes déjà inscrit !</p>';
-    echo '<p>Vous pouvez soit aller voir vos avis ou regarder les différents restaurant.</p>';
-} else {
-    echo '<p class = "no-signin">Vous n\'êtes pas inscrit</p>';
-    echo '<form action="" method="post">';
-    echo '<label for="name">Entrez votre nom :</label>';
-    echo '<input type="text" id="name" name="name" required>';
-    echo '<button type="submit">Soumettre</button>';
-    echo '</form>';
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'])) {
-        $_SESSION['name'] = htmlspecialchars($_POST['name']);
-        header('Location: index.php');
-        exit();
-    }
-}
-
-echo '<footer>Vous pouvez vous désinscrire juste ici <a href="./index.php?action=logout">cliquez ici</a></footer>';
+require_once 'footer.php';
 ?>
 </body>
+
+
 </html>

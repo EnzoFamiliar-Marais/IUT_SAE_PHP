@@ -1,7 +1,5 @@
 <?php
 
-use Classes\Autoloader;
-use data\Database;
 use Auth\DBRestaurant;
 use Auth\DBCommune;
 use Auth\DBDepartement;
@@ -9,20 +7,19 @@ use Auth\DBRegion;
 use Auth\DBTypeCuisine;
 use Auth\DBPropose;
 
-require_once './Classes/data/db.php';
-
 try {
 
     
     $fichier = "Data/restaurants_orleans.json";
     $contenu = file_get_contents($fichier);
     $json = json_decode($contenu, true);
-    $departement = new DBDepartement();
     $commune = new DBCommune();
     $region = new DBRegion();
     $restaurant = new DBRestaurant();
     $TypeCuisine = new DBTypeCuisine();
     $propose = new DBPropose();
+    $departement = new DBDepartement();
+
 
     foreach ($json as $key => $value) {
         $name = $value['name'] ?? "";
@@ -97,4 +94,5 @@ try {
     }
 } catch (\Throwable $th) {
     echo "Erreur : " . $th->getMessage();
+    echo "Erreur : " . $th->getTraceAsString();
 }

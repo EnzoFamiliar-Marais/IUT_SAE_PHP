@@ -22,7 +22,7 @@ class ControlleurCritique extends Controlleur
                 
 
           
-                $this->render("critique.php", [
+                $this->render("admincritique.php", [
                     //"restaurants" => $restaurants,
                     //"critiques" => $critiques,
                     "formDeconnexion" => $this->getFormDeconnexion(),

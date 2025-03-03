@@ -21,7 +21,7 @@
     <?php
     $critiques = [
 
-        ["idUser" => 1, "id" => 1, "restaurant" => "KFC", "avis" => 2.5, "description" => "Un excellent restaurant avec une ambiance chaleureuse."],
+        ["idUser" => 1, "id" => 1, "restaurant" => "KFC", "avis" => 2.5, "description" => "Un excellent restaurantrest aurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurantrestaurant avec une ambiance chaleureuse."],
         ["idUser" => 1, "id" => 2, "restaurant" => "McDonald's", "avis" => 3.5, "description" => "Excellent repas mais l’ambiance ne me plaisait pas."],
         ["idUser" => 1, "id" => 3, "restaurant" => "Burger King", "avis" => 4.5, "description" => "Un excellent restaurant"],
         ["idUser" => 1, "id" => 10, "restaurant" => "Five Guys", "avis" => 4.7, "description" => "Burgers délicieux et frites excellentes."],

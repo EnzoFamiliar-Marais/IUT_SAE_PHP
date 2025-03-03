@@ -1,7 +1,7 @@
 <?php 
 
 use Classes\Autoloader;
-use Controlleur\ControleurDetailResto;
+use Controlleur\ControlleurDetailResto;
 use Controlleur\ControlleurHome;
 use Controlleur\ControlleurResto;
 use Controlleur\ControlleurLogin;
@@ -16,9 +16,10 @@ if (!isset($_SESSION)) {
 }
 
 require 'Classes/autoloader.php';
-require './DATA/convert_data.php';
+require_once './Classes/data/db.php';
 
 Autoloader::register();
+//require './DATA/convert_data.php';
 
 
 if(isset($_GET['controller']) && isset($_GET['action'])){
@@ -45,7 +46,7 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
             $controller = new ControlleurCritique($_REQUEST);
             break;
         case "ControlleurDetailResto":
-            $controller = new ControleurDetailResto($_REQUEST);
+            $controller = new ControlleurDetailResto($_REQUEST);
             break;
 
         default:
