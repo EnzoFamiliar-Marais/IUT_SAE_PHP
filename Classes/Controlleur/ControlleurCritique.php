@@ -1,4 +1,5 @@
 <?php
+
 namespace Controlleur;
 
 use Auth\DBRestaurant;
@@ -13,23 +14,33 @@ use form\type\Text;
 
 class ControlleurCritique extends Controlleur
 {
-   
+
     public function view()
     {
-        
-            //$restaurants = DBRestaurant::getAllRestaurant();
-            //$critiques = DBCritique::getAllCritiques();
-                
+        $idUser = $_GET["id"];
+        $utilisateur = DBAuth::getUserById($idUser);
+        $critiques = DBCritique::getCritiqueByUser($idUser);
+        $restaurants = DBRestaurant::getAllRestaurant();
+        $restaurantsFiltrer = array_filter($restaurants, function ($restaurant) use ($critiques) {
+            foreach ($critiques as $critique) {
+                if ($restaurant['id'] == $critique['idR']) {
+                    return true;
+                }
+            }
+            return false;
+        });
 
-          
-                $this->render("admincritique.php", [
-                    //"restaurants" => $restaurants,
-                    //"critiques" => $critiques,
-                    "formDeconnexion" => $this->getFormDeconnexion(),
-                    //"formResto" => $this->getFormResto(),
-            ]);
-        }
-        
+        error_log("Le visiteur " . print_r($utilisateur, true));
+        error_log("Les Critiques " . print_r($critiques, true));
+        error_log("Les Restaurants Filtrer " . print_r($restaurantsFiltrer, true));
+        $this->render("admincritique.php", [
+            "restaurants" => $restaurantsFiltrer,
+            "critiques" => $critiques,
+            "utilisateur" => $utilisateur,
+            "formDeconnexion" => $this->getFormDeconnexion(),
+        ]);
+    }
+
 
     public function submit()
     {
@@ -46,15 +57,13 @@ class ControlleurCritique extends Controlleur
         return $form;
     }
 
-    public function getFormDeleteAdmin($id){ 
+    public function postFormDeleteAdmin($id)
+    {
         $forms = new Form("/?controller=ControlleurCritique&action=submitDelete", Form::POST, "admin_form");
         $forms->setController("ControlleurCritique", "submitDelete");
-        $forms->addInput(new Hidden($id,true, "critique_id", "critique_id")); 
+        $forms->addInput(new Hidden($id, true, "critique_id", "critique_id"));
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
-        
-        return $forms;
-        }
-    
-  
 
+        return $forms;
+    }
 }

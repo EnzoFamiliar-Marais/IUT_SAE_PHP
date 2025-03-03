@@ -17,18 +17,29 @@ class ControlleurAdmin extends Controlleur
     public function view()
     {
         
-            //$restaurants = DBRestaurant::getAllRestaurant();
-            //$critiques = DBCritique::getAllCritiques();
-                
-
-          
+            
+            $utilisateurs = DBAuth::getUserByRole(2); // 2 = visiteur enregistré
+            $critiques = array();
+            foreach($utilisateurs as $utilisateur){
+                $id = $utilisateur['id'];
+                $userCritiques = DBCritique::getCritiqueByUser($id);
+                $critiques = array_merge($critiques, $userCritiques);
+            }
+            
+            error_log("Les Critiques ".print_r($critiques, true));
+            error_log("Les Utilisateurs ".print_r($utilisateurs, true));
+            if(!isset($_SESSION['id_role'])){
+                $this->redirect("ControlleurLogin", "view");
+            }elseif(isset($_SESSION['id_role']) && $_SESSION['id_role'] == 1){
                 $this->render("admin.php", [
-                    //"restaurants" => $restaurants,
-                    //"critiques" => $critiques,
+                    "critiques" => $critiques,
+                    "utilisateurs" => $utilisateurs,
                     "formDeconnexion" => $this->getFormDeconnexion(),
-                    //"formResto" => $this->getFormResto(),
             ]);
+        }else{
+            $this->redirect("ControlleurLogin", "view");
         }
+    }
         
 
     public function submit()
