@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../static/css/header.css">
 
     
+
+    
 </head>
 <body>
     <header>
@@ -33,7 +35,6 @@
     echo $form;
     echo '<p class="signup-link"><a href="/?controller=ControlleurRegister&action=view">Créer un compte</a></p>';
     echo '</div>';
-
     ?>
-
+</body>
 </html>

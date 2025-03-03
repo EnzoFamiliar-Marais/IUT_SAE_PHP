@@ -73,3 +73,8 @@ foreach ($restaurants as $restaurant) {
 }
 echo '</div>';
 
+require "footer.php";
+?>
+</body>
+</html>
+
