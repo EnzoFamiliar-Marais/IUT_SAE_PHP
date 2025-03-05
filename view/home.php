@@ -25,6 +25,7 @@
     <div class="content">
         <h2>Bienvenue sur la page d'accueil</h2>
         <p>Bienvenue sur notre plateforme de comparateur de Restaurant en ligne vous pouvez comparer les restaurant de la région Orléanaises</p>
+        <a href="/?controller=ControlleurHome&action=map" class="button">Voir la carte des restaurants</a>
     </div>
 
 <?php 
