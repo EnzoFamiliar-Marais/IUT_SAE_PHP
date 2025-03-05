@@ -35,7 +35,9 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
         case "ControlleurLogin":
             $controller = new ControlleurLogin($_REQUEST);
             break;
-
+        case "ControlleurCompte":
+            $controller = new ControlleurCompte($_REQUEST);
+            break;
         case "ControlleurRegister":
             $controller = new ControlleurRegister($_REQUEST);
             break;
@@ -48,17 +50,15 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
         case "ControlleurDetailResto":
             $controller = new ControlleurDetailResto($_REQUEST);
             break;
-
         default:
             $controller = null;
     }
     if(!is_null($controller)){
         $actionName = $_GET["action"];
-            echo $controller->$actionName();
+        echo $controller->$actionName();
     }
 }else{
     $controllerName = 'ControlleurHome';
     $controller = new ControlleurHome();
     $controller->view();
 }
-
