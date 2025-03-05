@@ -36,11 +36,11 @@ class ControlleurHome extends Controlleur
                 "nom" => $_SESSION['nom'],
                 "prenom" => $_SESSION['prenom'],
                 "mdp" => $_SESSION['mdp'],
+
                 "bestrestaurants" => $bestrestaurants,
             ]);
         }
-    }
-        
+    }      
 
     public function submit()
     {
@@ -76,5 +76,14 @@ class ControlleurHome extends Controlleur
         $form->addInput(new Link("/?controller=ControlleurResto&action=view", "Les Restos"));
         return $form;
     }
-  
+
+    public function map()
+    {
+        $dbRestaurant = new DBRestaurant();
+        $restaurants = $dbRestaurant->getAllRestaurant();
+
+        $this->render("map.php", [
+            "restaurants" => $restaurants,
+        ]);
+    }
 }

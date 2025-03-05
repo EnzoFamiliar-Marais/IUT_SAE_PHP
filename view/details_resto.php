@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="../static/css/detail_resto.css">
     <link rel="stylesheet" href="../static/css/modals.css">
     <link rel="stylesheet" href="../static/css/avis.css">
-
-
     <script src="../static/js/modals.js" defer></script>
 </head>
 
@@ -20,15 +18,13 @@
         <h1>IUTables’O</h1>
         <nav>
             <a href="?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="/?controller=ControlleurResto&action=view">Les Restos</a>
-
-            <?php
-            if (isset($_SESSION['email'])) {
-                echo $formDeconnexion;
-            } else {
-                echo '<a href="/?controller=ControlleurLogin&action=view">Connexion</a>';
-            }
-            ?>
+            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
+            <?php if (isset($_SESSION['auth'])): ?>
+                <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
+                <?php echo $formDeconnexion; ?>
+            <?php else: ?>
+                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
+            <?php endif; ?>
         </nav>
     </header>
 
@@ -49,41 +45,41 @@
                 <h2 class="capacity">Capacité : <span class="value"><?php echo $restaurant["capacity"] ?></span></h2>
             <?php endif; ?>
         </div>
-            
+
         <div class="restaurant-description">
-                <div class="restaurant-image">
-                    <img src="../static/img/restobase.jpeg" alt="photo" id="imageResto" />
-                </div>
-                <div class="opening-hours">
-                    <h2>Horaires</h2>
-                    <?php if (isset($restaurant["opening_hours_processed"])): ?>
-                        <p style="color: <?php echo $restaurant["is_open_now"] ? 'green' : 'red'; ?>;">
-                            <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
-                        </p>
-                        <ul>
-                            <?php 
-                            $daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-                            foreach ($daysOfWeek as $day): ?>
-                                <li>
-                                    <span class="day"><?php echo $day; ?></span>
-                                    <span class="time">
-                                        <?php 
-                                        if (isset($restaurant["opening_hours_processed"][$day])) {
-                                            echo implode('<br>', array_map('trim', $restaurant["opening_hours_processed"][$day]));
-                                        } else {
-                                            echo 'Fermé';
-                                        }
-                                        ?>
-                                    </span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php else: ?>
-                        <p>Non renseigné</p>
-                    <?php endif; ?>
-                </div>
+            <div class="restaurant-image">
+                <img src="../static/img/restobase.jpeg" alt="photo" id="imageResto" />
+            </div>
+            <div class="opening-hours">
+                <h2>Horaires</h2>
+                <?php if (isset($restaurant["opening_hours_processed"])): ?>
+                    <p style="color: <?php echo $restaurant["is_open_now"] ? 'green' : 'red'; ?>;">
+                        <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
+                    </p>
+                    <ul>
+                        <?php 
+                        $daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+                        foreach ($daysOfWeek as $day): ?>
+                            <li>
+                                <span class="day"><?php echo $day; ?></span>
+                                <span class="time">
+                                    <?php 
+                                    if (isset($restaurant["opening_hours_processed"][$day])) {
+                                        echo implode('<br>', array_map('trim', $restaurant["opening_hours_processed"][$day]));
+                                    } else {
+                                        echo 'Fermé';
+                                    }
+                                    ?>
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>Non renseigné</p>
+                <?php endif; ?>
+            </div>
         </div>
-        <div class="restaurant-caractéristique">
+
         <h3>Caractéristiques :</h3>
         <div class="restaurant-details">
             <div class="restaurant-info">
@@ -206,10 +202,16 @@
             </div>
         </div>
         </div>
+
+        
     </main>
-    <?php if (isset($_SESSION['email'])): ?>
-        <div class="avisContainer">
-            <button type="button" id="openAvisModal">Donner votre Avis</button>
+    <div class="avisContainer">
+            <?php if (isset($_SESSION['email'])): ?>
+                <button type="button" id="openAvisModal">Donner votre Avis</button>
+            <?php else: ?>
+                <p>Vous devez être connecté pour laisser un avis.</p>
+            <?php endif; ?>
+
             <h2>Avis</h2>
             <ul class="avis">
                 <li class="avis-item">
@@ -226,10 +228,7 @@
                 </li>
             </ul>
         </div>
-    <?php else: ?>
-        <p>Vous devez être connecté pour laisser un avis.</p>
-    <?php endif; ?>
-    
+
     <?php require_once 'modals.php'; ?>
     <?php require_once 'footer.php'; ?>
 </body>
