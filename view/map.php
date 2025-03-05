@@ -1,3 +1,4 @@
+<!-- filepath: /c:/Users/Utilisateur/Documents/IUT_SAE_PHP/view/map.php -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -38,7 +39,7 @@
 
             restaurants.forEach(function(restaurant) {
                 var marker = L.marker([restaurant.latitude, restaurant.longitude]).addTo(map);
-                marker.bindPopup('<b>' + restaurant.nom + '</b><br>' + restaurant.adresse);
+                marker.bindPopup('<b>' + restaurant.nom + '</b><br>' + restaurant.adresse + '<br><a href="/?controller=ControlleurDetailResto&action=view&id=' + restaurant.id + '" class="button">Détails du restaurant</a>');
             });
         });
     </script>
