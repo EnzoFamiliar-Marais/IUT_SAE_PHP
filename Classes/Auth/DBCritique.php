@@ -27,6 +27,7 @@ class DBCritique
         $critiques = array();
         foreach (DBCritique::fetchCritiques() as $critique) {
             $critiques[] = array(
+                "id" => $critique['id'],
                 'date_critique' => $critique['date_critique'],
                 'idU' => $critique['idU'],
                 'idR' => $critique['idR'],
@@ -53,5 +54,27 @@ class DBCritique
         return $stmt !== false;
     }
 
+    public static function fetchCritiqueByUser($idUtilisateur)
+    { 
+        $dbCritique = new DBCritique();
+        $stmt = $dbCritique->db->prepare('SELECT * FROM "Critiquer" WHERE "idU" = ?', [$idUtilisateur]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function getCritiqueByUser($idUtilisateur) : array
+    {
+        $critiques = array();
+        foreach(DBCritique::fetchCritiqueByUser($idUtilisateur) as $critique){
+            $critiques[] = array(
+                'id' => $critique->id,
+                'date_critique' => $critique->date_critique,
+                'idU' => $critique->idU,
+                'idR' => $critique->idR,
+                'note' => $critique->note,
+                'commentaire' => $critique->commentaire,
+            );
+        }
+        return $critiques;
+    }
     
 }

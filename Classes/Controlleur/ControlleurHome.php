@@ -15,28 +15,23 @@ class ControlleurHome extends Controlleur
    
     public function view()
     {
-        
-            $bestrestaurants = null;
-            
-            if($_SESSION['id_role'] == 1){
-                $this->redirect("ControlleurAdmin", "view");
+        $bestrestaurants = null;
 
-            }else{
-                $this->render("home.php", [
-                    "formRetour" => $this->getFormDeconnexion(),
-                    "formResto" => $this->getFormResto(),
-                    "utilisateur" => $_SESSION['pseudo'] ?? "aucun",
-                    "email" => $_SESSION['email'],
-                    "nom" => $_SESSION['nom'],
-                    "prenom" => $_SESSION['prenom'],
-                    "mdp" => $_SESSION['mdp'],
-                    "bestrestaurants" => $bestrestaurants,
-                    
-                   
+        if(isset($_SESSION['id_role']) && $_SESSION['id_role'] == 1){
+            $this->redirect("ControlleurAdmin", "view");
+        }else{
+            $this->render("home.php", [
+                "formDeconnexion" => $this->getFormDeconnexion(),
+                "formResto" => $this->getFormResto(),
+                "utilisateur" => $_SESSION['pseudo'] ?? "aucun",
+                "email" => $_SESSION['email'] ?? "",
+                "nom" => $_SESSION['nom'] ?? "",
+                "prenom" => $_SESSION['prenom'] ?? "",
+                "mdp" => $_SESSION['mdp'] ?? "",
+                "bestrestaurants" => $bestrestaurants,
             ]);
         }
-    }
-        
+    }      
 
     public function submit()
     {
