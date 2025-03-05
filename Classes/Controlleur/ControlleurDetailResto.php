@@ -121,35 +121,49 @@ class ControlleurDetailResto extends Controlleur
                     if (count($day_range_parts) == 2) {
                         $start_day = $day_range_parts[0];
                         $end_day = $day_range_parts[1];
+        
                         $start_index = array_search($start_day, array_keys($days));
                         $end_index = array_search($end_day, array_keys($days));
         
-                        for ($i = $start_index; $i <= $end_index; $i++) {
-                            $day_abbr = array_keys($days)[$i];
-                            $day = $days[$day_abbr];
+                        if ($start_index !== false && $end_index !== false) {
+                            for ($i = $start_index; $i <= $end_index; $i++) {
+                                $day_abbr = array_keys($days)[$i];
+                                $day = $days[$day_abbr];
+        
+                                if (!isset($opening_hours[$day])) {
+                                    $opening_hours[$day] = [];
+                                }
+                                $opening_hours[$day][] = $time;
+                            }
+                        }
+                    } else {
+                        if (isset($days[$day_range])) {
+                            $day = $days[$day_range];
                             if (!isset($opening_hours[$day])) {
                                 $opening_hours[$day] = [];
                             }
                             $opening_hours[$day][] = $time;
                         }
-                    } else {
-                        $day = $days[$day_range];
-                        if (!isset($opening_hours[$day])) {
-                            $opening_hours[$day] = [];
-                        }
-                        $opening_hours[$day][] = $time;
                     }
                 }
         
                 $restaurant["opening_hours_processed"] = $opening_hours;
         
-                $today = $days[date('N') - 1]; 
+                // Correction : récupérer le bon jour actuel
+                $todayIndex = date('N'); // 1 (Lundi) à 7 (Dimanche)
+                $today = array_values($days)[$todayIndex - 1]; // Correspondance correcte
+        
                 $currentTime = date('H:i');
                 $isOpenNow = false;
         
                 if (isset($restaurant["opening_hours_processed"][$today])) {
                     foreach ($restaurant["opening_hours_processed"][$today] as $timeRange) {
                         list($startTime, $endTime) = explode('-', $timeRange);
+        
+                        // Suppression des espaces éventuels
+                        $startTime = trim($startTime);
+                        $endTime = trim($endTime);
+        
                         if ($currentTime >= $startTime && $currentTime <= $endTime) {
                             $isOpenNow = true;
                             break;
