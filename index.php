@@ -8,8 +8,7 @@ use Controlleur\ControlleurLogin;
 use Controlleur\ControlleurRegister;
 use Controlleur\ControlleurAdmin;
 use Controlleur\ControlleurCritique;
-
-
+use Controlleur\ControlleurCompte;
 
 if (!isset($_SESSION)) {
     session_start();
@@ -20,7 +19,6 @@ require_once './Classes/data/db.php';
 
 Autoloader::register();
 //require './DATA/convert_data.php';
-
 
 if(isset($_GET['controller']) && isset($_GET['action'])){
     $controllerName = $_GET["controller"];
@@ -62,3 +60,4 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
     $controller = new ControlleurHome();
     $controller->view();
 }
+?>

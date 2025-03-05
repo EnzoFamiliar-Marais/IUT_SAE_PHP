@@ -4,10 +4,8 @@ namespace Controlleur;
 
 use Auth\DBAuth;
 use Auth\DBCritique;
-use Auth\DBRestaurant;
 use form\Form;
 use form\type\Submit;
-
 
 class ControlleurCompte extends Controlleur
 {
@@ -20,14 +18,30 @@ class ControlleurCompte extends Controlleur
         $userId = $_SESSION['auth'];
         $user = DBAuth::getUserById($userId);
         $critiques = DBCritique::getCritiqueByUser($userId);
-        $favoris = DBRestaurant::getFavorisByUser($userId);
 
         $this->render("compte.php", [
             "user" => $user,
             "critiques" => $critiques,
-            "favoris" => $favoris,
             "formDeconnexion" => $this->getFormDeconnexion(),
         ]);
+    }
+
+    public function update()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $userId = $_SESSION['auth'];
+        $pseudo = $_POST['pseudo'];
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['email'];
+
+        $dbAuth = new DBAuth();
+        $dbAuth->updateUser($userId, $pseudo, $nom, $prenom, $email);
+
+        $this->redirect("ControlleurCompte", "view");
     }
 
     public function getFormDeconnexion()

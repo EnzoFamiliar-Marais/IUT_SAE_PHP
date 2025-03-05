@@ -30,12 +30,9 @@ class DBAuth
         if ($user && (password_verify($password, $user->mdp) || $password === $user->mdp)) {
             $_SESSION['auth'] = $user->id;
             $_SESSION['pseudo'] = $user->pseudo;
-            $_SESSION['nom'] = $user->nom;
             $_SESSION['email'] = $user->email;
+            $_SESSION['nom'] = $user->nom;
             $_SESSION['prenom'] = $user->prenom;
-            $_SESSION['mdp'] = $user->mdp;
-            $_SESSION['id_role'] = $user->idRole;
-            $_SESSION['date_creation'] = $user->date_creation;
             return $user;
         }
 
@@ -46,10 +43,10 @@ class DBAuth
     public function addUser($password, $email, $nom, $prenom, $dateCreation, $idRole, $pseudo)
     {
         $stmt = $this->db->prepare('SELECT * FROM "UTILISATEURS" WHERE email = ?', [$email]);
-        $existingUser = $stmt->fetch(PDO::FETCH_OBJ); 
+        $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
 
         if ($existingUser) {
-            $_SESSION['errorAdd'] = "Email déjà utilisé";
+            $_SESSION['errorAdd'] = "Utilisateur existe déjà";
             return false;
         }
 
@@ -57,6 +54,12 @@ class DBAuth
         $stmt = $this->db->prepare('INSERT INTO "UTILISATEURS" (nom, prenom, email, mdp, date_creation, "idRole", pseudo) VALUES (?, ?, ?, ?, ?, ?, ?)', [$nom, $prenom, $email, $hashedPassword, $dateCreation, $idRole, $pseudo]);
 
         return $stmt !== false;
+    }
+
+    public function updateUser($userId, $pseudo, $nom, $prenom, $email)
+    {
+        $stmt = $this->db->prepare('UPDATE "UTILISATEURS" SET pseudo = ?, nom = ?, prenom = ?, email = ? WHERE id = ?', [$pseudo, $nom, $prenom, $email, $userId]);
+        return $stmt->execute();
     }
 
     public static function fetchAllUsers()
@@ -71,39 +74,44 @@ class DBAuth
         $users = array();
 
         foreach (DBAuth::fetchAllUsers() as $user) {
-            $users[] = [
-                "id" => $user['id'],
-                "nom" => $user['nom'],
-                "prenom" => $user['prenom'],
-                "email" => $user['email'],
-                "mdp" => $user['mdp'],
-                "date_creation" => $user['date_creation'],
-                "id_role" => $user['idRole'],
-                "pseudo" => $user['pseudo']
-            ];
+            $users[] = array(
+                'id' => $user['id'],
+                'nom' => $user['nom'],
+                'prenom' => $user['prenom'],
+                'email' => $user['email'],
+                'pseudo' => $user['pseudo'],
+                'date_creation' => $user['date_creation'],
+                'idRole' => $user['idRole']
+            );
         }
         return $users;
     }
 
     public static function getUserByRole($idRole) : array
     {
-        $users = self::getAllUsers();
-        $usersByRole = array_filter($users, function($user) use ($idRole) {
-            return $user['id_role'] == $idRole;
-        });
-
-        return array_values($usersByRole);
+        $users = array();
+        $db = new DBAuth();
+        $stmt = $db->db->prepare('SELECT * FROM "UTILISATEURS" WHERE "idRole" = ?', [$idRole]);
+        foreach ($stmt as $user) {
+            $users[] = array(
+                'id' => $user['id'],
+                'nom' => $user['nom'],
+                'prenom' => $user['prenom'],
+                'email' => $user['email'],
+                'pseudo' => $user['pseudo'],
+                'date_creation' => $user['date_creation'],
+                'idRole' => $user['idRole']
+            );
+        }
+        return $users;
     }
 
     public static function getUserById($idUser) : array
     {
-        $users = self::getAllUsers();
-        foreach ($users as $user) {
-            if ($user['id'] == $idUser) {
-                return $user;
-            }
-        }
-        return [];
+        $db = new DBAuth();
+        $stmt = $db->db->prepare('SELECT * FROM "UTILISATEURS" WHERE id = ?', [$idUser]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ? $user : [];
     }
 
     public function logged()
@@ -113,6 +121,7 @@ class DBAuth
 
     public function logout()
     {
+        session_unset();
         session_destroy();
     }
 }
