@@ -72,5 +72,14 @@ class ControlleurHome extends Controlleur
         $form->addInput(new Link("/?controller=ControlleurResto&action=view", "Les Restos"));
         return $form;
     }
-  
+
+    public function map()
+    {
+        $dbRestaurant = new DBRestaurant();
+        $restaurants = $dbRestaurant->getAllRestaurant();
+
+        $this->render("map.php", [
+            "restaurants" => $restaurants,
+        ]);
+    }
 }
