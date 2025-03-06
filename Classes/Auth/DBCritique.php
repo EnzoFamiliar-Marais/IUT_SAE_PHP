@@ -44,10 +44,7 @@ class DBCritique
             'INSERT INTO "Critiquer" ("idU","idR", "note", "commentaire") 
             VALUES (?, ?, ?, ?)',
             [
-                $idUtilisateur,
-                $idRestaurant,
-                $note,
-                $commentaire
+                $idUtilisateur, $idRestaurant, $note, $commentaire
             ]
         );
 
@@ -64,17 +61,31 @@ class DBCritique
     public static function getCritiqueByUser($idUtilisateur) : array
     {
         $critiques = array();
+        $dbRestaurant = new DBRestaurant();
         foreach(DBCritique::fetchCritiqueByUser($idUtilisateur) as $critique){
             $critiques[] = array(
-                'id' => $critique->id,
+                "id" => $critique->id,
                 'date_critique' => $critique->date_critique,
                 'idU' => $critique->idU,
                 'idR' => $critique->idR,
                 'note' => $critique->note,
                 'commentaire' => $critique->commentaire,
+                'restaurant' => $dbRestaurant->getRestaurantById($critique->idR)['nom']
             );
         }
         return $critiques;
     }
-    
+
+    public static function getCritiqueById($id)
+    {
+        $dbCritique = new DBCritique();
+        $stmt = $dbCritique->db->prepare('SELECT * FROM "Critiquer" WHERE "id" = ?', [$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteCritique($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM "Critiquer" WHERE "id" = ?', [$id]);
+        return $stmt->execute();
+    }
 }

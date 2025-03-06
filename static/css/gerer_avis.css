@@ -40,29 +40,41 @@ nav a:hover {
     margin-top: 0;
 }
 
+.content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.content li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.content li:last-child {
+    border-bottom: none;
+}
+
 .content p {
-    font-size: 1.1em;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 
-.button-container {
-    margin-top: 20px;
-    text-align: center;
+.content .actions {
+    margin-top: 10px;
 }
 
-.button {
+.content .actions input[type="submit"] {
     display: inline-block;
-    padding: 10px 20px;
-    font-size: 1em;
+    padding: 5px 10px;
     color: white;
     background-color: #6C63FF;
-    border: none;
     border-radius: 5px;
+    border: none;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-.button:hover {
+.content .actions input[type="submit"]:hover {
     background-color: #524bd1;
 }
 
