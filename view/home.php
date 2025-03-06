@@ -26,7 +26,6 @@
         <a href="/?controller=ControlleurHome&action=map" class="button">Voir la carte des restaurants</a>
     </div>
 
-
 <?php 
 
 
