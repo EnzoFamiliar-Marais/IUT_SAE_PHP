@@ -28,7 +28,7 @@ nav a:hover {
 }
 
 .content {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 50px auto;
     padding: 20px;
     background-color: white;
@@ -43,11 +43,20 @@ nav a:hover {
 .content ul {
     list-style-type: none;
     padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .content li {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 .content li:last-child {
@@ -59,12 +68,13 @@ nav a:hover {
 }
 
 .content .actions {
-    margin-top: 10px;
+    margin-top: auto;
 }
 
 .content .actions input[type="submit"] {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 2px 5px;
+    font-size: 0.8em;
     color: white;
     background-color: #6C63FF;
     border-radius: 5px;
@@ -72,6 +82,7 @@ nav a:hover {
     text-decoration: none;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    width: auto;
 }
 
 .content .actions input[type="submit"]:hover {
