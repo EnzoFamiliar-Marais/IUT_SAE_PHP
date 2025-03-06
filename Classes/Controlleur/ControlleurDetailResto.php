@@ -38,14 +38,12 @@ class ControlleurDetailResto extends Controlleur
                 if ($restaurant != null) {
                     foreach ($dbCommune as $communeItem) {
                         if ($communeItem["idC"] == $restaurant["idCommune"]) {
-                            error_log("commune : " . $communeItem["nom"]);
                             $commune = $communeItem["nom"];
                             $idDepartement = $communeItem["idD"];
                             break;
                         }
                     }foreach ($dbDepartement as $departementItem) {
                         if ($departementItem["idD"] == $idDepartement) {
-                            error_log("departement : " . $departementItem["nom"]);
                             $departement = $departementItem["nom"];
                             $idRegion = $departementItem["idR"];
                             break;
@@ -54,7 +52,6 @@ class ControlleurDetailResto extends Controlleur
         
                     foreach ($dbRegion as $regionItem) {
                         if ($regionItem["idR"] == $idRegion) {
-                            error_log("region : " . $regionItem["nom"]);
                             $region = $regionItem["nom"];
                             break;
                         }
@@ -63,7 +60,6 @@ class ControlleurDetailResto extends Controlleur
                 }
 
                 
-                error_log(print_r($restaurant, true));
                 $this->render("details_resto.php", [
                     "restaurant" => $restaurant,
                     "commune" => $commune,
@@ -79,6 +75,7 @@ class ControlleurDetailResto extends Controlleur
     public function submit()
     {
         $auth = new DBAuth();
+
         $auth->logout();
         $this->redirect("ControlleurDetailResto", "view");
     }
@@ -87,7 +84,12 @@ class ControlleurDetailResto extends Controlleur
         $dbCritique = new DBCritique();
         $dbRestaurant = new DBRestaurant();
         //$dbCritique->addCritique($_POST["note"], $_POST["commentaire"], $user["idU"], $_GET["id"]);
-        $this->redirect("ControlleurDetailResto", "view", $_GET["id"]);
+
+        if(isset($_POST) && $_SESSION['auth']){
+            $dbCritique->addCritique($_SESSION['auth'], $_POST["id"], $_POST["note"], $_POST['content']);
+        }
+        $this->redirect("ControlleurDetailResto", "view", $_POST["id"]);
+
     }
 
     public function getFormDeconnexion()

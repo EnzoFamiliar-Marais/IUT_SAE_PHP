@@ -50,7 +50,7 @@ class DBCritique
                 $commentaire
             ]
         );
-
+        
         return $stmt !== false;
     }
 
