@@ -20,7 +20,7 @@ class ControlleurDetailResto extends Controlleur
     public function view()
     {
             
-                
+        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
 
                 error_log(print_r($_GET, true));
                 error_log("id_resto : ".$_GET["id"]);
@@ -80,7 +80,7 @@ class ControlleurDetailResto extends Controlleur
     {
         $auth = new DBAuth();
         $auth->logout();
-        $this->redirect("ControlleurDetailResto", "view");
+        $this->redirect("ControlleurDetailResto", "view", $_GET["form_id"]);
     }
 
     public function submitAvis(){
@@ -92,7 +92,7 @@ class ControlleurDetailResto extends Controlleur
 
     public function getFormDeconnexion()
     {
-        $form = new Form("/?controller=ControlleurDetailResto&action=submit", Form::GET, "home_form");
+        $form = new Form("/?controller=ControlleurDetailResto&action=submit", Form::GET, $_GET['id']);
         $form->setController("ControlleurDetailResto", "submit");
         $form->addInput(new Submit("Deconnexion", true, "", ""));
         return $form;

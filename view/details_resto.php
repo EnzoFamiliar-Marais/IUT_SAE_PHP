@@ -23,7 +23,7 @@
                 <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
                 <?php echo $formDeconnexion; ?>
             <?php else: ?>
-                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
+                <a href="?controller=ControlleurLogin&action=view&id=<?php echo htmlspecialchars($_GET['id'])?>">Connexion</a>
             <?php endif; ?>
         </nav>
     </header>

@@ -13,9 +13,12 @@ class ControlleurLogin extends Controlleur
     
     public function view()
     {   
+
+        
         if(isset($_SESSION['auth'])){
             $this->redirect("ControlleurHome", "view");
-        }else{
+        }
+        else{
             $this->render("login.php", ["form" => $this->getForm(),
         //"formRegister" => $this->getFormRegister()
         ]);
@@ -39,14 +42,16 @@ class ControlleurLogin extends Controlleur
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Display email and password in the terminal
         error_log("Email: " . $email);
         error_log("Password: " . $password);
 
         $auth = new DBAuth;
         $user = $auth->login($email, $password);
         if($user){
-            $this->redirect("ControlleurHome", "view");
+            $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : 'index.php?controller=ControlleurHome&action=view';
+            unset($_SESSION['previous_page']); 
+            header('Location: ' . $redirect_url);
+            exit();
         }else{
             $_SESSION['errorConnexion'] = "Nom d'utilisateur ou mot de passe incorrect";
             $this->redirect("ControlleurLogin", "view");

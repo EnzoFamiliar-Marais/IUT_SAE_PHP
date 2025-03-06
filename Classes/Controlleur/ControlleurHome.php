@@ -81,7 +81,7 @@ class ControlleurHome extends Controlleur
     {
         $dbRestaurant = new DBRestaurant();
         $restaurants = $dbRestaurant->getAllRestaurant();
-
+        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
         $this->render("map.php", [
             "restaurants" => $restaurants,
         ]);

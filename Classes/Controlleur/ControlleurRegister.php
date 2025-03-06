@@ -33,7 +33,10 @@ class ControlleurRegister extends Controlleur{
         $_SESSION["userRegister"] = $user;
         if($user){
             $auth->login($email, $password);
-            $this->redirect("ControlleurHome", "view");
+            $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : 'index.php?controller=ControlleurHome&action=view';
+            unset($_SESSION['previous_page']); 
+            header('Location: ' . $redirect_url);
+            exit();
         }else{
             $this->redirect("ControlleurRegister", "view");
         }
