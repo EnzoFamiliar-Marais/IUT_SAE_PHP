@@ -39,7 +39,12 @@
             <p><strong>Prénom :</strong> <?php echo htmlspecialchars($user['prenom']); ?></p>
             <p><strong>Email :</strong> <?php echo htmlspecialchars($user['email']); ?></p>
             <p><strong>Nombre de critiques :</strong> <?php echo count($critiques); ?></p>
-            <button onclick="toggleEditForm()">Modifier les informations</button>
+            <div class="button-container">
+                <a href="?controller=ControlleurCompte&action=gererAvis" class="button">Gérer mes avis</a>
+            </div>
+            <div class="button-container">
+                <a onclick="toggleEditForm()" class="button">Modifier les informations</a>
+            </div>
         </div>
         <form id="editForm" action="/?controller=ControlleurCompte&action=update" method="post" style="display:none;">
             <p><strong>Nom d'utilisateur :</strong> <input type="text" name="pseudo" value="<?php echo htmlspecialchars($user['pseudo']); ?>"></p>
