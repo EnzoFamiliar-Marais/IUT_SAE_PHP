@@ -64,13 +64,40 @@ class ControlleurAdmin extends Controlleur
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
         
         return $forms;
-        }
+    }
     
-        public function getFormLink($idUser){
-            $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
-            $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
-            return $form;
+    public function getFormLink($idUser){
+        $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
+        $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
+        return $form;
+    }
+
+    public function submitDelete() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
+            $id = intval($_POST['user_id']); 
+            $this->deleteUserFromDB($id);
+            header("Location: /?controller=ControlleurAdmin&action=usersList"); 
+            exit();
+        } else {
+            echo "Requête invalide.";
         }
+    }
+
+    private function deleteUserFromDB($id) {
+        $db = Database::getInstance()->getConnection();
+        
+        try {
+            $queryAvis = $db->prepare("DELETE FROM avis WHERE user_id = :id");
+            $queryAvis->bindParam(":id", $id, PDO::PARAM_INT);
+            $queryAvis->execute();
+            $db->commit();
+            echo "Les avis de cette utilisateur est supprimés avec succès."; 
+        } catch (Exception $e) {
+            $db->rollBack();
+            echo "Erreur : " . $e->getMessage();
+        }
+    }
+    
   
 
 }

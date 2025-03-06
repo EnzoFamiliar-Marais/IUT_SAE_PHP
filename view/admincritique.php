@@ -7,6 +7,11 @@
     <title>Critique</title>
     <link rel="stylesheet" href="../static/css/adminAcceuil.css">
     <link rel="stylesheet" href="../static/css/header.css">
+    <script>
+        function confirmDelete() {
+            return confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur et tous ses avis ?");
+        }
+</script>
 </head>
 
 <body>
