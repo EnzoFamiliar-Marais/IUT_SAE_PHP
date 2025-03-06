@@ -12,9 +12,10 @@
         <nav>
             <a href="?controller=ControlleurHome&action=view">Accueil</a>
             <a href="?controller=ControlleurResto&action=view">Les Restos</a>
+
             <?php if (isset($_SESSION['auth'])): ?>
                 <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
-                <?php echo $formDeconnexion; ?>
+                <?php echo $formRetour; ?>
             <?php else: ?>
                 <a href="?controller=ControlleurLogin&action=view">Connexion</a>
             <?php endif; ?>
@@ -22,6 +23,7 @@
     </header>
     <div class="content">
         <h2>Bienvenue sur la page d'accueil</h2>
+
         <p>Bienvenue sur notre plateforme de comparateur de Restaurant en ligne vous pouvez comparer les restaurant de la région Orléanaises</p>
         <a href="/?controller=ControlleurHome&action=map" class="button">Voir la carte des restaurants</a>
     </div>
@@ -48,6 +50,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 ?>
 <?php if (count($bestrestaurants) > 0): ?>
     <h2>Les meilleurs restaurants</h2>
+    <?php echo $formDeconnexion; ?>
     <p>Voici les restaurants qui ont plus d'une étoile.</p>
     <ul>
         <?php foreach ($bestrestaurants as $restaurant): ?>
