@@ -13,9 +13,12 @@ class ControlleurLogin extends Controlleur
     
     public function view()
     {   
+
+        
         if(isset($_SESSION['auth'])){
             $this->redirect("ControlleurHome", "view");
-        }else{
+        }
+        else{
             $this->render("login.php", ["form" => $this->getForm(),
         //"formRegister" => $this->getFormRegister()
         ]);
