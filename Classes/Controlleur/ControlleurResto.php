@@ -15,7 +15,9 @@ class ControlleurResto extends Controlleur
 {
    
     public function view()
-    {
+    {   
+
+        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
         
             $restaurants = DBRestaurant::getAllRestaurant();
             $propositions = DBPropose::getAllProposes();
@@ -46,13 +48,6 @@ class ControlleurResto extends Controlleur
         $this->redirect("ControlleurResto", "view");
     }
 
-    public function getFormRegister()
-    {   
-        $form = new Form("/?controller=ControlleurHome&action=view", Form::GET, "home_form");
-        $form->setController("ControlleurHome", "submit");
-        $form->addInput(new Link("/?controller=ControlleurRegister&action=view", "Register"));
-        return $form;
-    }
 
     public function getFormRecherche(){
         $form = new Form("/?controller=ControlleurHome&action=view", "", "home_form");

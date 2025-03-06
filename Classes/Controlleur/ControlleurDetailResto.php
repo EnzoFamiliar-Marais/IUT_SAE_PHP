@@ -20,7 +20,7 @@ class ControlleurDetailResto extends Controlleur
     public function view()
     {
             
-                
+        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
 
                 error_log(print_r($_GET, true));
                 error_log("id_resto : ".$_GET["id"]);

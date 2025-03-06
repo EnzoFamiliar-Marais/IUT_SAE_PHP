@@ -47,6 +47,7 @@ class ControlleurCompte extends Controlleur
     public function getFormDeconnexion()
     {
         $form = new Form("/?controller=ControlleurCompte&action=logout", Form::GET, "logout_form");
+        $form->setController("ControlleurCompte", "logout");
         $form->addInput(new Submit("Deconnexion", true, "", ""));
         return $form;
     }
