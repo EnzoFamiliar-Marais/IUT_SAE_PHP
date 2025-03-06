@@ -206,31 +206,30 @@
         
     </main>
     <div class="avisContainer">
-            <?php if (isset($_SESSION['email'])): ?>
-                <button type="button" id="openAvisModal">Donner votre Avis</button>
-            <?php else: ?>
-                <p>Vous devez être connecté pour laisser un avis.</p>
-            <?php endif; ?>
+        <?php if (isset($_SESSION['email'])): ?>
+            <button type="button" id="openAvisModal">Donner votre Avis</button>
+        <?php else: ?>
+            <p>Vous devez être connecté pour laisser un avis.</p>
+        <?php endif; ?>
 
-            <h2>Avis</h2>
-            <ul class="avis">
-                <li class="avis-item">
-                    <p class="avis-author">Pseudo: clapclap17</p>
-                    <p class="avis-note"><span style="color: green;">●●●●●</span></p>
-                    <p class="avis-content">Très bon restaurant, service impeccable et plats délicieux.</p>
-                    <p class="avis-date">Rédigé le 01/03/2025</p>
-                </li>
-                <li class="avis-item">
-                    <p class="avis-author">Pseudo: Cécile L</p>
-                    <p class="avis-note"><span style="color: green;">●●●●○</span></p>
-                    <p class="avis-content">Ambiance agréable, mais les plats étaient un peu trop salés à mon goût.</p>
-                    <p class="avis-date">Rédigé le 28/02/2025</p>
-                </li>
-            </ul>
-        </div>
+        <h2>Avis</h2>
+        <ul class="avis">
+            <?php if (empty($critiques)): ?>
+                <p>Aucun avis pour ce restaurant.</p>
+            <?php else: ?>
+                <?php foreach ($critiques as $critique): ?>
+                    <li class="avis-item">
+                        <p class="avis-author">Pseudo: <?php echo htmlspecialchars($critique['pseudo']); ?></p>
+                        <p class="avis-note"><span style="color: green;">●●●●●</span></p>
+                        <p class="avis-content"><?php echo htmlspecialchars($critique['commentaire']); ?></p>
+                        <p class="avis-date">Rédigé le <?php echo htmlspecialchars($critique['date_critique']); ?></p>
+                    </li>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
+    </div>
 
     <?php require_once 'modals.php'; ?>
     <?php require_once 'footer.php'; ?>
 </body>
-
 </html>

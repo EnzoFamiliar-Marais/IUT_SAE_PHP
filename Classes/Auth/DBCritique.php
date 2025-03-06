@@ -83,6 +83,13 @@ class DBCritique
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function getCritiqueByRestaurant($restaurantId)
+    {
+        $dbCritique = new DBCritique();
+        $stmt = $dbCritique->db->prepare('SELECT c.*, u.pseudo FROM "Critiquer" c JOIN "UTILISATEURS" u ON c."idU" = u.id WHERE "idR" = ?', [$restaurantId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function deleteCritique($id)
     {
         $stmt = $this->db->prepare('DELETE FROM "Critiquer" WHERE "id" = ?', [$id]);
