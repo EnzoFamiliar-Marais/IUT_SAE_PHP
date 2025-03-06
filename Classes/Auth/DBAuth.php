@@ -128,5 +128,18 @@ class DBAuth
         session_unset();
         session_destroy();
     }
+
+    private function deleteUserFromDB($id) {
+        $db = $this->db;
+        
+        try {
+            $queryAvis = $db->prepare('DELETE FROM "UTILISATEURS" WHERE user_id = ?', [$id]);
+            
+            echo "Les avis de cette utilisateur est supprimés avec succès.";
+        } catch (Exception $e) {
+            $db->rollBack();
+            echo "Erreur : " . $e->getMessage();
+        }
+    }
 }
 ?>

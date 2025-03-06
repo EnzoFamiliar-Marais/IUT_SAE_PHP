@@ -76,5 +76,7 @@ class DBCritique
         }
         return $critiques;
     }
+
+    
     
 }
