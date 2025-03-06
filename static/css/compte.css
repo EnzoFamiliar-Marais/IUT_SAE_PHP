@@ -45,6 +45,27 @@ nav a:hover {
     margin: 10px 0;
 }
 
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
 .button-container {
     margin-top: 20px;
     text-align: center;
@@ -74,4 +95,40 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+
+#editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#editForm p {
+    margin: 0;
+}
+
+#editForm input[type="text"],
+#editForm input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#editForm input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #6C63FF;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+#editForm input[type="submit"]:hover {
+    background-color: #524bd1;
 }
