@@ -69,7 +69,7 @@ nav .form-input input[type="submit"]:hover {
     background-color: white;
     padding: 50px;
     margin: 40px auto;
-    max-width: 900px;
+    width: 90%;
     text-align: center;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
     animation: fadeIn 1s ease-out;
@@ -224,6 +224,21 @@ a {
     color: inherit;
 }
 
-#bestrestaurants{
-    margin-bottom: 20vh;
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
+
+h2 {
+    text-align: center;
+    font-size: 2.2em;
+    color: #6C63FF;
+    margin-bottom: 20px;
+}
+
+
+
