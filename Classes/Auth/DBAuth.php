@@ -30,12 +30,16 @@ class DBAuth
         if ($user && (password_verify($password, $user->mdp) || $password === $user->mdp)) {
             $_SESSION['auth'] = $user->id;
             $_SESSION['pseudo'] = $user->pseudo;
-            $_SESSION['email'] = $user->email;
             $_SESSION['nom'] = $user->nom;
+            $_SESSION['email'] = $user->email;
             $_SESSION['prenom'] = $user->prenom;
+            $_SESSION['mdp'] = $user->mdp;
+            $_SESSION['id_role'] = $user->idRole;
+            $_SESSION['date_creation'] = $user->date_creation;
             return $user;
         }
 
+        
         $_SESSION['errorLogin'] = "Email ou mot de passe incorrect";
         return false;
     }
