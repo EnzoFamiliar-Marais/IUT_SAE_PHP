@@ -54,7 +54,8 @@ class DBRestaurant
                 'brand_wikidata' => $restaurant['brand_wikidata'],
                 'facebook' => $restaurant['facebook'],
                 'smoking' => $restaurant['smoking'],
-                'idCommune' => $restaurant['idC']
+                'idCommune' => $restaurant['idC'],
+                
 
             );
         }
