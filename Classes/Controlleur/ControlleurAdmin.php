@@ -72,15 +72,18 @@ class ControlleurAdmin extends Controlleur
         return $form;
     }
 
-    public function submitDelete() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
-            $id = intval($_POST['user_id']);
-            $dbAuth = new DBAuth();
-            $dbAuth->deleteUserFromDB($id);
-            exit();
-        } else {
-            echo "Requête invalide.";
+    public function submitDelete()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
         }
+
+        $idUser = $_POST['user_id'];
+
+        $dbAuth = new DBAuth();
+        $dbAuth->deleteUserFromDB($idUser);
+        $this->redirect("ControlleurAdmin", "view");
+
     }
 
 

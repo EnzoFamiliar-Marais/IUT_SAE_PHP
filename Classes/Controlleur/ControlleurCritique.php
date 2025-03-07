@@ -14,7 +14,6 @@ use form\type\Text;
 
 class ControlleurCritique extends Controlleur
 {
-
     public function view()
     {
         $idUser = $_GET["id"];
@@ -41,6 +40,36 @@ class ControlleurCritique extends Controlleur
         ]);
     }
 
+    public function edit()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $critiqueId = $_GET['id'];
+        $critique = DBCritique::getCritiqueById($critiqueId);
+        $restaurants = DBRestaurant::getAllRestaurant();
+
+        $this->render("edit_critique.php", [
+            "critique" => $critique,
+            "restaurants" => $restaurants,
+            "formDeconnexion" => $this->getFormDeconnexion(),
+        ]);
+    }
+
+    public function delete()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $critiqueId = $_POST['id'];
+
+        $dbCritique = new DBCritique();
+        $dbCritique->deleteCritique($critiqueId);
+
+        $this->redirect("ControlleurCompte", "gererAvis");
+    }
 
     public function submit()
     {
@@ -63,7 +92,10 @@ class ControlleurCritique extends Controlleur
         $forms->setController("ControlleurCritique", "submitDelete");
         $forms->addInput(new Hidden($id, true, "critique_id", "critique_id"));
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
-
         return $forms;
     }
+
+
+
+
 }
