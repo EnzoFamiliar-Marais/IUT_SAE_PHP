@@ -78,7 +78,7 @@ class ControlleurResto extends Controlleur
         $form = new Form("/?controller=ControlleurHome&action=view", "", "home_form");
         $select = new Select("", false, "TypeRestaurant", "TypeRestaurant", "filtrages()", "Type de TypeRestaurant", "onchange");
     
-        // Ajout des options
+    
         $select->addOption("", "Type de restaurant");
             
         $dbTypeRestaurant = DBRestaurant::getAllRestaurant();

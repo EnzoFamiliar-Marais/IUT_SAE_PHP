@@ -85,7 +85,7 @@ class DBCritique
 
     
     
-}
+
 
     public static function getCritiqueById($id)
     {
@@ -100,4 +100,6 @@ class DBCritique
         $stmt = $dbCritique->db->prepare('SELECT c.*, u.pseudo FROM "Critiquer" c JOIN "UTILISATEURS" u ON c."idU" = u.id WHERE "idR" = ?', [$restaurantId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+}
 
