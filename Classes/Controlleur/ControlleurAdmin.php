@@ -64,13 +64,30 @@ class ControlleurAdmin extends Controlleur
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
         
         return $forms;
-        }
+    }
     
-        public function getFormLink($idUser){
-            $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
-            $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
-            return $form;
+    public function getFormLink($idUser){
+        $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
+        $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
+        return $form;
+    }
+
+    public function submitDelete()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
         }
+
+        $idUser = $_POST['user_id'];
+
+        $dbAuth = new DBAuth();
+        $dbAuth->deleteUserFromDB($idUser);
+        $this->redirect("ControlleurAdmin", "view");
+
+    }
+
+
+    
   
 
 }

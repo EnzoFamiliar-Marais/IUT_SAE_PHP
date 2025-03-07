@@ -22,12 +22,51 @@ class ControlleurDetailResto extends Controlleur
             $this->redirect("ControlleurResto", "view");
         }
 
+
+                $commune = null;
+                $region = null;
+                $departement = null;
+        
+                if ($restaurant != null) {
+                    foreach ($dbCommune as $communeItem) {
+                        if ($communeItem["idC"] == $restaurant["idCommune"]) {
+                            $commune = $communeItem["nom"];
+                            $idDepartement = $communeItem["idD"];
+                            break;
+                        }
+                    }foreach ($dbDepartement as $departementItem) {
+                        if ($departementItem["idD"] == $idDepartement) {
+                            $departement = $departementItem["nom"];
+                            $idRegion = $departementItem["idR"];
+                            break;
+                        }
+                    }
+        
+                    foreach ($dbRegion as $regionItem) {
+                        if ($regionItem["idR"] == $idRegion) {
+                            $region = $regionItem["nom"];
+                            break;
+                        }
+                    }
+                    $restaurant = $this->renderHoraire($restaurant);
+                }
+
+                
+                $this->render("details_resto.php", [
+                    "restaurant" => $restaurant,
+                    "commune" => $commune,
+                    "region" => $region,
+                    "departement" => $departement,
+                    "formDeconnexion" => $this->getFormDeconnexion(),
+
+                  
         $restaurantId = $_GET['id'];
         $dbRestaurant = new DBRestaurant();
         $restaurant = $dbRestaurant->getRestaurantById($restaurantId);
 
         $dbCritique = new DBCritique();
         $critiques = $dbCritique->getCritiqueByRestaurant($restaurantId);
+
 
         $this->render("details_resto.php", [
             "restaurant" => $restaurant,
@@ -39,6 +78,7 @@ class ControlleurDetailResto extends Controlleur
     public function submit()
     {
         $auth = new DBAuth();
+
         $auth->logout();
         $this->redirect("ControlleurDetailResto", "view");
     }
@@ -47,13 +87,13 @@ class ControlleurDetailResto extends Controlleur
     {
         $dbCritique = new DBCritique();
         $dbRestaurant = new DBRestaurant();
-        $userId = $_SESSION['auth'];
-        $restaurantId = $_GET['id'];
-        $note = $_POST['note'];
-        $commentaire = $_POST['commentaire'];
 
-        $dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
-        $this->redirect("ControlleurDetailResto", "view", $restaurantId);
+        if(isset($_POST) && $_SESSION['auth']){
+            $dbCritique->addCritique($_SESSION['auth'], $_POST["id"], $_POST["note"], $_POST['content']);
+        }
+        $this->redirect("ControlleurDetailResto", "view", $_POST["id"]);
+
+
     }
 
     public function getFormDeconnexion()

@@ -88,10 +88,31 @@ class ControlleurCritique extends Controlleur
 
     public function postFormDeleteAdmin($id)
     {
-        $forms = new Form("/?controller=ControlleurCritique&action=submitDelete", Form::POST, "admin_form");
-        $forms->setController("ControlleurCritique", "submitDelete");
+        $forms = new Form("/?controller=ControlleurCritique&action=submitDeleteCritique", Form::POST, "admin_form");
+        $forms->setController("ControlleurCritique", "submitDeleteCritique");
         $forms->addInput(new Hidden($id, true, "critique_id", "critique_id"));
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
         return $forms;
     }
+
+
+    public function submitDeleteCritique()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $critiqueId = $_POST['critique_id']; 
+
+        $dbCritique = new DBCritique();
+        $dbCritique->deleteCritique($critiqueId);
+        $this->redirect("ControlleurAdmin", "view");
+    }
+
+
+
+
+
+
+
 }

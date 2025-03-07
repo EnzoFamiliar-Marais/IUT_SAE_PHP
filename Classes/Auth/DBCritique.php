@@ -47,7 +47,7 @@ class DBCritique
                 $idUtilisateur, $idRestaurant, $note, $commentaire
             ]
         );
-
+        
         return $stmt !== false;
     }
 
@@ -76,6 +76,17 @@ class DBCritique
         return $critiques;
     }
 
+
+    public function deleteCritique($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM "Critiquer" WHERE "id" = ?', [$id]);
+        return $stmt->execute(); 
+    }
+
+    
+    
+}
+
     public static function getCritiqueById($id)
     {
         $dbCritique = new DBCritique();
@@ -90,9 +101,3 @@ class DBCritique
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function deleteCritique($id)
-    {
-        $stmt = $this->db->prepare('DELETE FROM "Critiquer" WHERE "id" = ?', [$id]);
-        return $stmt->execute();
-    }
-}
