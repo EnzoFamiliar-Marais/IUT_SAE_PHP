@@ -44,9 +44,25 @@ class ControlleurCompte extends Controlleur
         $this->redirect("ControlleurCompte", "view");
     }
 
+    public function gererAvis()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $userId = $_SESSION['auth'];
+        $critiques = DBCritique::getCritiqueByUser($userId);
+
+        $this->render("gerer_avis.php", [
+            "critiques" => $critiques,
+            "formDeconnexion" => $this->getFormDeconnexion(),
+        ]);
+    }
+
     public function getFormDeconnexion()
     {
         $form = new Form("/?controller=ControlleurCompte&action=logout", Form::GET, "logout_form");
+        $form->setController("ControlleurCompte", "logout");
         $form->addInput(new Submit("Deconnexion", true, "", ""));
         return $form;
     }
@@ -58,4 +74,3 @@ class ControlleurCompte extends Controlleur
         $this->redirect("ControlleurHome", "view");
     }
 }
-?>

@@ -1,1 +1,1 @@
-<footer>IUT d'Orléans -  Jorite Jean-Marc</footer>
+<footer>IUT d'Orléans -  Jorite Jean-Marc / Mohamed-Amine Yahoui / Enzo Familiar-Marais / Lima Romain - 2025</footer>

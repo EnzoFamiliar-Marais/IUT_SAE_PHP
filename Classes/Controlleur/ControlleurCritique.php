@@ -95,18 +95,20 @@ class ControlleurCritique extends Controlleur
         return $forms;
     }
 
+
     public function submitDeleteCritique()
     {
         if (!isset($_SESSION['auth'])) {
             $this->redirect("ControlleurLogin", "view");
         }
 
-        $critiqueId = $_POST['critique_id']; // Correction ici
+        $critiqueId = $_POST['critique_id']; 
 
         $dbCritique = new DBCritique();
         $dbCritique->deleteCritique($critiqueId);
         $this->redirect("ControlleurAdmin", "view");
     }
+
 
 
 

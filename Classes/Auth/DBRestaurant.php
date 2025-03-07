@@ -149,8 +149,25 @@ class DBRestaurant
             'smoking' => $restaurant->smoking,
             'idCommune' => $restaurant->idC
         );
-        
     }
+    /*
+    public function getAverageRating($id)
+    {
+        // Check if the average rating is already cached in the session
+        if (isset($_SESSION['average_rating'][$id])) {
+            return $_SESSION['average_rating'][$id];
+        }
+
+        // If not cached, execute the query
+        $stmt = $this->db->prepare('SELECT AVG("stars"::DECIMAL) FROM "Restaurants" WHERE id = ?', [$id]);
+        $stmt->execute([$id]);
+        $averageRating = $stmt->fetchColumn();
+
+        // Cache the result in the session for future use
+        $_SESSION['average_rating'][$id] = $averageRating;
+
+        return $averageRating;
+    }
+    */
 
 }
-?>
