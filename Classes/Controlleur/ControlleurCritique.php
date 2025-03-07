@@ -101,10 +101,11 @@ class ControlleurCritique extends Controlleur
             $this->redirect("ControlleurLogin", "view");
         }
 
-        $critiqueId = $_POST['id'];
+        $critiqueId = $_POST['critique_id']; // Correction ici
+
         $dbCritique = new DBCritique();
         $dbCritique->deleteCritique($critiqueId);
-        $this->redirect("ControlleurCompte", "gererAvis");
+        $this->redirect("ControlleurAdmin", "view");
     }
 
 

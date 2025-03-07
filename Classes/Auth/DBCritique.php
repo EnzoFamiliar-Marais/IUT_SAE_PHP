@@ -77,6 +77,12 @@ class DBCritique
         return $critiques;
     }
 
+    public function deleteCritique($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM "Critiquer" WHERE "id" = ?', [$id]);
+        return $stmt->execute(); 
+    }
+
     
     
 }
