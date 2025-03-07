@@ -10,6 +10,7 @@ use form\type\Link;
 use form\type\Select;
 use form\type\Submit;
 use form\type\Text;
+use form\type\Input;
 
 class ControlleurResto extends Controlleur
 {
