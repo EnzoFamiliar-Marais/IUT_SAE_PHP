@@ -6,11 +6,11 @@ use PDOException;
 use PDOStatement;
 
 class Database {
-    private $host = 'aws-0-eu-west-3.pooler.supabase.com';
-    private $port = '5432'; 
-    private $db_name = 'postgres';
-    private $username = 'postgres.ibepjgntihedhmtwslxg';
-    private $password = 'ENZOAMINEROMAINJEAN-MARC'; 
+    private $host;
+    private $port;
+    private $db_name;
+    private $username;
+    private $password;
     private ?PDO $db = null;
     private static $instance = null;
 
@@ -18,6 +18,16 @@ class Database {
     public function __construct()
     {
         try {
+            // Charger les configurations depuis le fichier config.php
+            $config_path = dirname(dirname(dirname(__FILE__))) . '/config.php';
+            $config = require $config_path;
+            
+            $this->host = $config['host'];
+            $this->port = $config['port'];
+            $this->db_name = $config['db_name'];
+            $this->username = $config['username'];
+            $this->password = $config['password'];
+            
             $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db_name};sslmode=require";
             $this->db = new PDO($dsn, $this->username, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../static/css/modals.css">
     <link rel="stylesheet" href="../static/css/avis.css">
     <script src="../static/js/modals.js" defer></script>
+    <script src="../static/js/favoris.js" defer></script>
 </head>
 
 <body>
@@ -38,6 +39,13 @@
                             <span style="color: gold;">★</span>
                         <?php endfor; ?>
                     </span>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['auth'])): ?>
+                    <a href="#" onclick="toggleFavoris(event)" class="favorite-btn" data-restaurant-id="<?php echo $restaurant['id']; ?>">
+                        <span id="favorisIcon" class="favoris-icon <?php echo $isFavoris ? 'favoris-icon-active' : ''; ?>">
+                            <?php echo $isFavoris ? '♥' : '♡'; ?>
+                        </span>
+                    </a>
                 <?php endif; ?>
             </h1>
 
@@ -206,7 +214,7 @@
         
     </main>
     <div class="avisContainer">
-        <?php if (isset($_SESSION['email'])): ?>
+        <?php if (isset($_SESSION['auth'])): ?>
             <button type="button" id="openAvisModal">Donner votre Avis</button>
         <?php else: ?>
             <p>Vous devez être connecté pour laisser un avis.</p>

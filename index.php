@@ -9,6 +9,7 @@ use Controlleur\ControlleurRegister;
 use Controlleur\ControlleurAdmin;
 use Controlleur\ControlleurCritique;
 use Controlleur\ControlleurCompte;
+use Controlleur\ControlleurFavoris;
 
 if (!isset($_SESSION)) {
     session_start();
@@ -47,6 +48,9 @@ if(isset($_GET['controller']) && isset($_GET['action'])){
             break;
         case "ControlleurDetailResto":
             $controller = new ControlleurDetailResto($_REQUEST);
+            break;
+        case "ControlleurFavoris":
+            $controller = new ControlleurFavoris($_REQUEST);
             break;
         default:
             $controller = null;

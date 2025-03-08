@@ -32,6 +32,7 @@ class ControlleurCritique extends Controlleur
         error_log("Le visiteur " . print_r($utilisateur, true));
         error_log("Les Critiques " . print_r($critiques, true));
         error_log("Les Restaurants Filtrer " . print_r($restaurantsFiltrer, true));
+        
         $this->render("admincritique.php", [
             "restaurants" => $restaurantsFiltrer,
             "critiques" => $critiques,
@@ -88,13 +89,12 @@ class ControlleurCritique extends Controlleur
 
     public function postFormDeleteAdmin($id)
     {
-        $forms = new Form("/?controller=ControlleurCritique&action=submitDeleteCritique", Form::POST, "admin_form");
-        $forms->setController("ControlleurCritique", "submitDeleteCritique");
+        $forms = new Form("/?controller=ControlleurCritique&action=submitDelete", Form::POST, "admin_form");
+        $forms->setController("ControlleurCritique", "submitDelete");
         $forms->addInput(new Hidden($id, true, "critique_id", "critique_id"));
         $forms->addInput(new Submit("Supprimer", true, "", "", ""));
         return $forms;
     }
-
 
     public function submitDeleteCritique()
     {
@@ -108,11 +108,5 @@ class ControlleurCritique extends Controlleur
         $dbCritique->deleteCritique($critiqueId);
         $this->redirect("ControlleurAdmin", "view");
     }
-
-
-
-
-
-
-
 }
+?>

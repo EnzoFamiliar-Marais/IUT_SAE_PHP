@@ -29,7 +29,7 @@ class ControlleurRegister extends Controlleur{
             $pseudo = "Utilisateur";
         }
         $auth = new DBAuth;
-        $user = $auth->addUser($password, $email, $nom, $prenom, date("Y-m-d"), 2, $pseudo); // 2 = id_role utilisateur
+        $user = $auth->addUser($password, $email, $nom, $prenom, date("Y-m-d"), 2, $pseudo); 
         $_SESSION["userRegister"] = $user;
         if($user){
             $auth->login($email, $password);

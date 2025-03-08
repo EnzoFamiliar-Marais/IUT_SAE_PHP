@@ -43,6 +43,9 @@
                 <a href="?controller=ControlleurCompte&action=gererAvis" class="button">Gérer mes avis</a>
             </div>
             <div class="button-container">
+                <a href="?controller=ControlleurFavoris&action=gererFavoris" class="button">Gérer mes favoris</a>
+            </div>
+            <div class="button-container">
                 <a onclick="toggleEditForm()" class="button">Modifier les informations</a>
             </div>
         </div>
