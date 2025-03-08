@@ -3,82 +3,72 @@ namespace data;
 
 use PDO;
 use PDOException;
-use PDOStatement;
 
 class Database {
-    private $host = 'aws-0-eu-west-3.pooler.supabase.com';
-    private $port = '5432'; 
-    private $db_name = 'postgres';
-    private $username = 'postgres.ibepjgntihedhmtwslxg';
-    private $password = 'ENZOAMINEROMAINJEAN-MARC'; 
-    private ?PDO $db = null;
     private static $instance = null;
+    private $pdo;
 
-
-    public function __construct()
-    {
+    private function __construct() {
         try {
-            $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db_name};sslmode=require";
-            $this->db = new PDO($dsn, $this->username, $this->password);
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            return $this->db;
+            $this->pdo = new PDO(
+                "pgsql:host=aws-0-eu-west-3.pooler.supabase.com;port=5432;dbname=postgres;sslmode=require",
+                "postgres.ibepjgntihedhmtwslxg",
+                "ENZOAMINEROMAINJEAN-MARC",
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ]
+            );
+            
+            $this->pdo->exec("SET NAMES 'UTF8'");
+            $this->pdo->exec("SET client_encoding = 'UTF8'");
+            
+            error_log("Database connection established successfully");
         } catch (PDOException $e) {
-            die("Erreur de connexion : " . $e->getMessage());
+            error_log("Database connection error: " . $e->getMessage());
+            throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
     }
 
-    public function getPDO() : PDO {
-        return $this->db;
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
-    public function lastInsertId() {
-        return $this->db->lastInsertId();
+    public function getPDO() {
+        return $this->pdo;
     }
 
-    /**
-     * @param string $query
-     * @return ?PDOStatement
-     */
-    public function query(string $query){
-        $requete = $this->getPDO()->query($query);
+    public function query($query) {
+        $requete = $this->pdo->query($query);
         $datas = $requete->fetchAll();
         return $datas;
     }
 
-
-    public function prepare(string $query, array $params) {
-        $requete = $this->getPDO()->prepare($query);
+    public function prepare($query, array $params = []) {
+        $requete = $this->pdo->prepare($query);
         $requete->execute($params);
         return $requete;
     }
 
-    public function execute(string $query){
+    public function execute($query){
         try {
-            $this->getPDO()->exec($query);
+            $this->pdo->exec($query);
             return true;
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            error_log("Execute error: " . $e->getMessage());
             return false;
         }
     }
 
-    
-    /**
-     * @return void
-     */
-    public function close(): void{
-        $this->db = null;
+    public function lastInsertId() {
+        return $this->pdo->lastInsertId();
     }
 
-    /**
-     * @return Database
-     */
-    public static function getInstance(): self {
-        if (self::$instance === null) {
-            self::$instance = new Database();
-        }
-        return self::$instance;
+    public function close(): void{
+        $this->pdo = null;
     }
 }
-?>
