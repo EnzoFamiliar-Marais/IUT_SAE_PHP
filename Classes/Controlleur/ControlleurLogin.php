@@ -10,66 +10,73 @@ use form\type\PasswordField;
 
 class ControlleurLogin extends Controlleur
 {
+    private $auth;
+
+    public function __construct()
+    {
+        $this->auth = new DBAuth();
+    }
     
     public function view()
     {   
-
-        
-        if(isset($_SESSION['auth']) && $_SESSION['auth'] == 2){
-            $this->redirect("ControlleurHome", "view");
-        }elseif(isset($_SESSION['auth']) && $_SESSION['auth'] == 1){
-            $this->redirect("ControlleurAdmin", "view");
+        // Si l'utilisateur est déjà connecté, on le redirige
+        if(isset($_SESSION['auth'])) {
+            if($_SESSION['id_role'] === 1) {
+                $this->redirect("ControlleurAdmin", "view");
+            } else {
+                $this->redirect("ControlleurHome", "view");
+            }
+            return;
         }
-        else{
-            $this->render("login.php", ["form" => $this->getForm(),
-        //"formRegister" => $this->getFormRegister()
+
+        $this->render("login.php", [
+            "form" => $this->getForm(),
+            "error" => $_SESSION['errorConnexion'] ?? null
         ]);
+
+        // Nettoyer le message d'erreur après l'avoir affiché
+        if(isset($_SESSION['errorConnexion'])) {
+            unset($_SESSION['errorConnexion']);
         }
     }
 
-   
-    //public function getFormRegister()
-    //{   
-    //    $form = new Form("/?controller=ControlleurHome&action=view", Form::GET, "home_form");
-    //    $form->setController("ControlleurHome", "submit");
-    //    $form->addInput(new Link("/?controller=ControlleurRegister&action=view", "Créer un compe"));
-    //    return $form;
-    //}
-
-    
-    
-
     public function submit()
     {   
+        if(!isset($_POST['email']) || !isset($_POST['password'])) {
+            $_SESSION['errorConnexion'] = "Veuillez remplir tous les champs";
+            $this->redirect("ControlleurLogin", "view");
+            return;
+        }
+
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        error_log("Email: " . $email);
-        error_log("Password: " . $password);
-
-        $auth = new DBAuth;
-        $user = $auth->login($email, $password);
-        if($user){
-            $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : 'index.php?controller=ControlleurHome&action=view';
+        $user = $this->auth->login($email, $password);
+        if($user) {
+            // La redirection sera gérée en fonction du rôle dans la méthode view()
+            $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : '/?controller=ControlleurHome&action=view';
             unset($_SESSION['previous_page']); 
             header('Location: ' . $redirect_url);
             exit();
-        }else{
-            $_SESSION['errorConnexion'] = "Nom d'utilisateur ou mot de passe incorrect";
+        } else {
+            $_SESSION['errorConnexion'] = "Email ou mot de passe incorrect";
             $this->redirect("ControlleurLogin", "view");
         }
     }
 
-
     private function getForm()
     {
         $form = new Form("/?controller=ControlleurLogin&action=submit", Form::POST, "login_form");
-        $form->addInput((new Text("", true,"email", "email"))->setLabel("Email"));
+        
+        $emailField = new Text("", true, "email", "email");
+        $emailField->setLabel("Email");
+        $form->addInput($emailField);
+        
         $passwordField = new PasswordField("", true, "password", "password");
         $passwordField->setLabel("Mot de passe");
         $form->addInput($passwordField);
-        $form->setController("ControlleurLogin", "submit");
-        $form->addInput(new Submit("Connexion", true, "connexion", "connexionId"));
+        
+        $form->addInput(new Submit("Se connecter", true, "connexion", "connexionId"));
 
         return $form;
     }

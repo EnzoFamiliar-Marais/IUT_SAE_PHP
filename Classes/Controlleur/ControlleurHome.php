@@ -25,18 +25,17 @@ class ControlleurHome extends Controlleur
             }
         };
 
-        if ($_SESSION['id_role'] == 1) {
+        if (isset($_SESSION['id_role']) && $_SESSION['id_role'] == 1) {
             $this->redirect("ControlleurAdmin", "view");
         } else {
             $this->render("home.php", [
                 "formRetour" => $this->getFormDeconnexion(),
                 "formResto" => $this->getFormResto(),
                 "utilisateur" => $_SESSION['pseudo'] ?? "aucun",
-                "email" => $_SESSION['email'],
-                "nom" => $_SESSION['nom'],
-                "prenom" => $_SESSION['prenom'],
-                "mdp" => $_SESSION['mdp'],
-
+                "email" => $_SESSION['email'] ?? "",
+                "nom" => $_SESSION['nom'] ?? "",
+                "prenom" => $_SESSION['prenom'] ?? "",
+                "mdp" => $_SESSION['mdp'] ?? "",
                 "bestrestaurants" => $bestrestaurants,
             ]);
         }

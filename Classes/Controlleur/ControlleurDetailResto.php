@@ -17,6 +17,23 @@ use form\type\Text;
 
 class ControlleurDetailResto extends Controlleur
 {
+    private $dbRestaurant;
+    private $dbCritique;
+    private $dbFavoris;
+    private $dbCommune;
+    private $dbDepartement;
+    private $dbRegion;
+
+    public function __construct()
+    {
+        $this->dbRestaurant = new DBRestaurant();
+        $this->dbCritique = new DBCritique();
+        $this->dbFavoris = new DBFavoris();
+        $this->dbCommune = new DBCommune();
+        $this->dbDepartement = new DBDepartement();
+        $this->dbRegion = new DBRegion();
+    }
+
     private function processOpeningHours($openingHours) {
         if (!$openingHours) {
             return null;
@@ -98,8 +115,7 @@ class ControlleurDetailResto extends Controlleur
         }
 
         $restaurantId = (int)$_GET['id'];
-        $dbRestaurant = new DBRestaurant();
-        $restaurant = $dbRestaurant->getRestaurantById($restaurantId);
+        $restaurant = $this->dbRestaurant->getRestaurantById($restaurantId);
 
         if (!$restaurant) {
             $this->redirect("ControlleurResto", "view");
@@ -115,73 +131,34 @@ class ControlleurDetailResto extends Controlleur
 
         $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
 
-        error_log(print_r($_GET, true));
-        error_log("id_resto : ".$_GET["id"]);
-        $dbRestaurant = new DBRestaurant();
-        $dbCommune = DBCommune::getAllCommunes();
-        $dbRegion = DBRegion::getAllRegions();
-        $dbDepartement = DBDepartement::getAllDepartements();
-        $restaurant =  $dbRestaurant->getRestaurantById($_GET["id"]);
-        
-        $dbCritique = new DBCritique();
-        $critiques = $dbCritique->getCritiqueByRestaurant($_GET["id"]);
-        $commune = null;
-        $region = null;
-        $departement = null;
+        // Récupérer les critiques
+        $critiques = $this->dbCritique->getCritiqueByRestaurant($restaurantId);
 
-        if ($restaurant != null) {
-            foreach ($dbCommune as $communeItem) {
-                if ($communeItem["idC"] == $restaurant["idCommune"]) {
-                    error_log("commune : " . $communeItem["nom"]);
-                    $commune = $communeItem["nom"];
-                    $idDepartement = $communeItem["idD"];
-                    break;
-                }
-            }foreach ($dbDepartement as $departementItem) {
-                if ($departementItem["idD"] == $idDepartement) {
-                    error_log("departement : " . $departementItem["nom"]);
-                    $departement = $departementItem["nom"];
-                    $idRegion = $departementItem["idR"];
-                    break;
-                }
-            }
-
-            foreach ($dbRegion as $regionItem) {
-                if ($regionItem["idR"] == $idRegion) {
-                    error_log("region : " . $regionItem["nom"]);
-                    $region = $regionItem["nom"];
-                    break;
-                }
-            }
-            $restaurant = $this->renderHoraire($restaurant);
-        }
-
+        // Vérifier les favoris
         $isFavoris = false;
         $userId = $_SESSION['auth'] ?? null;
         if ($userId) {
-            error_log("Checking favorites for user $userId and restaurant $restaurantId");
-            $dbFavoris = new DBFavoris();
-            $isFavoris = $dbFavoris->isFavoris($userId, $restaurantId);
-            error_log("Is favorite: " . ($isFavoris ? "yes" : "no"));
+            $isFavoris = $this->dbFavoris->isFavoris($userId, $restaurantId);
         }
 
         // Récupérer les informations de localisation
-        $dbCommune = new DBCommune();
-        $dbDepartement = new DBDepartement();
-        $dbRegion = new DBRegion();
-
         $commune = null;
         $departement = null;
         $region = null;
 
         if (isset($restaurant['idCommune'])) {
-            $communeData = $dbCommune->getCommuneById($restaurant['idCommune']);
+            $communeData = $this->dbCommune->getCommuneById($restaurant['idCommune']);
+            
             if ($communeData) {
                 $commune = $communeData['nom'];
-                $departementData = $dbDepartement->getDepartementById($communeData['idD']);
+                
+                $departementData = $this->dbDepartement->getDepartementById($communeData['idD']);
+                
                 if ($departementData) {
                     $departement = $departementData['nom'];
-                    $regionData = $dbRegion->getRegionById($departementData['idR']);
+                    
+                    $regionData = $this->dbRegion->getRegionById($departementData['idR']);
+                    
                     if ($regionData) {
                         $region = $regionData['nom'];
                     }
@@ -189,8 +166,8 @@ class ControlleurDetailResto extends Controlleur
             }
         }
 
+        $restaurant = $this->renderHoraire($restaurant);
         
-        error_log(print_r($restaurant, true));
         $this->render("details_resto.php", [
             "restaurant" => $restaurant,
             "commune" => $commune,
@@ -199,13 +176,8 @@ class ControlleurDetailResto extends Controlleur
             "formDeconnexion" => $this->getFormDeconnexion(),
             "isFavoris" => $isFavoris,
             "userId" => $userId,
-            "commune" => $commune,
-            "departement" => $departement,
-            "region" => $region
+            "critiques" => $critiques
         ]);
-            "critiques" => $critiques,
-    ]);
-     
     }
 
     public function toggleFavoris()
@@ -218,23 +190,22 @@ class ControlleurDetailResto extends Controlleur
 
         $userId = $_SESSION['auth'];
         $restaurantId = (int)$_GET['id'];
-        $dbFavoris = new DBFavoris();
         
         error_log("Toggling favorite for user $userId and restaurant $restaurantId");
         
-        $isFavoris = $dbFavoris->isFavoris($userId, $restaurantId);
+        $isFavoris = $this->dbFavoris->isFavoris($userId, $restaurantId);
         error_log("Current favorite status: " . ($isFavoris ? "yes" : "no"));
 
         $success = false;
         if ($isFavoris) {
-            $success = $dbFavoris->removeFavoris($userId, $restaurantId);
+            $success = $this->dbFavoris->removeFavoris($userId, $restaurantId);
             error_log("Tried to remove favorite, success: " . ($success ? "yes" : "no"));
         } else {
-            $success = $dbFavoris->addFavoris($userId, $restaurantId);
+            $success = $this->dbFavoris->addFavoris($userId, $restaurantId);
             error_log("Tried to add favorite, success: " . ($success ? "yes" : "no"));
         }
 
-        $newStatus = $dbFavoris->isFavoris($userId, $restaurantId);
+        $newStatus = $this->dbFavoris->isFavoris($userId, $restaurantId);
         error_log("New favorite status: " . ($newStatus ? "yes" : "no"));
 
         header('Content-Type: application/json');
@@ -260,23 +231,14 @@ class ControlleurDetailResto extends Controlleur
             return;
         }
 
-        $dbCritique = new DBCritique();
         $userId = $_SESSION['auth'];
         $restaurantId = (int)$_GET['id'];
         $note = $_POST['note'];
         $commentaire = $_POST['commentaire'];
 
-        $dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
+        $this->dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
         header("Location: /?controller=ControlleurDetailResto&action=view&id=" . urlencode($restaurantId));
         exit;
-        $dbRestaurant = new DBRestaurant();
-
-        if(isset($_POST) && $_SESSION['auth']){
-            $dbCritique->addCritique($_SESSION['auth'], $_POST["id"], $_POST["note"], $_POST['content']);
-        }
-        $this->redirect("ControlleurDetailResto", "view", $_POST["id"]);
-
-
     }
 
     public function getFormDeconnexion()
