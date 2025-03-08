@@ -12,7 +12,7 @@ class DBDepartement
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance()->getPDO();
     }
 
     public static function fetchDepartement()
@@ -37,7 +37,8 @@ class DBDepartement
 
     public function addDepartement($codeDepartement, $nomDepartement, $codeRegion)
     {
-        $selectStmt = $this->db->prepare('SELECT * FROM "Departement" WHERE "idD" = ?', [$codeDepartement]);
+        $selectStmt = $this->db->prepare('SELECT * FROM "Departement" WHERE "idD" = ?');
+        $selectStmt->execute([$codeDepartement]);
         $existingDepartement = $selectStmt->fetch(PDO::FETCH_OBJ);
 
         if ($existingDepartement) {
@@ -45,24 +46,39 @@ class DBDepartement
             return false;
         }
         
-        var_dump($codeDepartement);
-        var_dump($nomDepartement);
-        var_dump($codeRegion);
         $stmt = $this->db->prepare(
             'INSERT INTO "Departement" ("idD", "nom", "idR") 
-            VALUES (?, ?, ?)', 
-            [
-               $codeDepartement, $nomDepartement, $codeRegion
-            ]
+            VALUES (?, ?, ?)'
         );
-
-        return $stmt !== false;
+        
+        $stmt->execute([$codeDepartement, $nomDepartement, $codeRegion]);
+        return true;
     }
     
     public function exists($code_departement) {
-        $stmt = $this->db->prepare('SELECT COUNT(*) FROM "Departement" WHERE "idD" = ?', [$code_departement]);
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM "Departement" WHERE "idD" = ?');
+        $stmt->execute([$code_departement]);
         return $stmt->fetchColumn() > 0;
-    }                                                                                                                                                                                                    
- 
+    }
+
+    public function getDepartementById($id)
+    {
+        try {
+            $stmt = $this->db->prepare('SELECT * FROM "Departement" WHERE "idD" = ?');
+            $stmt->execute([$id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($result) {
+                return [
+                    'idD' => $result['idD'],
+                    'nom' => $result['nom'],
+                    'idR' => $result['idR']
+                ];
+            }
+            return null;
+        } catch (PDOException $e) {
+            error_log("Error getting departement by ID: " . $e->getMessage());
+            return null;
+        }
+    }
 }
-?>

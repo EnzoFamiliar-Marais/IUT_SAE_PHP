@@ -12,10 +12,9 @@ class DBCommune
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance()->getPDO();
     }
 
-    
     public static function fetchCommune()
     {
         $db = new DBCommune();
@@ -38,7 +37,8 @@ class DBCommune
 
     public function addCommune($codeCommune, $nomCommune, $codeDepartement)
     {
-        $selectStmt = $this->db->prepare('SELECT * FROM "Commune" WHERE "idC" = ?', [$codeCommune]);
+        $selectStmt = $this->db->prepare('SELECT * FROM "Commune" WHERE "idC" = ?');
+        $selectStmt->execute([$codeCommune]);
         $existingCommune = $selectStmt->fetch(PDO::FETCH_OBJ);
 
         if ($existingCommune) {
@@ -48,20 +48,37 @@ class DBCommune
 
         $stmt = $this->db->prepare(
             'INSERT INTO "Commune" ("idC", "nom", "idD") 
-            VALUES (?, ?, ?)', 
-            [
-                $codeCommune, $nomCommune, $codeDepartement
-            ]
+            VALUES (?, ?, ?)'
         );
-
-        return $stmt !== false;
+        
+        $stmt->execute([$codeCommune, $nomCommune, $codeDepartement]);
+        return true;
     }
     
     public function exists($code_commune) {
-        $stmt = $this->db->prepare('SELECT COUNT(*) FROM "Commune" WHERE "idC" = ?', [$code_commune]);
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM "Commune" WHERE "idC" = ?');
+        $stmt->execute([$code_commune]);
         return $stmt->fetchColumn() > 0;
     }
-                                                                                                                                                                                                                   
- 
+
+    public function getCommuneById($id)
+    {
+        try {
+            $stmt = $this->db->prepare('SELECT * FROM "Commune" WHERE "idC" = ?');
+            $stmt->execute([$id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($result) {
+                return [
+                    'idC' => $result['idC'],
+                    'nom' => $result['nom'],
+                    'idD' => $result['idD']
+                ];
+            }
+            return null;
+        } catch (PDOException $e) {
+            error_log("Error getting commune by ID: " . $e->getMessage());
+            return null;
+        }
+    }
 }
-?>
