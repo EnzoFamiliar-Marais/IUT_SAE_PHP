@@ -27,12 +27,22 @@ class DBCritique
     }
 
     public function addCritique($idUtilisateur, $idRestaurant, $note, $commentaire)
-    {
+    
         try {
             $stmt = $this->db->prepare('
                 INSERT INTO "Critiquer" ("idU", "idR", "note", "commentaire") 
                 VALUES (:idU, :idR, :note, :commentaire)
             ');
+        $stmt = $this->db->prepare(
+            'INSERT INTO "Critiquer" ("idU","idR", "note", "commentaire") 
+            VALUES (?, ?, ?, ?)',
+            [
+                $idUtilisateur, $idRestaurant, $note, $commentaire
+            ]
+        );
+        
+        return $stmt !== false;
+    }
 
             $success = $stmt->execute([
                 'idU' => $idUtilisateur,
@@ -74,6 +84,18 @@ class DBCritique
     }
 
     public function getCritiqueById($id)
+
+    public function deleteCritique($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM "Critiquer" WHERE "id" = ?', [$id]);
+        return $stmt->execute(); 
+    }
+
+    
+    
+
+
+    public static function getCritiqueById($id)
     {
         try {
             $stmt = $this->db->prepare('SELECT * FROM "Critiquer" WHERE "id" = :id');
@@ -123,3 +145,5 @@ class DBCritique
         }
     }
 }
+}
+

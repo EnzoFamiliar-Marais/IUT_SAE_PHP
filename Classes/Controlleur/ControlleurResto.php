@@ -10,6 +10,7 @@ use form\type\Link;
 use form\type\Select;
 use form\type\Submit;
 use form\type\Text;
+use form\type\Input;
 
 class ControlleurResto extends Controlleur
 {
@@ -77,7 +78,7 @@ class ControlleurResto extends Controlleur
         $form = new Form("/?controller=ControlleurHome&action=view", "", "home_form");
         $select = new Select("", false, "TypeRestaurant", "TypeRestaurant", "filtrages()", "Type de TypeRestaurant", "onchange");
     
-        // Ajout des options
+    
         $select->addOption("", "Type de restaurant");
             
         $dbTypeRestaurant = DBRestaurant::getAllRestaurant();

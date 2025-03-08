@@ -41,6 +41,35 @@ class DBAuth
             return false;
         } catch (PDOException $e) {
             error_log("Login error: " . $e->getMessage());
+
+        $stmt = $this->db->prepare('SELECT * FROM "UTILISATEURS" WHERE email = ?', [$email]);
+        $user = $stmt->fetch(PDO::FETCH_OBJ);
+
+        if ($user && (password_verify($password, $user->mdp) || $password === $user->mdp)) {
+            $_SESSION['auth'] = $user->id;
+            $_SESSION['pseudo'] = $user->pseudo;
+            $_SESSION['nom'] = $user->nom;
+            $_SESSION['email'] = $user->email;
+            $_SESSION['prenom'] = $user->prenom;
+            $_SESSION['mdp'] = $user->mdp;
+            $_SESSION['id_role'] = $user->idRole;
+            $_SESSION['date_creation'] = $user->date_creation;
+            return $user;
+        }
+
+        
+        $_SESSION['errorLogin'] = "Email ou mot de passe incorrect";
+        return false;
+    }
+
+    public function addUser($password, $email, $nom, $prenom, $dateCreation, $idRole, $pseudo)
+    {
+        $stmt = $this->db->prepare('SELECT * FROM "UTILISATEURS" WHERE email = ?', [$email]);
+        $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
+
+        if ($existingUser) {
+            $_SESSION['errorAdd'] = "Utilisateur existe déjà";
+
             return false;
         }
     }
@@ -106,4 +135,15 @@ class DBAuth
             return false;
         }
     }
+
 }
+
+    
+    public function deleteUserFromDB($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM "UTILISATEURS" WHERE id = ?', [$id]);
+        $stmt->execute();
+        return $stmt !== false;
+    }
+}
+?>

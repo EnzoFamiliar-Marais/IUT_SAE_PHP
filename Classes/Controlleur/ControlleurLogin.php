@@ -15,8 +15,10 @@ class ControlleurLogin extends Controlleur
     {   
 
         
-        if(isset($_SESSION['auth'])){
+        if(isset($_SESSION['auth']) && $_SESSION['auth'] == 2){
             $this->redirect("ControlleurHome", "view");
+        }elseif(isset($_SESSION['auth']) && $_SESSION['auth'] == 1){
+            $this->redirect("ControlleurAdmin", "view");
         }
         else{
             $this->render("login.php", ["form" => $this->getForm(),

@@ -2,9 +2,9 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Donnez votre avis</h2>
-        <form action="/?controller=ControllerDetailResto&action=submitAvis" method="post">
+        <form action="?controller=ControlleurDetailResto&action=submitAvis" method="post">
             <input type="hidden" name="_method" value="POST">
-            <input type="hidden" name="id" value="<?php $_GET["id"] ?>">
+            <input type="hidden" name="id" value="<?php echo $_GET["id"] ?>">
             <input type="hidden" name="form_type" value="add_avis">
             <label for="note">Note:</label>
             <select id="note" name="note" required>
