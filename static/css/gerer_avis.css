@@ -50,13 +50,19 @@ nav a:hover {
 
 .content li {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     width: calc(33.333% - 20px);
     box-sizing: border-box;
     border-radius: 8px;
     background-color: #f9f9f9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.content li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .content li:last-child {
@@ -67,16 +73,35 @@ nav a:hover {
     margin: 5px 0;
 }
 
+.restaurant-info {
+    flex-grow: 1;
+    margin-bottom: 10px;
+}
+
+.restaurant-info a {
+    color: #6C63FF;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.restaurant-info a:hover {
+    color: #524bd1;
+    text-decoration: underline;
+}
+
 .content .actions {
     margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .content .actions input[type="submit"] {
     display: inline-block;
-    padding: 2px 5px;
-    font-size: 0.8em;
+    padding: 8px 15px;
+    font-size: 0.9em;
     color: white;
-    background-color: #6C63FF;
+    background-color: #ff6b6b;
     border-radius: 5px;
     border: none;
     text-decoration: none;
@@ -86,7 +111,7 @@ nav a:hover {
 }
 
 .content .actions input[type="submit"]:hover {
-    background-color: #524bd1;
+    background-color: #ff5252;
 }
 
 footer {
