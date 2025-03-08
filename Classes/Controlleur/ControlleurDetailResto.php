@@ -9,31 +9,10 @@ use Auth\DBDepartement;
 use Auth\DBRegion;
 use Auth\DBFavoris;
 use form\Form;
-use form\type\Link;
-use form\type\Select;
 use form\type\Submit;
-use form\type\Hidden;
-use form\type\Text;
 
 class ControlleurDetailResto extends Controlleur
 {
-    private $dbRestaurant;
-    private $dbCritique;
-    private $dbFavoris;
-    private $dbCommune;
-    private $dbDepartement;
-    private $dbRegion;
-
-    public function __construct()
-    {
-        $this->dbRestaurant = new DBRestaurant();
-        $this->dbCritique = new DBCritique();
-        $this->dbFavoris = new DBFavoris();
-        $this->dbCommune = new DBCommune();
-        $this->dbDepartement = new DBDepartement();
-        $this->dbRegion = new DBRegion();
-    }
-
     private function processOpeningHours($openingHours) {
         if (!$openingHours) {
             return null;
@@ -42,21 +21,18 @@ class ControlleurDetailResto extends Controlleur
         $days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
         $processed = [];
         
-        // Format attendu: "Mo-Fr 08:00-22:00; Sa-Su 10:00-20:00"
         $schedules = explode(';', $openingHours);
         
         foreach ($schedules as $schedule) {
             $schedule = trim($schedule);
             if (empty($schedule)) continue;
             
-            // Séparer les jours et les heures
             $parts = explode(' ', $schedule);
             if (count($parts) < 2) continue;
             
             $dayRange = $parts[0];
             $timeRange = $parts[1];
             
-            // Convertir les abréviations en jours complets
             $dayMap = [
                 'Mo' => 'Lundi',
                 'Tu' => 'Mardi',
@@ -67,7 +43,6 @@ class ControlleurDetailResto extends Controlleur
                 'Su' => 'Dimanche'
             ];
             
-            // Gérer les plages de jours (ex: Mo-Fr)
             if (strpos($dayRange, '-') !== false) {
                 list($start, $end) = explode('-', $dayRange);
                 $startIdx = array_search($dayMap[$start], $days);
@@ -79,15 +54,13 @@ class ControlleurDetailResto extends Controlleur
                     }
                 }
             } else {
-                // Jour unique
                 if (isset($dayMap[$dayRange])) {
                     $processed[$dayMap[$dayRange]][] = $timeRange;
                 }
             }
         }
         
-        // Vérifier si le restaurant est ouvert maintenant
-        $currentDay = date('N') - 1; // 0 (Lundi) à 6 (Dimanche)
+        $currentDay = date('N') - 1;
         $currentTime = date('H:i');
         $isOpenNow = false;
         
@@ -108,104 +81,120 @@ class ControlleurDetailResto extends Controlleur
     }
 
     public function view()
-    {
-        if (!isset($_GET['id'])) {
-            $this->redirect("ControlleurResto", "view");
-            return;
-        }
-
-        $restaurantId = (int)$_GET['id'];
-        $restaurant = $this->dbRestaurant->getRestaurantById($restaurantId);
-
-        if (!$restaurant) {
-            $this->redirect("ControlleurResto", "view");
-            return;
-        }
-
-        // Traiter les horaires d'ouverture
-        $openingHoursData = $this->processOpeningHours($restaurant['opening_hours']);
-        if ($openingHoursData) {
-            $restaurant['opening_hours_processed'] = $openingHoursData['hours'];
-            $restaurant['is_open_now'] = $openingHoursData['is_open_now'];
-        }
-
-        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
-
-        // Récupérer les critiques
-        $critiques = $this->dbCritique->getCritiqueByRestaurant($restaurantId);
-
-        // Vérifier les favoris
-        $isFavoris = false;
-        $userId = $_SESSION['auth'] ?? null;
-        if ($userId) {
-            $isFavoris = $this->dbFavoris->isFavoris($userId, $restaurantId);
-        }
-
-        // Récupérer les informations de localisation
-        $commune = null;
-        $departement = null;
-        $region = null;
-
-        if (isset($restaurant['idCommune'])) {
-            $communeData = $this->dbCommune->getCommuneById($restaurant['idCommune']);
-            
-            if ($communeData) {
-                $commune = $communeData['nom'];
-                
-                $departementData = $this->dbDepartement->getDepartementById($communeData['idD']);
-                
-                if ($departementData) {
-                    $departement = $departementData['nom'];
-                    
-                    $regionData = $this->dbRegion->getRegionById($departementData['idR']);
-                    
-                    if ($regionData) {
-                        $region = $regionData['nom'];
-                    }
-                }
-            }
-        }
-
-        $restaurant = $this->renderHoraire($restaurant);
-        
-        $this->render("details_resto.php", [
-            "restaurant" => $restaurant,
-            "commune" => $commune,
-            "region" => $region,
-            "departement" => $departement,
-            "formDeconnexion" => $this->getFormDeconnexion(),
-            "isFavoris" => $isFavoris,
-            "userId" => $userId,
-            "critiques" => $critiques
-        ]);
+{
+    if (!isset($_GET['id'])) {
+        $this->redirect("ControlleurResto", "view");
+        return;
     }
+
+    $restaurantId = (int)$_GET['id'];
+    $dbRestaurant = new DBRestaurant();
+    $restaurant = $dbRestaurant->getRestaurantById($restaurantId);
+
+    if (!$restaurant) {
+        $_SESSION['error_message'] = "Restaurant not found.";
+        $this->redirect("ControlleurResto", "view");
+        return;
+    }
+
+    // Process opening hours
+    $openingHoursData = $this->processOpeningHours($restaurant['opening_hours']);
+    if ($openingHoursData) {
+        $restaurant['opening_hours_processed'] = $openingHoursData['hours'];
+        $restaurant['is_open_now'] = $openingHoursData['is_open_now'];
+    }
+
+    $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
+
+    $dbCommune = DBCommune::getAllCommunes();
+    $dbRegion = DBRegion::getAllRegions();
+    $dbDepartement = DBDepartement::getAllDepartements();
+    $critiques = (new DBCritique())->getCritiqueByRestaurant($restaurantId);
+
+    // Get location details
+    list($commune, $region, $departement) = $this->getLocationDetails($restaurant, $dbCommune, $dbDepartement, $dbRegion);
+
+    // Handle favorites
+    $isFavoris = $this->isFavoris($restaurantId);
+
+    $this->render("details_resto.php", [
+        "restaurant" => $restaurant,
+        "critiques" => $critiques,
+        "commune" => $commune,
+        "region" => $region,
+        "departement" => $departement,
+        "formDeconnexion" => $this->getFormDeconnexion(),
+        "isFavoris" => $isFavoris,
+        "userId" => $_SESSION['auth'] ?? null
+    ]);
+}
+
+// Utility to get location details
+private function getLocationDetails($restaurant, $dbCommune, $dbDepartement, $dbRegion)
+{
+    $commune = $region = $departement = null;
+    foreach ($dbCommune as $communeItem) {
+        if ($communeItem["idC"] == $restaurant["idCommune"]) {
+            $commune = $communeItem["nom"];
+            $idDepartement = $communeItem["idD"];
+            break;
+        }
+    }
+    foreach ($dbDepartement as $departementItem) {
+        if ($departementItem["idD"] == $idDepartement) {
+            $departement = $departementItem["nom"];
+            $idRegion = $departementItem["idR"];
+            break;
+        }
+    }
+    foreach ($dbRegion as $regionItem) {
+        if ($regionItem["idR"] == $idRegion) {
+            $region = $regionItem["nom"];
+            break;
+        }
+    }
+
+    return [$commune, $region, $departement];
+}
+
+private function isFavoris($restaurantId)
+{
+    if (!isset($_SESSION['auth'])) return false;
+
+    $dbFavoris = new DBFavoris();
+    return $dbFavoris->isFavoris($_SESSION['auth'], $restaurantId);
+}
+
 
     public function toggleFavoris()
     {
         if (!isset($_SESSION['auth']) || !isset($_GET['id'])) {
+            error_log('Utilisateur non authentifié ou ID du restaurant manquant');
             http_response_code(401);
             echo json_encode(['success' => false, 'message' => 'Not authenticated']);
             return;
         }
+        
 
         $userId = $_SESSION['auth'];
         $restaurantId = (int)$_GET['id'];
+        $dbFavoris = new DBFavoris();
         
         error_log("Toggling favorite for user $userId and restaurant $restaurantId");
         
-        $isFavoris = $this->dbFavoris->isFavoris($userId, $restaurantId);
+        $isFavoris = $dbFavoris->isFavoris($userId, $restaurantId);
         error_log("Current favorite status: " . ($isFavoris ? "yes" : "no"));
 
         $success = false;
         if ($isFavoris) {
-            $success = $this->dbFavoris->removeFavoris($userId, $restaurantId);
+            $success = $dbFavoris->removeFavoris($userId, $restaurantId);
             error_log("Tried to remove favorite, success: " . ($success ? "yes" : "no"));
         } else {
-            $success = $this->dbFavoris->addFavoris($userId, $restaurantId);
+            $success = $dbFavoris->addFavoris($userId, $restaurantId);
             error_log("Tried to add favorite, success: " . ($success ? "yes" : "no"));
         }
 
-        $newStatus = $this->dbFavoris->isFavoris($userId, $restaurantId);
+        $newStatus = $dbFavoris->isFavoris($userId, $restaurantId);
         error_log("New favorite status: " . ($newStatus ? "yes" : "no"));
 
         header('Content-Type: application/json');
@@ -219,7 +208,6 @@ class ControlleurDetailResto extends Controlleur
     public function submit()
     {
         $auth = new DBAuth();
-
         $auth->logout();
         $this->redirect("ControlleurDetailResto", "view");
     }
@@ -231,12 +219,13 @@ class ControlleurDetailResto extends Controlleur
             return;
         }
 
+        $dbCritique = new DBCritique();
         $userId = $_SESSION['auth'];
         $restaurantId = (int)$_GET['id'];
         $note = $_POST['note'];
         $commentaire = $_POST['commentaire'];
 
-        $this->dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
+        $dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
         header("Location: /?controller=ControlleurDetailResto&action=view&id=" . urlencode($restaurantId));
         exit;
     }
@@ -249,7 +238,6 @@ class ControlleurDetailResto extends Controlleur
         return $form;
     }
 
-    
     public function renderHoraire($restaurant) {
         if ($restaurant["opening_hours"] != null) {
             $days = ["Mo" => "Lundi", "Tu" => "Mardi", "We" => "Mercredi", "Th" => "Jeudi", "Fr" => "Vendredi", "Sa" => "Samedi", "Su" => "Dimanche"];
@@ -316,5 +304,4 @@ class ControlleurDetailResto extends Controlleur
     
         return $restaurant;
     }
-
 }

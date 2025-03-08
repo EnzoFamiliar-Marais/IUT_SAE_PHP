@@ -218,7 +218,7 @@
         
     </main>
     <div class="avisContainer">
-        <?php if (isset($_SESSION['email'])): ?>
+        <?php if (isset($_SESSION['auth'])): ?>
             <button type="button" id="openAvisModal">Donner votre Avis</button>
         <?php else: ?>
             <p>Vous devez être connecté pour laisser un avis.</p>

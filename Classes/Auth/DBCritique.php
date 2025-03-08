@@ -33,7 +33,6 @@ class DBCritique
                 INSERT INTO "Critiquer" ("idU", "idR", "note", "commentaire") 
                 VALUES (:idU, :idR, :note, :commentaire)
             ');
-
             $success = $stmt->execute([
                 'idU' => $idUtilisateur,
                 'idR' => $idRestaurant,
@@ -123,3 +122,4 @@ class DBCritique
         }
     }
 }
+?>

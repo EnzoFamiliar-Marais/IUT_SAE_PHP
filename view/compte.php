@@ -19,7 +19,7 @@
 </head>
 <body>
     <header>
-        <h1>IUTables'O</h1>
+        <h1>IUTables’O</h1>
         <nav>
             <a href="?controller=ControlleurHome&action=view">Accueil</a>
             <a href="?controller=ControlleurResto&action=view">Les Restos</a>
@@ -34,6 +34,7 @@
     <div class="content">
         <h2>Mon Compte</h2>
         <div id="info">
+            <p><strong>Nom d'utilisateur :</strong> <?php echo htmlspecialchars($user['pseudo']); ?></p>
             <p><strong>Nom :</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
             <p><strong>Prénom :</strong> <?php echo htmlspecialchars($user['prenom']); ?></p>
             <p><strong>Email :</strong> <?php echo htmlspecialchars($user['email']); ?></p>
@@ -42,13 +43,14 @@
                 <a href="?controller=ControlleurCompte&action=gererAvis" class="button">Gérer mes avis</a>
             </div>
             <div class="button-container">
-                <a href="?controller=ControlleurCompte&action=gererFavoris" class="button">Gérer mes favoris</a>
+                <a href="?controller=ControlleurFavoris&action=gererFavoris" class="button">Gérer mes favoris</a>
             </div>
             <div class="button-container">
                 <a onclick="toggleEditForm()" class="button">Modifier les informations</a>
             </div>
         </div>
         <form id="editForm" action="/?controller=ControlleurCompte&action=update" method="post" style="display:none;">
+            <p><strong>Nom d'utilisateur :</strong> <input type="text" name="pseudo" value="<?php echo htmlspecialchars($user['pseudo']); ?>"></p>
             <p><strong>Nom :</strong> <input type="text" name="nom" value="<?php echo htmlspecialchars($user['nom']); ?>"></p>
             <p><strong>Prénom :</strong> <input type="text" name="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>"></p>
             <p><strong>Email :</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>"></p>

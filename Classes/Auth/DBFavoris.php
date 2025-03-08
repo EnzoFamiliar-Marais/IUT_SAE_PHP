@@ -180,6 +180,27 @@ class DBFavoris {
         }
     }
 
+    public function getFavorisByUser($userId) {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT id, id_restaurant as idR
+                FROM favoris
+                WHERE id_utilisateur = :userId
+                ORDER BY date_ajout DESC
+            ");
+
+            $stmt->execute(['userId' => $userId]);
+            $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            error_log("Retrieved favorites by user for User=$userId: " . print_r($favoris, true));
+            
+            return $favoris;
+        } catch (PDOException $e) {
+            error_log("Error in getFavorisByUser: " . $e->getMessage());
+            return [];
+        }
+    }
+
     public function deleteFavoris($favorisId) {
         try {
             $stmt = $this->db->prepare("

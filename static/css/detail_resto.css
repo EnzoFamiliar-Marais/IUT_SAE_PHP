@@ -249,3 +249,27 @@
     font-size: 1.2rem;
     margin: 0;
 }
+.favorite-btn {
+    text-decoration: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+.favoris-icon {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.favoris-icon-active {
+    color: #ff4444;
+}
