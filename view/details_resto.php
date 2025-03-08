@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IUTables'O - Détails du Resto</title>
+    <link rel="stylesheet" href="../static/css/index.css">
     <title>IUTables’O - Détails du Resto</title>
     <link rel="stylesheet" href="../static/css/resto.css">
     <link rel="stylesheet" href="../static/css/detail_resto.css">
@@ -16,7 +18,7 @@
 
 <body>
     <header>
-        <h1>IUTables’O</h1>
+        <h1>IUTables'O</h1>
         <nav>
             <a href="?controller=ControlleurHome&action=view">Accueil</a>
             <a href="?controller=ControlleurResto&action=view">Les Restos</a>
@@ -36,7 +38,7 @@
                 <?php if ($restaurant["stars"] != null): ?>
                     <span class="stars">
                         <?php for ($i = 0; $i < $restaurant["stars"]; $i++): ?>
-                            <span style="color: gold;">★</span>
+                            <span class="star" style="color: gold;">★</span>
                         <?php endfor; ?>
                     </span>
                 <?php endif; ?>
@@ -60,10 +62,12 @@
             </div>
             <div class="opening-hours">
                 <h2>Horaires</h2>
-                <?php if (isset($restaurant["opening_hours_processed"])): ?>
-                    <p style="color: <?php echo $restaurant["is_open_now"] ? 'green' : 'red'; ?>;">
-                        <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
-                    </p>
+                <?php if (isset($restaurant["opening_hours"])): ?>
+                    <?php if (isset($restaurant["is_open_now"])): ?>
+                        <p class="<?php echo $restaurant["is_open_now"] ? 'open-now' : 'closed-now'; ?>">
+                            <?php echo $restaurant["is_open_now"] ? 'Ouvert maintenant' : 'Fermé maintenant'; ?>
+                        </p>
+                    <?php endif; ?>
                     <ul>
                         <?php 
                         $daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -73,7 +77,7 @@
                                 <span class="time">
                                     <?php 
                                     if (isset($restaurant["opening_hours_processed"][$day])) {
-                                        echo implode('<br>', array_map('trim', $restaurant["opening_hours_processed"][$day]));
+                                        echo implode(', ', array_map('trim', $restaurant["opening_hours_processed"][$day]));
                                     } else {
                                         echo 'Fermé';
                                     }
@@ -228,7 +232,7 @@
                 <?php foreach ($critiques as $critique): ?>
                     <li class="avis-item">
                         <p class="avis-author">Pseudo: <?php echo htmlspecialchars($critique['pseudo']); ?></p>
-                        <p class="avis-note"><span style="color: green;">●●●●●</span></p>
+                        <p class="avis-note"><span class="avis-note-star">●●●●●</span></p>
                         <p class="avis-content"><?php echo htmlspecialchars($critique['commentaire']); ?></p>
                         <p class="avis-date">Rédigé le <?php echo htmlspecialchars($critique['date_critique']); ?></p>
                     </li>

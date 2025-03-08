@@ -96,12 +96,13 @@
 .opening-hours {
     margin: 20px 0;
 }
+
 .restaurant-description {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    margin:20px 8vw 0px 0px;
-    }
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
 
 .restaurant-image {
     flex: 1;
@@ -110,32 +111,25 @@
 }
 
 .restaurant-image img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .opening-hours {
-    flex: 1;
-    margin-top: 20px;
+    background-color: #f5f5f5;
+    padding: 1.5rem;
+    border-radius: 8px;
 }
 
 .opening-hours h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.opening-hours p {
-    font-size: 1em;
-    color: #007bff;
-    cursor: pointer;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .opening-hours ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -143,23 +137,117 @@
 .opening-hours li {
     display: flex;
     justify-content: space-between;
-    padding: 5px 0;
-    border-bottom: 1px solid #ccc;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ddd;
 }
 
-.opening-hours .day {
+.opening-hours li:last-child {
+    border-bottom: none;
+}
+
+.day {
     font-weight: bold;
 }
 
-.opening-hours .time {
+.time {
+    color: #666;
+}
+
+.open-now {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.closed-now {
+    color: #f44336;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.restaurant-details {
+    background-color: #f5f5f5;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.restaurant-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.label {
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+.value {
     font-weight: normal;
-    color: #555;
+    color: #666;
 }
 
-h3 {
-    font-size: 1.5em;
-    font-weight: bold;
-    
+.value a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.value a:hover {
+    text-decoration: underline;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.title h1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+}
+
+.favorite-btn {
+    text-decoration: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+.favoris-icon {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.favoris-icon-active {
+    color: #ff4444;
+}
+
+.stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.star {
+    font-size: 1.5rem;
+}
+
+.capacity {
+    font-size: 1.2rem;
+    margin: 0;
 }
 .favorite-btn {
     text-decoration: none;
