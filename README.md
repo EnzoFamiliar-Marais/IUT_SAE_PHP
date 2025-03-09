@@ -17,7 +17,7 @@
 1. **Cloner le dépôt**
 
    ```bash
-   git clone https://github.com/votre-utilisateur/IUT_SAE_PHP.git
+   git clone https://github.com/EnzoFamiliar-Marais/IUT_SAE_PHP.git
    cd IUT_SAE_PHP
    ```
 
@@ -41,7 +41,7 @@
 
 #### Gestion des avis
 - Affichage des avis laissés par l'utilisateur
-- Ajout, modification et suppression d'avis
+- Ajout et suppression d'avis
 
 #### Gestion des favoris
 - Affichage des restaurants favoris
