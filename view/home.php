@@ -49,7 +49,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 ?>
 <?php if (count($bestrestaurants) > 0): ?>
     <h2>Les meilleurs restaurants</h2>
-    <p>Voici les restaurants qui ont plus d'une étoile.</p>
+    <p>Voici les restaurants qui sont les mieux notés.</p>
     <ul>
         <?php foreach ($bestrestaurants as $restaurant): ?>
             <li>
