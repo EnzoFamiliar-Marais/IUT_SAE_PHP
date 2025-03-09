@@ -16,28 +16,78 @@
         <a href="/?controller=ControlleurHome&action=map" class="button">Voir la carte des restaurants</a>
     </div>
 
-    <?php if (count($bestrestaurants) > 0): ?>
-        <div class="best-restaurants">
-            <h2>Les meilleurs restaurants</h2>
-            <p>Voici les restaurants qui ont plus d'une étoile.</p>
-            <ul>
-                <?php foreach ($bestrestaurants as $restaurant): ?>
-                    <li>
-                        <a href="/?controller=ControlleurDetailResto&action=view&id=<?= htmlspecialchars($restaurant['id']) ?>">
-                            <section class="restaurant">
-                                <img src="../static/img/restobase.jpeg" alt="photo" />
-                                <h3><?= htmlspecialchars($restaurant['nom']) ?></h3>
-                                <p>Type: <?= htmlspecialchars($restaurant['type'] ?? 'Non spécifié') ?></p>
-                            </section>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php else: ?>
-        <p>Aucun restaurant trouvé avec plus d'une étoile.</p>
-    <?php endif; ?>
 
-    <?php require_once 'footer.php'; ?>
+<?php 
+
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_unset();
+    session_destroy();
+    header('Location: index.php');
+    exit();
+}
+
+
+
+
+
+?>
+<?php if (count($bestrestaurants) > 0): ?>
+    <h2>Les meilleurs restaurants</h2>
+    <p>Voici les restaurants qui sont les mieux notés.</p>
+    <ul>
+        <?php foreach ($bestrestaurants as $restaurant): ?>
+            <li>
+                <a href="/?controller=ControlleurDetailResto&action=view&id=<?= htmlspecialchars($restaurant['id']) ?>">
+                    <section class="restaurant">
+                        <img src="../static/img/restobase.jpeg" alt="photo" />
+                        <h3><?= htmlspecialchars($restaurant['nom']) ?></h3>
+                        <p>Adresse: <?= htmlspecialchars($restaurant['adresse']) ?></p>
+
+                        <div class="typeCuisine" style="display:none;">
+                            <?php
+                            if (is_array($propositions) && count($propositions) > 0) {
+                                $propositionsAssociees = array_filter($propositions, function($propose) use ($restaurant) {
+                                    return $propose['idResto'] == $restaurant['id'];
+                                });
+                            } else {
+                                $propositionsAssociees = [];
+                            }
+
+                            foreach ($propositionsAssociees as $propose) {
+                                if (is_array($typeCuisines) && count($typeCuisines) > 0) {
+                                    $typeCuisine = array_filter($typeCuisines, function($typeCuisine) use ($propose) {
+                                        return $typeCuisine['id'] == $propose['idCuisine'];
+                                    });
+                                    foreach ($typeCuisine as $cuisine) {
+                                        echo '<div>' . htmlspecialchars($cuisine['nom']) . '</div>';
+                                    }
+                                }
+                            }
+                            ?>
+                        </div>
+
+                        <div class="typeRestaurant" style="display:none;">
+                            <?= htmlspecialchars($restaurant['type']) ?>
+                        </div>
+                    </section>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Aucun restaurant trouvé avec plus d'une étoile.</p>
+<?php endif; ?>
+
+<?php require_once 'footer.php'; ?>
+
+
+
+
 </body>
 </html>

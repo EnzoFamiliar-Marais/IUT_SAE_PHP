@@ -17,13 +17,20 @@ class ControlleurHome extends Controlleur
     {
         $bestrestaurants = [];
         $dbRestaurant = new DBRestaurant();
+        $dbCritique = new DBCritique();
+        $critiques  = $dbCritique->getAllCritiques();
         $restaurants = $dbRestaurant->getAllRestaurant();
 
-        foreach ($restaurants as $restaurant) {
-            if ($restaurant['stars'] > 1) {
-                $bestrestaurants[] = $restaurant;
+        foreach ($critiques as $critique) {
+            if ($critique['note'] > 3) {
+                $bestrestaurants[] = $dbRestaurant->getRestaurantById($critique['idR']);
             }
-        };
+        }
+
+
+
+
+        
 
         if (isset($_SESSION['id_role']) && $_SESSION['id_role'] == 1) {
             $this->redirect("ControlleurAdmin", "view");
