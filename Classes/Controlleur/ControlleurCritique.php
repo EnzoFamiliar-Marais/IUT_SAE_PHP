@@ -14,12 +14,12 @@ use form\type\Text;
 
 class ControlleurCritique extends Controlleur
 {
-
     public function view()
     {
         $idUser = $_GET["id"];
+        $dbCritique = new DBCritique();
         $utilisateur = DBAuth::getUserById($idUser);
-        $critiques = DBCritique::getCritiqueByUser($idUser);
+        $critiques = $dbCritique->getCritiqueByUser($idUser);
         $restaurants = DBRestaurant::getAllRestaurant();
         $restaurantsFiltrer = array_filter($restaurants, function ($restaurant) use ($critiques) {
             foreach ($critiques as $critique) {
@@ -33,6 +33,7 @@ class ControlleurCritique extends Controlleur
         error_log("Le visiteur " . print_r($utilisateur, true));
         error_log("Les Critiques " . print_r($critiques, true));
         error_log("Les Restaurants Filtrer " . print_r($restaurantsFiltrer, true));
+        
         $this->render("admincritique.php", [
             "restaurants" => $restaurantsFiltrer,
             "critiques" => $critiques,
@@ -41,6 +42,38 @@ class ControlleurCritique extends Controlleur
         ]);
     }
 
+    public function edit()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $dbCritique = new DBCritique();
+
+        $critiqueId = $_GET['id'];
+        $critique = $dbCritique->getCritiqueById($critiqueId);
+        $restaurants = DBRestaurant::getAllRestaurant();
+
+        $this->render("edit_critique.php", [
+            "critique" => $critique,
+            "restaurants" => $restaurants,
+            "formDeconnexion" => $this->getFormDeconnexion(),
+        ]);
+    }
+
+    public function delete()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $critiqueId = $_POST['id'];
+
+        $dbCritique = new DBCritique();
+        $dbCritique->deleteCritique($critiqueId);
+
+        $this->redirect("ControlleurCompte", "gererAvis");
+    }
 
     public function submit()
     {
@@ -59,11 +92,26 @@ class ControlleurCritique extends Controlleur
 
     public function postFormDeleteAdmin($id)
     {
-        $forms = new Form("/?controller=ControlleurCritique&action=submitDelete", Form::POST, "admin_form");
-        $forms->setController("ControlleurCritique", "submitDelete");
+        $forms = new Form("/?controller=ControlleurCritique&action=submitDeleteCritique", Form::POST, "admin_form");
+        $forms->setController("ControlleurCritique", "submitDeleteCritique");
         $forms->addInput(new Hidden($id, true, "critique_id", "critique_id"));
-        $forms->addInput(new Submit("Supprimer", true, "", "", ""));
+        $forms->addInput(new Hidden($_GET["id"], true, "userId", "userId"));
 
+        $forms->addInput(new Submit("Supprimer", true, "", "", ""));
         return $forms;
     }
+
+    public function submitDeleteCritique()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $critiqueId = $_POST['critique_id']; 
+
+        $dbCritique = new DBCritique();
+        $dbCritique->deleteCritique($critiqueId);
+        $this->redirect("ControlleurCritique", "view", $_POST['userId']);
+    }
 }
+?>

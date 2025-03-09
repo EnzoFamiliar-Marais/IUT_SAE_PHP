@@ -6,6 +6,7 @@
     <title>Admin</title>
     <link rel="stylesheet" href="../static/css/adminAcceuil.css">
     <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
 </head>
 <body>
 <header>
@@ -46,31 +47,10 @@
     }
     echo "</tbody>";
     echo "</table>";
+require_once "footer.php";
+
 ?>
 
-<div id="details" style="display:none;">
-    <h2>Détails de la personne</h2>
-    <p id="detailNom"></p>
-    <p id="detailPrenom"></p>
-    <p id="detailNbCritique"></p>
-</div>
-
-<script>
-//    document.querySelectorAll('.btn.view').forEach(button => {
-//        button.addEventListener('click', function() {
-//            const row = this.closest('td.actions');
-//            const nom = row.getAttribute('data-nom');
-//            const prenom = row.getAttribute('data-prenom');
-//            const nbCritique = row.getAttribute('data-nbCritique');
-//
-//            document.getElementById('detailNom').innerText = 'Nom: ' + nom;
-//            document.getElementById('detailPrenom').innerText = 'Prénom: ' + prenom;
-//            document.getElementById('detailNbCritique').innerText = 'Nombre de critique: ' + nbCritique;
-//
-//            document.getElementById('details').style.display = 'block';
-//        });
-//    });
-</script>
 
 </body>
 </html>

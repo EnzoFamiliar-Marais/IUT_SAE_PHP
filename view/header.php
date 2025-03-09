@@ -1,16 +1,16 @@
 <header>
-        <h1>IUTables’O</h1>
+        <h1>IUTables'O</h1>
         <nav>
-            <a href="../index.php">Accueil</a>
-            <a href="../Action/resto.php">Les Restos</a>
+            <a href="?controller=ControlleurHome&action=view">Accueil</a>
+            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
+            <div class="auth-buttons">
+                <?php if (isset($_SESSION['auth'])): ?>
+                    <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
+                    <?php echo $formDeconnexion; ?>
+                <?php else: ?>
+                    <a href="?controller=ControlleurLogin&action=view">Connexion</a>
+                    <a href="?controller=ControlleurRegister&action=view">S'inscrire</a>
+                <?php endif; ?>
+            </div>
         </nav>
-</header>
-
-<?php
-
-   //public function getFormLink($idartiste){
-    //    $form = new Form("/?controller=ControlleurHome&action=view", Form::GET, "home_form");
-    //    $form->setController("ControlleurHome", "submit");
-    //    $form->addInput(new Link("/?controller=ControlleurMusique&action=view&id={$idartiste}", "En voir plus"));
-    //    return $form;
-    //}
+    </header>

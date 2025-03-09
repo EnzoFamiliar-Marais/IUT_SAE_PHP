@@ -16,7 +16,7 @@ class Controlleur
          require "./view/".$path; 
      }
 
-    public function redirect(string $controller, string $action, int $id = null){
+    public function redirect(string $controller, string $action, $id = null){
         if($id){
             header("Location: index.php?controller=$controller&action=$action&id=$id");
         }else{

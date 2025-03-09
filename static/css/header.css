@@ -1,48 +1,78 @@
-/* style.css */
 
-/* Style général */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fd; /* Bleu pastel clair */
+    background-color: #f8f9fd; 
     color: #2e2e2e;
     line-height: 1.6;
     overflow-x: hidden;
 }
-
-/* Header */
 header {
-    background-color: #6C63FF; /* Violet intense */
-    color: white;
-    padding: 30px 0;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 1rem 0;
+    border-bottom: 1px solid #dee2e6;
+    
 }
+
 
 header h1 {
     margin: 0;
-    font-size: 2.8em;
-    font-weight: bold;
+    padding: 0 1rem;
+    color: #333;
 }
 
+/* Navigation */
 nav {
-    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 nav a {
     text-decoration: none;
-    color: white;
-    margin: 0 20px;
-    font-weight: bold;
-    font-size: 1.2em;
-    padding: 8px 15px;
-    background-color: #524bd1;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 nav a:hover {
-    background-color: #FFD166; /* Jaune orangé */
-    color: #2e2e2e;
+    background-color: #e9ecef;
 }
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.auth-buttons form {
+    margin: 0;
+}
+
+.auth-buttons input[type="submit"] {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.auth-buttons input[type="submit"]:hover {
+    background-color: #c82333;
+}
+
+form input {
+    padding: 15px;
+    border: 2px solid #D8D6FF;
+    border-radius: 12px;
+    font-size: 1em;
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }

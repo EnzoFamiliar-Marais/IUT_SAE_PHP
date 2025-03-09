@@ -30,12 +30,16 @@ class DBAuth
         if ($user && (password_verify($password, $user->mdp) || $password === $user->mdp)) {
             $_SESSION['auth'] = $user->id;
             $_SESSION['pseudo'] = $user->pseudo;
-            $_SESSION['email'] = $user->email;
             $_SESSION['nom'] = $user->nom;
+            $_SESSION['email'] = $user->email;
             $_SESSION['prenom'] = $user->prenom;
+            $_SESSION['mdp'] = $user->mdp;
+            $_SESSION['id_role'] = $user->idRole;
+            $_SESSION['date_creation'] = $user->date_creation;
             return $user;
         }
 
+        
         $_SESSION['errorLogin'] = "Email ou mot de passe incorrect";
         return false;
     }
@@ -123,6 +127,13 @@ class DBAuth
     {
         session_unset();
         session_destroy();
+    }
+    
+    public function deleteUserFromDB($id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM "UTILISATEURS" WHERE id = ?', [$id]);
+        $stmt->execute();
+        return $stmt !== false;
     }
 }
 ?>

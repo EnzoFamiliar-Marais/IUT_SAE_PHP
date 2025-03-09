@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Compte</title>
-    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
     <link rel="stylesheet" href="../static/css/compte.css">
     <script>
         function toggleEditForm() {
@@ -18,19 +20,7 @@
     </script>
 </head>
 <body>
-    <header>
-        <h1>IUTables’O</h1>
-        <nav>
-            <a href="?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
-            <?php if (isset($_SESSION['auth'])): ?>
-                <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
-                <?php echo $formDeconnexion; ?>
-            <?php else: ?>
-                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
-            <?php endif; ?>
-        </nav>
-    </header>
+<?php require_once 'header.php'; ?>
     <div class="content">
         <h2>Mon Compte</h2>
         <div id="info">
@@ -39,7 +29,15 @@
             <p><strong>Prénom :</strong> <?php echo htmlspecialchars($user['prenom']); ?></p>
             <p><strong>Email :</strong> <?php echo htmlspecialchars($user['email']); ?></p>
             <p><strong>Nombre de critiques :</strong> <?php echo count($critiques); ?></p>
-            <button onclick="toggleEditForm()">Modifier les informations</button>
+            <div class="button-container">
+                <a href="?controller=ControlleurCompte&action=gererAvis" class="button">Gérer mes avis</a>
+            </div>
+            <div class="button-container">
+                <a href="?controller=ControlleurFavoris&action=gererFavoris" class="button">Gérer mes favoris</a>
+            </div>
+            <div class="button-container">
+                <a onclick="toggleEditForm()" class="button">Modifier les informations</a>
+            </div>
         </div>
         <form id="editForm" action="/?controller=ControlleurCompte&action=update" method="post" style="display:none;">
             <p><strong>Nom d'utilisateur :</strong> <input type="text" name="pseudo" value="<?php echo htmlspecialchars($user['pseudo']); ?>"></p>
