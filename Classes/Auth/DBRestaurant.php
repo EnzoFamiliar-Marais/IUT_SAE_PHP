@@ -5,6 +5,7 @@ namespace Auth;
 use data\Database;
 use PDO;
 use PDOException;
+use Exception;
 
 class DBRestaurant
 {
@@ -12,7 +13,7 @@ class DBRestaurant
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance()->getPDO();
     }
 
     public static function fetchRestaurant()
@@ -55,7 +56,6 @@ class DBRestaurant
                 'facebook' => $restaurant['facebook'],
                 'smoking' => $restaurant['smoking'],
                 'idCommune' => $restaurant['idC']
-
             );
         }
         return $restaurants;
@@ -63,7 +63,8 @@ class DBRestaurant
 
     public function addRestaurant($nom_Resto, $adresse, $telephone, $photos, $siret, $opening_hours, $internet_access, $wheelchair, $type, $longitude, $latitude, $brand, $capacity, $stars, $website, $map, $operator, $vegetarian, $vegan, $delivery, $takeaway, $drive_through, $wikidata, $brand_wikidata, $facebook, $smoking, $idCommune) 
     {
-        $selectStmt = $this->db->prepare('SELECT * FROM "Restaurant" WHERE nom = ?', [$nom_Resto]);
+        $selectStmt = $this->db->prepare('SELECT * FROM "Restaurant" WHERE nom = ?');
+        $selectStmt->execute([$nom_Resto]);
         $existingRestaurant = $selectStmt->fetch(PDO::FETCH_OBJ);
     
         if ($existingRestaurant) {
@@ -73,16 +74,16 @@ class DBRestaurant
         
         $stmt = $this->db->prepare(
             'INSERT INTO "Restaurants" (nom, adresse, phone, photo, siret, opening_hours, internet_access, wheelchair, "typeR", longitude, latitude, brand, capacity, stars, website, map, operator, vegetarian, vegan, delivery, takeaway, drive_through, wikidata, brand_wikidata, facebook, smoking, "idC") 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [
-                $nom_Resto, $adresse, $telephone, $photos, $siret, $opening_hours, $internet_access, $wheelchair, 
-                $type, $longitude, $latitude, $brand, $capacity, $stars, $website, $map, $operator, $vegetarian, $vegan, 
-                $delivery, $takeaway, $drive_through, $wikidata, $brand_wikidata, $facebook, $smoking, $idCommune
-            ]
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
-    
         
-        return $stmt !== false;
+        $stmt->execute([
+            $nom_Resto, $adresse, $telephone, $photos, $siret, $opening_hours, $internet_access, $wheelchair, 
+            $type, $longitude, $latitude, $brand, $capacity, $stars, $website, $map, $operator, $vegetarian, $vegan, 
+            $delivery, $takeaway, $drive_through, $wikidata, $brand_wikidata, $facebook, $smoking, $idCommune
+        ]);
+    
+        return true;
     }
 
     public function getTableNames()
@@ -113,44 +114,58 @@ class DBRestaurant
 
     public function fetchRestaurantById($id)
     { 
-        $stmt = $this->db->prepare('SELECT * FROM "Restaurants" WHERE id = ?', [$id]);
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        try {
+            $stmt = $this->db->prepare('SELECT * FROM "Restaurants" WHERE id = ?');
+            $stmt->execute([$id]);
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log("Error fetching restaurant by ID: " . $e->getMessage());
+            return null;
+        }
     }
 
-    public function getRestaurantById($id){
-        $restaurant = $this->fetchRestaurantById($id);
-        return array(
-            'id' => $restaurant->id,
-            'nom' => $restaurant->nom,
-            'adresse' => $restaurant->adresse,
-            'telephone' => $restaurant->phone,
-            'photos' => $restaurant->photo,
-            'siret' => $restaurant->siret,
-            'opening_hours' => $restaurant->opening_hours,
-            'internet_access' => $restaurant->internet_access,
-            'wheelchair' => $restaurant->wheelchair,
-            'type' => $restaurant->typeR,
-            'longitude' => $restaurant->longitude,
-            'latitude' => $restaurant->latitude,
-            'brand' => $restaurant->brand,
-            'capacity' => $restaurant->capacity,
-            'stars' => $restaurant->stars,
-            'website' => $restaurant->website,
-            'map' => $restaurant->map,
-            'operator' => $restaurant->operator,
-            'vegetarian' => $restaurant->vegetarian,
-            'vegan' => $restaurant->vegan,
-            'delivery' => $restaurant->delivery,
-            'takeaway' => $restaurant->takeaway,
-            'drive_through' => $restaurant->drive_through,
-            'wikidata' => $restaurant->wikidata,
-            'brand_wikidata' => $restaurant->brand_wikidata,
-            'facebook' => $restaurant->facebook,
-            'smoking' => $restaurant->smoking,
-            'idCommune' => $restaurant->idC
-        );
-        
-    }
+    public function getRestaurantById($id)
+    {
+        try {
+            $restaurant = $this->fetchRestaurantById($id);
+            if (!$restaurant) {
+                error_log("Restaurant not found with ID: $id");
+                return null;
+            }
 
+            return array(
+                'id' => $restaurant->id,
+                'nom' => $restaurant->nom,
+                'adresse' => $restaurant->adresse,
+                'telephone' => $restaurant->phone,
+                'photos' => $restaurant->photo,
+                'siret' => $restaurant->siret,
+                'opening_hours' => $restaurant->opening_hours,
+                'internet_access' => $restaurant->internet_access,
+                'wheelchair' => $restaurant->wheelchair,
+                'type' => $restaurant->typeR,
+                'longitude' => $restaurant->longitude,
+                'latitude' => $restaurant->latitude,
+                'brand' => $restaurant->brand,
+                'capacity' => $restaurant->capacity,
+                'stars' => $restaurant->stars,
+                'website' => $restaurant->website,
+                'map' => $restaurant->map,
+                'operator' => $restaurant->operator,
+                'vegetarian' => $restaurant->vegetarian,
+                'vegan' => $restaurant->vegan,
+                'delivery' => $restaurant->delivery,
+                'takeaway' => $restaurant->takeaway,
+                'drive_through' => $restaurant->drive_through,
+                'wikidata' => $restaurant->wikidata,
+                'brand_wikidata' => $restaurant->brand_wikidata,
+                'facebook' => $restaurant->facebook,
+                'smoking' => $restaurant->smoking,
+                'idCommune' => $restaurant->idC
+            );
+        } catch (Exception $e) {
+            error_log("Error in getRestaurantById: " . $e->getMessage());
+            return null;
+        }
+    }
 }
-?>

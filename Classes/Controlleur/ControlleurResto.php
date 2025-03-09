@@ -10,12 +10,15 @@ use form\type\Link;
 use form\type\Select;
 use form\type\Submit;
 use form\type\Text;
+use form\type\Input;
 
 class ControlleurResto extends Controlleur
 {
    
     public function view()
-    {
+    {   
+
+        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
         
             $restaurants = DBRestaurant::getAllRestaurant();
             $propositions = DBPropose::getAllProposes();
@@ -28,7 +31,7 @@ class ControlleurResto extends Controlleur
                     "restaurants" => $restaurants,
                     "propositions" => $propositions,
                     "typeCuisines" => $typeCuisines,
-                    "formRetour" => $this->getFormDeconnexion(),
+                    "formDeconnexion" => $this->getFormDeconnexion(),
                     'formRecherche' => $this->getFormRecherche(),
                     "filtreCuisine" => $this->getFormFiltreTypeCuisine(),
                     "filtreTypeRestaurant" => $this->getFormFiltreTypeRestaurant(),
@@ -46,13 +49,6 @@ class ControlleurResto extends Controlleur
         $this->redirect("ControlleurResto", "view");
     }
 
-    public function getFormRegister()
-    {   
-        $form = new Form("/?controller=ControlleurHome&action=view", Form::GET, "home_form");
-        $form->setController("ControlleurHome", "submit");
-        $form->addInput(new Link("/?controller=ControlleurRegister&action=view", "Register"));
-        return $form;
-    }
 
     public function getFormRecherche(){
         $form = new Form("/?controller=ControlleurHome&action=view", "", "home_form");
@@ -82,7 +78,7 @@ class ControlleurResto extends Controlleur
         $form = new Form("/?controller=ControlleurHome&action=view", "", "home_form");
         $select = new Select("", false, "TypeRestaurant", "TypeRestaurant", "filtrages()", "Type de TypeRestaurant", "onchange");
     
-        // Ajout des options
+    
         $select->addOption("", "Type de restaurant");
             
         $dbTypeRestaurant = DBRestaurant::getAllRestaurant();

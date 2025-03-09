@@ -4,7 +4,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     margin: 0;
 }
 
@@ -18,6 +17,11 @@ header {
     font-weight: bold;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .container {
     text-align: center;
     margin-top: 20px;
@@ -25,8 +29,9 @@ header {
 
 .title {
     color: #5a3ff6;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
+    margin-bottom: 30px; 
 }
 
 .form-box {
@@ -34,27 +39,36 @@ header {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 550px;
     margin-top: 10px;
+    text-align: center;
 }
 
 .form {
     display: flex;
     flex-direction: column;
     text-align: left;
+    gap: 20px;
 }
 
 label {
     font-weight: bold;
-    margin-top: 10px;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
 }
 
 input {
-    padding: 8px;
+    padding: 12px;
     margin-top: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
+    border-radius: 8px;
+    width: 95%;
+
+    font-size: 16px; 
+    color: #333; 
+    transition: border-color 0.3s ease;
+
 }
 
 input[type="submit"] {
@@ -73,12 +87,26 @@ input[type="submit"]:hover {
 }
 
 .signup-link {
-    margin-top: 10px;
-    font-size: 14px;
+    margin-top: 20px;
+    font-size: 16px;
     color: #5a3ff6;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .signup-link:hover {
     text-decoration: underline;
 }
+
+.back {
+    margin-top: 20px;
+    text-decoration: none;
+    color: #5a3ff6;
+    font-size: 30px;
+    font-weight: bold;
+
+
+
+}
+
+

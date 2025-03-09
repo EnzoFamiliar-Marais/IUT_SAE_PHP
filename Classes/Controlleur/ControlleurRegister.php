@@ -29,11 +29,14 @@ class ControlleurRegister extends Controlleur{
             $pseudo = "Utilisateur";
         }
         $auth = new DBAuth;
-        $user = $auth->addUser($password, $email, $nom, $prenom, date("Y-m-d"), 2, $pseudo); // 2 = id_role utilisateur
+        $user = $auth->addUser($password, $email, $nom, $prenom, date("Y-m-d"), 2, $pseudo); 
         $_SESSION["userRegister"] = $user;
         if($user){
             $auth->login($email, $password);
-            $this->redirect("ControlleurHome", "view");
+            $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : 'index.php?controller=ControlleurHome&action=view';
+            unset($_SESSION['previous_page']); 
+            header('Location: ' . $redirect_url);
+            exit();
         }else{
             $this->redirect("ControlleurRegister", "view");
         }

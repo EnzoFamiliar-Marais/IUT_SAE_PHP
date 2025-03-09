@@ -15,28 +15,38 @@ class ControlleurHome extends Controlleur
    
     public function view()
     {
-        
-            $bestrestaurants = null;
-            
-            if($_SESSION['id_role'] == 1){
-                $this->redirect("ControlleurAdmin", "view");
+        $bestrestaurants = [];
+        $dbRestaurant = new DBRestaurant();
+        $dbCritique = new DBCritique();
+        $critiques  = $dbCritique->getAllCritiques();
+        $restaurants = $dbRestaurant->getAllRestaurant();
 
-            }else{
-                $this->render("home.php", [
-                    "formRetour" => $this->getFormDeconnexion(),
-                    "formResto" => $this->getFormResto(),
-                    "utilisateur" => $_SESSION['pseudo'] ?? "aucun",
-                    "email" => $_SESSION['email'],
-                    "nom" => $_SESSION['nom'],
-                    "prenom" => $_SESSION['prenom'],
-                    "mdp" => $_SESSION['mdp'],
-                    "bestrestaurants" => $bestrestaurants,
-                    
-                   
+        foreach ($critiques as $critique) {
+            if ($critique['note'] > 3) {
+                $bestrestaurants[] = $dbRestaurant->getRestaurantById($critique['idR']);
+            }
+        }
+
+
+
+
+        
+
+        if (isset($_SESSION['id_role']) && $_SESSION['id_role'] == 1) {
+            $this->redirect("ControlleurAdmin", "view");
+        } else {
+            $this->render("home.php", [
+                "formDeconnexion" => $this->getFormDeconnexion(),
+                "formResto" => $this->getFormResto(),
+                "utilisateur" => $_SESSION['pseudo'] ?? "aucun",
+                "email" => $_SESSION['email'] ?? "",
+                "nom" => $_SESSION['nom'] ?? "",
+                "prenom" => $_SESSION['prenom'] ?? "",
+                "mdp" => $_SESSION['mdp'] ?? "",
+                "bestrestaurants" => $bestrestaurants,
             ]);
         }
-    }
-        
+    }      
 
     public function submit()
     {
@@ -72,5 +82,15 @@ class ControlleurHome extends Controlleur
         $form->addInput(new Link("/?controller=ControlleurResto&action=view", "Les Restos"));
         return $form;
     }
-  
+
+    public function map()
+    {
+        $dbRestaurant = new DBRestaurant();
+        $restaurants = $dbRestaurant->getAllRestaurant();
+        $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
+        $this->render("map.php", [
+            "restaurants" => $restaurants,
+            "formDeconnexion" => $this->getFormDeconnexion(),
+        ]);
+    }
 }

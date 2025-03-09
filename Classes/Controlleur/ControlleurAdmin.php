@@ -13,23 +13,32 @@ use form\type\Text;
 
 class ControlleurAdmin extends Controlleur
 {
-   
     public function view()
     {
-        
-            //$restaurants = DBRestaurant::getAllRestaurant();
-            //$critiques = DBCritique::getAllCritiques();
-                
-
-          
-                $this->render("admin.php", [
-                    //"restaurants" => $restaurants,
-                    //"critiques" => $critiques,
-                    "formDeconnexion" => $this->getFormDeconnexion(),
-                    //"formResto" => $this->getFormResto(),
-            ]);
+        $utilisateurs = DBAuth::getUserByRole(2); 
+        $dbCritique = new DBCritique();
+        $critiques = array();
+        foreach ($utilisateurs as $utilisateur) {
+            $id = $utilisateur['id'];
+            $userCritiques = $dbCritique->getCritiqueByUser($id);
+            $critiques = array_merge($critiques, $userCritiques);
         }
-        
+
+        error_log("Les Critiques " . print_r($critiques, true));
+        error_log("Les Utilisateurs " . print_r($utilisateurs, true));
+
+        if (!isset($_SESSION['id_role'])) {
+            $this->redirect("ControlleurLogin", "view");
+        } elseif (isset($_SESSION['id_role']) && $_SESSION['id_role'] == 1) {
+            $this->render("admin.php", [
+                "critiques" => $critiques,
+                "utilisateurs" => $utilisateurs,
+                "formDeconnexion" => $this->getFormDeconnexion(),
+            ]);
+        } else {
+            $this->redirect("ControlleurLogin", "view");
+        }
+    }
 
     public function submit()
     {
@@ -46,20 +55,33 @@ class ControlleurAdmin extends Controlleur
         return $form;
     }
 
-    public function getFormDeleteAdmin($id){ 
-        $forms = new Form("/?controller=ControlleurAdmin&action=submitDelete", Form::POST, "admin_form");
-        $forms->setController("ControlleurAdmin", "submitDelete");
-        $forms->addInput(new Hidden($id,true, "user_id", "user_id")); 
-        $forms->addInput(new Submit("Supprimer", true, "", "", ""));
-        
-        return $forms;
-        }
-    
-        public function getFormLink($idUser){
-            $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
-            $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
-            return $form;
-        }
-  
+    public function getFormDeleteAdmin($id)
+    {
+        $form = new Form("/?controller=ControlleurAdmin&action=submitDelete", Form::POST, "admin_form");
+        $form->setController("ControlleurAdmin", "submitDelete");
+        $form->addInput(new Hidden($id, true, "user_id", "user_id"));
+        $form->addInput(new Submit("Supprimer", true, "", "", ""));
+        return $form;
+    }
 
+    public function getFormLink($idUser)
+    {
+        $form = new Form("/?controller=ControlleurAdmin&action=view", Form::GET, "get_form");
+        $form->addInput(new Link("/?controller=ControlleurCritique&action=view&id={$idUser}", "Visualiser"));
+        return $form;
+    }
+
+    public function submitDelete()
+    {
+        if (!isset($_SESSION['auth'])) {
+            $this->redirect("ControlleurLogin", "view");
+        }
+
+        $idUser = $_POST['user_id'];
+
+        $dbAuth = new DBAuth();
+        $dbAuth->deleteUserFromDB($idUser);
+        $this->redirect("ControlleurAdmin", "view");
+    }
 }
+?>
