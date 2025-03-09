@@ -7,6 +7,8 @@
     <title>Critique</title>
     <link rel="stylesheet" href="../static/css/adminAcceuil.css">
     <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
 </head>
 
 <body>
@@ -54,6 +56,8 @@
 
     echo "</tbody>";
     echo "</table>";
+require_once "footer.php";
+
     ?>
 
 

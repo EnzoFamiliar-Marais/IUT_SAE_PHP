@@ -66,7 +66,7 @@ class ControlleurCompte extends Controlleur
         $userId = $_SESSION['auth'];
         $dbCritique = new DBCritique();
         $critiques = $dbCritique->getCritiqueByUser($userId);
-
+        error_log("Les Critiques " . print_r($critiques, true));
         $this->render("gerer_avis.php", [
             "critiques" => $critiques,
             "formDeconnexion" => $this->getFormDeconnexion(),

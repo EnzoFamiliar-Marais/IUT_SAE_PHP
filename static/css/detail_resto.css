@@ -102,6 +102,7 @@
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
+    margin-right: 2rem;
 }
 
 .restaurant-image {

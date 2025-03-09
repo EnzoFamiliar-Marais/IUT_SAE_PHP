@@ -5,24 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IUTables'O - Accueil</title>
     <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
 </head>
 <body>
-    <header>
-        <h1>IUTables'O</h1>
-        <nav>
-            <a href="?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
-            <div class="auth-buttons">
-                <?php if (isset($_SESSION['auth'])): ?>
-                    <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
-                    <?php echo $formRetour; ?>
-                <?php else: ?>
-                    <a href="?controller=ControlleurLogin&action=view">Connexion</a>
-                    <a href="?controller=ControlleurRegister&action=view">S'inscrire</a>
-                <?php endif; ?>
-            </div>
-        </nav>
-    </header>
+    <?php require_once 'header.php'; ?>
     <div class="content">
         <h2>Bienvenue sur la page d'accueil</h2>
         <p>Bienvenue sur notre plateforme de comparateur de Restaurant en ligne vous pouvez comparer les restaurant de la région Orléanaise</p>

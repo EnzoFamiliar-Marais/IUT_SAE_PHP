@@ -6,22 +6,12 @@
     <title>IUTables’O - Resto</title>
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/css/resto.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
     <script src="../static/js/filtres.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>IUTables’O</h1>
-        <nav>
-            <a href="?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
-            <?php if (isset($_SESSION['auth'])): ?>
-                <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
-                <?php echo $formDeconnexion; ?>
-            <?php else: ?>
-                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
-            <?php endif; ?>
-        </nav>
-    </header>
+<?php require_once 'header.php'; ?>
   
 
 <?php
@@ -129,7 +119,7 @@ foreach ($restaurants as $restaurant) {
 }
 echo '</div>';
 
-require "footer.php";
+require_once "footer.php";
 ?>
 </body>
 </html>

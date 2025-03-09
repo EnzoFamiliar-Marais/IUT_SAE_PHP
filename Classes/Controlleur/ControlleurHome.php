@@ -29,7 +29,7 @@ class ControlleurHome extends Controlleur
             $this->redirect("ControlleurAdmin", "view");
         } else {
             $this->render("home.php", [
-                "formRetour" => $this->getFormDeconnexion(),
+                "formDeconnexion" => $this->getFormDeconnexion(),
                 "formResto" => $this->getFormResto(),
                 "utilisateur" => $_SESSION['pseudo'] ?? "aucun",
                 "email" => $_SESSION['email'] ?? "",

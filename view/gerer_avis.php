@@ -6,28 +6,18 @@
     <title>Gérer mes avis</title>
     <link rel="stylesheet" href="../static/css/header.css">
     <link rel="stylesheet" href="../static/css/compte.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
     <link rel="stylesheet" href="../static/css/gerer_avis.css">
 </head>
 <body>
-    <header>
-        <h1>IUTables’O</h1>
-        <nav>
-            <a href="?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
-            <?php if (isset($_SESSION['auth'])): ?>
-                <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
-                <?php echo $formDeconnexion; ?>
-            <?php else: ?>
-                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
-            <?php endif; ?>
-        </nav>
-    </header>
+<?php require_once 'header.php'; ?>
     <div class="content">
         <h2>Gérer mes avis</h2>
         <ul>
             <?php foreach ($critiques as $critique): ?>
                 <li>
-                    <p><strong>Restaurant :</strong> <?php echo htmlspecialchars($critique['restaurant']); ?></p>
+                    <p><strong>Restaurant :</strong> <?php echo htmlspecialchars($critique['restaurant_nom']); ?></p>
                     <p><strong>Note :</strong> <?php echo htmlspecialchars($critique['note']); ?></p>
                     <p><strong>Commentaire :</strong> <?php echo htmlspecialchars($critique['commentaire']); ?></p>
                     <div class="actions">

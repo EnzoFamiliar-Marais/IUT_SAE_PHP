@@ -218,7 +218,7 @@ private function isFavoris($restaurantId)
         $userId = $_SESSION['auth'];
         $restaurantId = (int)$_POST['id'];
         $note = $_POST['note'];
-        $commentaire = $_POST['commentaire'];
+        $commentaire = $_POST['content'];
         error_log("Ajout d'un avis pour l'utilisateur $userId et le restaurant $restaurantId");
         $dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
         header("Location: /?controller=ControlleurDetailResto&action=view&id=" . urlencode($restaurantId));

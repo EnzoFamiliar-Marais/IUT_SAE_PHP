@@ -59,7 +59,7 @@ class DBCritique
             $stmt = $this->db->prepare('
                 SELECT c.*, r.nom as restaurant_nom 
                 FROM "Critiquer" c 
-                JOIN "RESTAURANTS" r ON c."idR" = r.id 
+                JOIN "Restaurants" r ON c."idR" = r.id 
                 WHERE c."idU" = :idU
                 ORDER BY c.date_critique DESC
             ');

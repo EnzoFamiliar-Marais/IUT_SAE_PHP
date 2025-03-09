@@ -31,7 +31,7 @@ class ControlleurResto extends Controlleur
                     "restaurants" => $restaurants,
                     "propositions" => $propositions,
                     "typeCuisines" => $typeCuisines,
-                    "formRetour" => $this->getFormDeconnexion(),
+                    "formDeconnexion" => $this->getFormDeconnexion(),
                     'formRecherche' => $this->getFormRecherche(),
                     "filtreCuisine" => $this->getFormFiltreTypeCuisine(),
                     "filtreTypeRestaurant" => $this->getFormFiltreTypeRestaurant(),

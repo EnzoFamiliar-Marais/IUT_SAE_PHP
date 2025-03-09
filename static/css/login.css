@@ -17,6 +17,11 @@ header {
     font-weight: bold;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .container {
     text-align: center;
     margin-top: 20px;
@@ -102,27 +107,6 @@ input[type="submit"]:hover {
 
 
 
-}
-
-/* Footer */
-footer {
-    margin-top: 50px;
-    background-color: #524bd1; /* Violet foncé */
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    width: 100%;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-}
-
-footer a {
-    color: #FFD166; /* Jaune orangé */
-    text-decoration: none;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 12px;
-    background-color: rgba(255, 209, 102, 0.1);
-    transition: all 0.3s ease;
 }
 
 

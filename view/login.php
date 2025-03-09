@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IUTables’O - Resto</title>
     <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
     <link rel="stylesheet" href="../static/css/header.css">
     
 
@@ -44,10 +46,9 @@
     echo '<h2 class="back" ><a href="/?controller=ControlleurHome&action=view">Retour à l\'accueil</a></h2>';
     echo '</div>';
 
-    require_once 'footer.php';
     
     ?>
 
-
+    <?php require_once 'footer.php'; ?>
 </body>
 </html>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Compte</title>
     <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+
     <link rel="stylesheet" href="../static/css/compte.css">
     <script>
         function toggleEditForm() {
@@ -18,19 +20,7 @@
     </script>
 </head>
 <body>
-    <header>
-        <h1>IUTables’O</h1>
-        <nav>
-            <a href="?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
-            <?php if (isset($_SESSION['auth'])): ?>
-                <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
-                <?php echo $formDeconnexion; ?>
-            <?php else: ?>
-                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
-            <?php endif; ?>
-        </nav>
-    </header>
+<?php require_once 'header.php'; ?>
     <div class="content">
         <h2>Mon Compte</h2>
         <div id="info">
