@@ -10,21 +10,20 @@
     <header>
         <h1>IUTables’O</h1>
         <nav>
-            <a href="/?controller=ControlleurHome&action=view">Accueil</a>
-            <a href="/?controller=ControlleurResto&action=view">Les Restos</a>
-            <?php 
-            if(isset($_SESSION['email'])){
-                echo $formRetour;                
-            }
-            else{
-                echo '<a href="/?controller=ControlleurLogin&action=view">Connexion</a>';
-            }
-            ?>
+            <a href="?controller=ControlleurHome&action=view">Accueil</a>
+            <a href="?controller=ControlleurResto&action=view">Les Restos</a>
+            <?php if (isset($_SESSION['auth'])): ?>
+                <a href="?controller=ControlleurCompte&action=view">Mon Compte</a>
+                <?php echo $formDeconnexion; ?>
+            <?php else: ?>
+                <a href="?controller=ControlleurLogin&action=view">Connexion</a>
+            <?php endif; ?>
         </nav>
     </header>
     <div class="content">
         <h2>Bienvenue sur la page d'accueil</h2>
         <p>Bienvenue sur notre plateforme de comparateur de Restaurant en ligne vous pouvez comparer les restaurant de la région Orléanaises</p>
+        <a href="/?controller=ControlleurHome&action=map" class="button">Voir la carte des restaurants</a>
     </div>
 
 <?php 
@@ -98,7 +97,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
 
 
+
 </body>
-
-
 </html>
