@@ -56,7 +56,10 @@
 
     echo "</tbody>";
     echo "</table>";
+    echo "<a href='/?controller=ControlleurAdmin&action=view' class='back button'>Retour </a>";
 require_once "footer.php";
+
+
 
     ?>
 

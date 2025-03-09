@@ -35,20 +35,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
 
 
-echo '<h2 id="bestrestaurants">Les Meilleurs restaurants</h2>';
-echo '<div class="bestrestaurants">';
-foreach ($bestrestaurants as $bestrestaurant) {
-    echo '<section class="bestrestaurant">';
-    echo '<h3>' . htmlspecialchars($bestrestaurant['nom']) . '</h3>';
-    echo '<p>Téléphone: ' . htmlspecialchars($restaurant['telephone']) . '</p>';
-    echo '<p>Étoiles : ' . htmlspecialchars($restaurant['stars']) . '/5</p>';
-    echo '</section>';
-}
+
 
 
 ?>
 <?php if (count($bestrestaurants) > 0): ?>
-    <h2>Les meilleurs restaurants</h2>
+    <h2>Les Meilleurs restaurants</h2>
     <p>Voici les restaurants qui sont les mieux notés.</p>
     <ul>
         <?php foreach ($bestrestaurants as $restaurant): ?>
@@ -56,8 +48,10 @@ foreach ($bestrestaurants as $bestrestaurant) {
                 <a href="/?controller=ControlleurDetailResto&action=view&id=<?= htmlspecialchars($restaurant['id']) ?>">
                     <section class="restaurant">
                         <img src="../static/img/restobase.jpeg" alt="photo" />
-                        <h3><?= htmlspecialchars($restaurant['nom']) ?></h3>
-                        <p>Adresse: <?= htmlspecialchars($restaurant['adresse']) ?></p>
+                        <h3><?php echo htmlspecialchars($restaurant['nom']); ?></h3>
+                        <p>Téléphone: <?php echo htmlspecialchars($restaurant['telephone']); ?></p>
+                        <p>Étoiles : <?php echo htmlspecialchars($restaurant['stars']); ?>/5</p>
+                    </section>
 
                         <div class="typeCuisine" style="display:none;">
                             <?php
