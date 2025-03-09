@@ -1,0 +1,126 @@
+/* Tableau */
+table {
+  width: 98%;
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+  border-collapse: collapse;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+thead {
+  background-color: #6c63ff; /* Violet intense */
+  color: white;
+  font-size: 1.2em;
+  text-align: left;
+}
+
+thead th {
+  padding: 15px 20px;
+  text-transform: uppercase;
+}
+
+tbody {
+  font-size: 1em;
+  color: #333;
+}
+
+tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+  background-color: #f1f1ff; /* Violet clair */
+}
+
+tbody td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Améliorations du tableau */
+table th:first-child,
+table td:first-child {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+table th:last-child,
+table td:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* Texte aligné */
+th,
+td {
+  text-align: center;
+}
+
+/* Couleurs des avis */
+tbody td:nth-child(2) {
+  font-weight: bold;
+  color: #6c63ff;
+}
+
+table {
+  animation: fadeIn 1s ease-out;
+}
+
+#filtres {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+#filtres form select {
+  display: flex;
+  width: 20vw;
+  height: 10vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-align-last: center;
+  font-weight: bold;
+  box-shadow: 0px 5px 14px 0 rgba(0, 0, 0, 0.25);
+}
+
+.menu {
+  position: relative;
+  display: inline-block;
+}
+.menu-content {
+  display: none;
+  position: absolute;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  min-width: 200px;
+}
+.menu:hover .menu-content {
+  display: block;
+}
+label {
+  display: block;
+  margin: 5px 0;
+}
+
+
+p{
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+input#recherche{
+  width: 800px;
+}
