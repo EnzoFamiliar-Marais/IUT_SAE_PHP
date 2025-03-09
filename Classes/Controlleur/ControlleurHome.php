@@ -83,6 +83,7 @@ class ControlleurHome extends Controlleur
         $_SESSION['previous_page'] = $_SERVER['REQUEST_URI'];
         $this->render("map.php", [
             "restaurants" => $restaurants,
+            "formDeconnexion" => $this->getFormDeconnexion(),
         ]);
     }
 }

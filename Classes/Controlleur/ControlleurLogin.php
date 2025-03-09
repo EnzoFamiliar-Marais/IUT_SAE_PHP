@@ -19,7 +19,6 @@ class ControlleurLogin extends Controlleur
     
     public function view()
     {   
-        // Si l'utilisateur est déjà connecté, on le redirige
         if(isset($_SESSION['auth'])) {
             if($_SESSION['id_role'] === 1) {
                 $this->redirect("ControlleurAdmin", "view");
@@ -34,7 +33,6 @@ class ControlleurLogin extends Controlleur
             "error" => $_SESSION['errorConnexion'] ?? null
         ]);
 
-        // Nettoyer le message d'erreur après l'avoir affiché
         if(isset($_SESSION['errorConnexion'])) {
             unset($_SESSION['errorConnexion']);
         }

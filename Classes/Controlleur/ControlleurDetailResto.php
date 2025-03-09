@@ -9,6 +9,7 @@ use Auth\DBDepartement;
 use Auth\DBRegion;
 use Auth\DBFavoris;
 use form\Form;
+use form\type\Hidden;
 use form\type\Submit;
 
 class ControlleurDetailResto extends Controlleur
@@ -209,7 +210,7 @@ private function isFavoris($restaurantId)
     {
         $auth = new DBAuth();
         $auth->logout();
-        $this->redirect("ControlleurDetailResto", "view");
+        $this->redirect("ControlleurDetailResto", "view", $_GET['idResto']);
     }
 
     public function submitAvis()
@@ -229,6 +230,7 @@ private function isFavoris($restaurantId)
     {
         $form = new Form("/?controller=ControlleurDetailResto&action=submit", Form::GET, "home_form");
         $form->setController("ControlleurDetailResto", "submit");
+        $form->addInput(new Hidden($_GET["id"], true, "idResto", "idResto", ""));
         $form->addInput(new Submit("Deconnexion", true, "", ""));
         return $form;
     }
