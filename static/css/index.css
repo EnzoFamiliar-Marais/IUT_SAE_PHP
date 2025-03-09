@@ -114,8 +114,7 @@ form label {
 
 form input {
     padding: 15px;
-    width: 800px;
-    border: 2px solid #D8D6FF; /* Bordure violette douce */
+    border: 2px solid #D8D6FF; 
     border-radius: 12px;
     font-size: 1em;
     box-shadow: 0 4px 10px rgba(108, 99, 255, 0.1);

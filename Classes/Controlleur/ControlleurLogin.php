@@ -53,7 +53,7 @@ class ControlleurLogin extends Controlleur
 
         $user = $this->auth->login($email, $password);
         if($user) {
-            // La redirection sera gérée en fonction du rôle dans la méthode view()
+           
             $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : '/?controller=ControlleurHome&action=view';
             unset($_SESSION['previous_page']); 
             header('Location: ' . $redirect_url);

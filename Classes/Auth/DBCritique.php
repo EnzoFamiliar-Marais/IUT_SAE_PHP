@@ -53,7 +53,7 @@ class DBCritique
         }
     }
 
-    public function getCritiqueByUser($idUtilisateur)
+    public  function getCritiqueByUser($idUtilisateur)
     {
         try {
             $stmt = $this->db->prepare('

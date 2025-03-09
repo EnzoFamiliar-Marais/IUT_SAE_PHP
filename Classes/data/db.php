@@ -18,7 +18,6 @@ class Database {
     public function __construct()
     {
         try {
-            // Charger les configurations depuis le fichier config.php
             $config_path = dirname(dirname(dirname(__FILE__))) . '/config.php';
             $config = require $config_path;
             

@@ -5,6 +5,7 @@ namespace Auth;
 use data\Database;
 use PDO;
 use PDOException;
+use Exception;
 
 class DBRestaurant
 {

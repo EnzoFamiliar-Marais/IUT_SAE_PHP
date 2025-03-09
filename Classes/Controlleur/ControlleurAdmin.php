@@ -15,11 +15,12 @@ class ControlleurAdmin extends Controlleur
 {
     public function view()
     {
-        $utilisateurs = DBAuth::getUserByRole(2); // 2 = visiteur enregistré
+        $utilisateurs = DBAuth::getUserByRole(2); 
+        $dbCritique = new DBCritique();
         $critiques = array();
         foreach ($utilisateurs as $utilisateur) {
             $id = $utilisateur['id'];
-            $userCritiques = DBCritique::getCritiqueByUser($id);
+            $userCritiques = $dbCritique->getCritiqueByUser($id);
             $critiques = array_merge($critiques, $userCritiques);
         }
 

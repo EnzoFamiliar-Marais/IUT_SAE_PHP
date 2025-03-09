@@ -46,11 +46,12 @@ class ControlleurCompte extends Controlleur
 
         $userId = $_SESSION['auth'];
         $nom = $_POST['nom'] ?? '';
+    
         $prenom = $_POST['prenom'] ?? '';
         $email = $_POST['email'] ?? '';
-
+        $pseudo = $_POST['pseudo'] ?? '';
         $dbAuth = new DBAuth();
-        $dbAuth->updateUser($userId, $nom, $prenom, $email);
+        $dbAuth->updateUser($userId, $pseudo, $nom, $prenom, $email);
 
         $this->redirect("ControlleurCompte", "view");
     }

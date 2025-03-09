@@ -214,17 +214,12 @@ private function isFavoris($restaurantId)
 
     public function submitAvis()
     {
-        if (!isset($_SESSION['auth']) || !isset($_GET['id'])) {
-            $this->redirect("ControlleurDetailResto", "view");
-            return;
-        }
-
         $dbCritique = new DBCritique();
         $userId = $_SESSION['auth'];
-        $restaurantId = (int)$_GET['id'];
+        $restaurantId = (int)$_POST['id'];
         $note = $_POST['note'];
         $commentaire = $_POST['commentaire'];
-
+        error_log("Ajout d'un avis pour l'utilisateur $userId et le restaurant $restaurantId");
         $dbCritique->addCritique($userId, $restaurantId, $note, $commentaire);
         header("Location: /?controller=ControlleurDetailResto&action=view&id=" . urlencode($restaurantId));
         exit;

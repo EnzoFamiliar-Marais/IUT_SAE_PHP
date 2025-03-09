@@ -17,8 +17,9 @@ class ControlleurCritique extends Controlleur
     public function view()
     {
         $idUser = $_GET["id"];
+        $dbCritique = new DBCritique();
         $utilisateur = DBAuth::getUserById($idUser);
-        $critiques = DBCritique::getCritiqueByUser($idUser);
+        $critiques = $dbCritique->getCritiqueByUser($idUser);
         $restaurants = DBRestaurant::getAllRestaurant();
         $restaurantsFiltrer = array_filter($restaurants, function ($restaurant) use ($critiques) {
             foreach ($critiques as $critique) {
@@ -47,8 +48,10 @@ class ControlleurCritique extends Controlleur
             $this->redirect("ControlleurLogin", "view");
         }
 
+        $dbCritique = new DBCritique();
+
         $critiqueId = $_GET['id'];
-        $critique = DBCritique::getCritiqueById($critiqueId);
+        $critique = $dbCritique->getCritiqueById($critiqueId);
         $restaurants = DBRestaurant::getAllRestaurant();
 
         $this->render("edit_critique.php", [

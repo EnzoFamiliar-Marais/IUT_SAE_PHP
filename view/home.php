@@ -40,7 +40,6 @@
                             <section class="restaurant">
                                 <img src="../static/img/restobase.jpeg" alt="photo" />
                                 <h3><?= htmlspecialchars($restaurant['nom']) ?></h3>
-                                <p>Adresse: <?= htmlspecialchars($restaurant['adresse']) ?></p>
                                 <p>Type: <?= htmlspecialchars($restaurant['type'] ?? 'Non spécifié') ?></p>
                             </section>
                         </a>

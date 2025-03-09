@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IUTables'O - Détails du Resto</title>
-    <link rel="stylesheet" href="../static/css/index.css">
-    <title>IUTables’O - Détails du Resto</title>
     <link rel="stylesheet" href="../static/css/resto.css">
     <link rel="stylesheet" href="../static/css/detail_resto.css">
     <link rel="stylesheet" href="../static/css/header.css">

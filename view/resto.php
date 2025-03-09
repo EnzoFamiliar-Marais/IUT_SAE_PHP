@@ -90,9 +90,11 @@ foreach ($restaurants as $restaurant) {
     echo '<section class="restaurant">';
     echo '<img src="../static/img/restobase.jpeg" alt="photo" />';
     echo '<h3>' . htmlspecialchars($restaurant['nom']) . '</h3>';
-    echo '<p>Adresse: ' . htmlspecialchars($restaurant['adresse']) . '</p>';
+    echo "<p>Type: " . htmlspecialchars($restaurant['type'] ?? 'Non spécifié') . "</p>";
+
 
      echo '<div class="typeCuisine" style="display:none;">';
+     
      $propositionsAssociees = array_filter($propositions, function($propose) use ($restaurant) {
          return $propose['idResto'] == $restaurant['id'];
      });
@@ -110,7 +112,6 @@ foreach ($restaurants as $restaurant) {
 
 
     echo '<div class="typeRestaurant" style="display:none;">' . htmlspecialchars($restaurant['type']) . '</div>';
-    echo '<hidden class="typeRestaurant">' . htmlspecialchars($restaurant['type']) . '</hidden>';
     echo '<div class="capacite" style="display:none;">' . htmlspecialchars($restaurant['capacity']) . '</div>';
     echo '<div class="internet_access" style="display:none;">' . htmlspecialchars($restaurant['internet_access']) . '</div>';
     echo '<div class="wheelchair" style="display:none;">' . htmlspecialchars($restaurant['wheelchair']) . '</div>';
