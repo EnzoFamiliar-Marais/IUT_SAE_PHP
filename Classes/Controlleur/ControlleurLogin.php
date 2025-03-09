@@ -20,7 +20,7 @@ class ControlleurLogin extends Controlleur
     public function view()
     {   
         if(isset($_SESSION['auth'])) {
-            if($_SESSION['id_role'] === 1) {
+            if($_SESSION['id_role'] == 1) {
                 $this->redirect("ControlleurAdmin", "view");
             } else {
                 $this->redirect("ControlleurHome", "view");
@@ -48,12 +48,17 @@ class ControlleurLogin extends Controlleur
 
         $email = $_POST['email'];
         $password = $_POST['password'];
+        
 
         $user = $this->auth->login($email, $password);
         if($user) {
            
             $redirect_url = isset($_SESSION['previous_page']) ? $_SESSION['previous_page'] : '/?controller=ControlleurHome&action=view';
             unset($_SESSION['previous_page']); 
+            if($_SESSION['id_role'] == 1) {
+                $redirect_url = '/?controller=ControlleurAdmin&action=view';
+            }
+
             header('Location: ' . $redirect_url);
             exit();
         } else {
