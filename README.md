@@ -41,7 +41,7 @@
 
 #### Gestion des avis
 - Affichage des avis laissés par l'utilisateur
-- Ajout, modification et suppression d'avis
+- Ajout et suppression d'avis
 
 #### Gestion des favoris
 - Affichage des restaurants favoris
