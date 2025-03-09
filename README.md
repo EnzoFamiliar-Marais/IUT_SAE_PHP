@@ -27,6 +27,18 @@
    php -S localhost:8000
    ```
 
+## Informations d'authentification
+
+Pour tester l'application, vous pouvez utiliser les identifiants suivants :
+
+- **Compte visiteur :**  
+  - Email : test@test.com
+  - Mot de passe : test 
+
+- **Compte administrateur :**  
+  - Email : admin@admin.com 
+  - Mot de passe : admin
+
 ## Fonctionnalités
 
 ### Fonctionnalités principales
