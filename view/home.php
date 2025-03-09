@@ -50,7 +50,8 @@ echo '<div class="bestrestaurants">';
 foreach ($bestrestaurants as $bestrestaurant) {
     echo '<section class="bestrestaurant">';
     echo '<h3>' . htmlspecialchars($bestrestaurant['nom']) . '</h3>';
-    echo '<p>Adresse: ' . htmlspecialchars($bestrestaurant['adresse']) . '</p>';
+    echo '<p>Téléphone: ' . htmlspecialchars($restaurant['telephone']) . '</p>';
+    echo '<p>Étoiles : ' . htmlspecialchars($restaurant['stars']) . '/5</p>';
     echo '</section>';
 }
 

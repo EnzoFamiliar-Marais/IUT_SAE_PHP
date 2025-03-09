@@ -43,22 +43,23 @@ foreach ($restaurants as $restaurant) {
     echo '<section class="restaurant">';
     echo '<img src="../static/img/restobase.jpeg" alt="photo" />';
     echo '<h3>' . htmlspecialchars($restaurant['nom']) . '</h3>';
-    echo '<p>Adresse: ' . htmlspecialchars($restaurant['adresse']) . '</p>';
+    echo '<p>Téléphone: ' . htmlspecialchars($restaurant['telephone']) . '</p>';
 
-     echo '<div class="typeCuisine" style="display:none;">';
-     $propositionsAssociees = array_filter($propositions, function($propose) use ($restaurant) {
-         return $propose['idResto'] == $restaurant['id'];
-     });
-     $typesCuisineAssocies = [];
-     foreach ($propositionsAssociees as $propose) {
-         $typeCuisine = array_filter($typeCuisines, function($typeCuisine) use ($propose) {
-             return $typeCuisine['id'] == $propose['idCuisine'];
-         });
-         foreach ($typeCuisine as $cuisine) {
-             echo '<div>' . htmlspecialchars($cuisine['nom']) . '</div>';
-         }
-     }
-     echo '</div>';
+    echo '<p>Étoiles : ' . htmlspecialchars($restaurant['stars']) . '/5</p>';
+
+    echo '<div class="typeCuisine" style="display:none;">';
+    $propositionsAssociees = array_filter($propositions, function($propose) use ($restaurant) {
+        return $propose['idResto'] == $restaurant['id'];
+    });
+    foreach ($propositionsAssociees as $propose) {
+        $typeCuisine = array_filter($typeCuisines, function($typeCuisine) use ($propose) {
+            return $typeCuisine['id'] == $propose['idCuisine'];
+        });
+        foreach ($typeCuisine as $cuisine) {
+            echo '<div>' . htmlspecialchars($cuisine['nom']) . '</div>';
+        }
+    }
+    echo '</div>';
 
 
 
